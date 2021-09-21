@@ -4,6 +4,11 @@ import { connect } from "react-redux";
 import { fetchSingleProduct } from "../store/singleProduct";
 
 class SingleProduct extends Component {
+  componentDidMount() {
+    const productID = this.props.match.params.id;
+    this.props.fetchSingleProduct(productID);
+  }
+
   render() {
     return (
       <div>
