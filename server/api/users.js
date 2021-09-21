@@ -1,8 +1,11 @@
 const router = require('express').Router()
 const { models: { User }} = require('../db')
+const {isAdmin,requireToken} = require('./gatekeeping')
 module.exports = router
 
-router.get('/', async (req, res, next) => {
+//we want to put requireToken and isAdmin on all api routes! 
+
+router.get('/',requireToken,isAdmin,async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and username fields - even though
