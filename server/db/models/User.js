@@ -14,6 +14,10 @@ const User = db.define('user', {
   },
   password: {
     type: Sequelize.STRING,
+  },
+  isAdmin:{
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   }
 })
 
@@ -28,7 +32,7 @@ User.prototype.correctPassword = function(candidatePwd) {
 }
 
 User.prototype.generateToken = function() {
-  return jwt.sign({id: this.id}, process.env.JWT)
+  return jwt.sign({id: this.id, isAdmin: this.isAdmin}, process.env.JWT)
 }
 
 /**
