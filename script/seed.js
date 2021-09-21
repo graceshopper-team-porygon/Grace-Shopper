@@ -96,6 +96,17 @@ const users = [
     email: "rracoon@gmail.com",
   },
 ];
+const cartItems = [
+  {
+    productId: 1, quantity: 3, userId: 1
+  },
+  {
+    productId: 2, quantity: 5, userId: 1
+  },
+  {
+    productId: 1, quantity: 1, userId: 1
+  }
+]
 
 const seed = async () => {
   try {
@@ -106,7 +117,9 @@ const seed = async () => {
         return Product.create(product);
       })
     );
-
+await Promise.all(
+  cartItems.map(item=> cartItems.create(item))
+)
     await Promise.all(
       users.map((user) => {
         return User.create(user);

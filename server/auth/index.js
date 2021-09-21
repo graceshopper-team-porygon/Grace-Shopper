@@ -13,7 +13,6 @@ router.post('/login', async (req, res, next) => {
 
 router.post('/signup', async (req, res, next) => {
   try {
-    console.log("*********************************",req.body)
     //prevent injection attacks: (also required if there is an update user put route)
     const {username,password} = req.body
     const user = await User.create({username,password})
