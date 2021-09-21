@@ -1,10 +1,11 @@
-import React, {Component, Fragment} from 'react'
-import {connect} from 'react-redux'
-import {withRouter, Route, Switch, Redirect} from 'react-router-dom'
-import { Login, Signup } from './components/AuthForm';
-import Home from './components/Home';
-import {me} from './store'
-import AllProducts from './components/AllProducts';
+import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
+import { withRouter, Route, Switch, Redirect } from "react-router-dom";
+import { Login, Signup } from "./components/AuthForm";
+import Home from "./components/Home";
+import { me } from "./store";
+import AllProducts from "./components/AllProducts";
+import SingleProduct from "./components/SingleProduct";
 
 /**
  * COMPONENT
@@ -26,15 +27,16 @@ class Routes extends Component {
 
           </Switch>
         ) : ( */}
-          <Switch>
-            <Route path='/' exact component={ AllProducts } />
-            {/* <Route path='/' exact component={ Login } /> */}
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
-          </Switch>
-         {/* )} */}
+        <Switch>
+          <Route path="/products" exact component={AllProducts} />
+          <Route path="/products/:id" exact component={SingleProduct} />
+          {/* <Route path='/' exact component={ Login } /> */}
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
+        </Switch>
+        {/* )} */}
       </div>
-    )
+    );
   }
 }
 
@@ -43,8 +45,8 @@ class Routes extends Component {
  */
 // const mapState = state => {
 //   return {
-    // Being 'logged in' for our purposes will be defined has having a state.auth that has a truthy id.
-    // Otherwise, state.auth will be an empty object, and state.auth.id will be falsey
+// Being 'logged in' for our purposes will be defined has having a state.auth that has a truthy id.
+// Otherwise, state.auth will be an empty object, and state.auth.id will be falsey
 //     isLoggedIn: !!state.auth.id
 //   }
 // }
@@ -61,5 +63,4 @@ class Routes extends Component {
 // when the url changes
 // export default withRouter(connect(mapState, mapDispatch)(Routes))
 
-
-export default withRouter(Routes)
+export default withRouter(Routes);
