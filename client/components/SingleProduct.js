@@ -12,7 +12,7 @@ class SingleProduct extends Component {
   render() {
     return (
       <div>
-        <h1></h1>
+        <h1>SINGLE PRODUCT</h1>
         <p></p>
       </div>
     );
