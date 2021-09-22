@@ -5,9 +5,9 @@ import {connect} from 'react-redux'
  * COMPONENT
  */
 export const Home = props => {
-  console.log(props.isAdmin)
+  
   const {username} = props
-
+  console.log(username)
   return (
     <div>
       <h3>Welcome, {username}</h3>

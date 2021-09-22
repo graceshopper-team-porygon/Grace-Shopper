@@ -1,12 +1,13 @@
 const router = require('express').Router()
-const { models: { User,CartItem }} = require('../db')
+const { models: { User,CartItem,Product }} = require('../db')
 module.exports = router
 
 
-router.get('/:id',async (req, res, next) => {
+router.get('/',async (req, res, next) => {
   try {
+    const {id} = await User.findByToken(req.headers.authorization)
     const items = await CartItem.findAll({
-where: {userId : req.params.id}
+where: {userId : id}, include: {model: Product}
     })
     res.json(items)
   } catch (err) {
