@@ -19,41 +19,62 @@ const _addToCart = (cartItem) => ({
   type: ADD_TO_CART,
   cartItem,
 });
-export const removeCartItem = (cartItemId)=>{
-  return async(dispatch)=>{
-    try{
-    const token = window.localStorage.getItem(TOKEN);
-    if(token){
-      //remove 
-      const res = await axios.delete(`/api/items/${cartItemId}`,{
-        headers: { authorization: token }
-      })
 
-      dispatch(_removeCartItem(cartItemId))
-    }
-  }catch(e){
-    console.log(e)
-  }
-}
-
-}
-
-export const addToCart = (product, quantity) => {
+const UPDATE_CART = "update cart"
+const _updateCart = (cartItem)=>({
+  type: UPDATE_CART,
+  cartItem,
+})
+export const removeCartItem = (cartItemId) => {
   return async (dispatch) => {
+    try {
+      const token = window.localStorage.getItem(TOKEN);
+      if (token) {
+        //remove
+        const res = await axios.delete(`/api/items/${cartItemId}`, {
+          headers: { authorization: token },
+        });
+
+        dispatch(_removeCartItem(cartItemId));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const addToCart = (product, quantity = 1) => {
+  return async (dispatch, getState) => {
     try {
       let token = window.localStorage.getItem(TOKEN);
       if (token) {
-        //create temp user and generate token, save in session storage?
-        const res = await axios.post(
-          "/api/items",
-          { product, quantity },
-          {
-            headers: { authorization: token },
-          }
+        const state = getState();
+        const currentItem = state.cartItems.filter(
+          (item) => item.productId === product.id
         );
+        console.log('current item?',currentItem)
+        if (currentItem.length !== 0) {
+          const res = await axios.put(
+            "/api/item",
+            { product, quantity },
+            {
+              headers: { authorization: token },
+            }
+          );
+          dispatch(_updateCart(res))
+        } else {
+          const res = await axios.post(
+            "/api/items",
+            { product, quantity },
+            {
+              headers: { authorization: token },
+            }
+          );
+          dispatch(_addToCart(res));
+        }
         //if no token, create temporary user, and then pass their token
         //we want the new item back so we pass it into the action creator
-        dispatch(_addToCart(res));
+        
       }
     } catch (error) {
       //is it already in the cart? increment quantity
@@ -84,9 +105,17 @@ export const getCartItems = (id) => {
 
 export default function (state = [], action) {
   switch (action.type) {
+    case UPDATE_CART:
+      const newItems = state.map(item=>{
+        if(item.id === action.cartItem.id) item.quantity = cartItem.quantity
+        return item}
+      )
+      return newItems
     case REMOVE_CART_ITEM:
-      const newCartItems = state.filter(cartItem=>cartItem.id !== action.id)
-      return newCartItems
+      const newCartItems = state.filter(
+        (cartItem) => cartItem.id !== action.id
+      );
+      return newCartItems;
     case ADD_TO_CART:
       return [...state, action.cartItem];
     case GET_CART_ITEMS:
