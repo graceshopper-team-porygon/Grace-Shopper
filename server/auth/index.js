@@ -15,7 +15,6 @@ router.post("/login", async (req, res, next) => {
 router.post("/signup", async (req, res, next) => {
   try {
     //prevent injection attacks: (also required if there is an update user put route)
-    console.log("helloooo", req.body);
     const { username, password, isAdmin, email } = req.body;
     const user = await User.create({ isAdmin, username, password, email });
     res.send({ token: await user.generateToken() });
