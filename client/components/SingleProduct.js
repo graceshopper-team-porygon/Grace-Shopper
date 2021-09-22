@@ -18,25 +18,29 @@ import { KeyboardArrowLeft, AddShoppingCart } from "@material-ui/icons";
 const useStyles = (theme) => ({
   root: {
     maxWidth: "100%",
-    maxHeight: 645,
-    margin: "auto",
-    padding: 25,
+    maxHeight: 800,
+    margin: 25,
     display: "flex",
-    "justify-content": "center",
+    "padding-bottom": 25,
+    "justify-content": "flex-start",
   },
   media: {
     height: "100%",
-    width: 200,
-    "padding-right": 20,
-    "border-top-left-radius": "10px",
-    "border-bottom-right-radius": "10px",
+    width: 250,
+    "justify-content": "center",
+    "border-top-left-radius": "15px",
+    "border-bottom-right-radius": "15px",
   },
   content: {
-    "padding-left": 50,
+    // "padding-left": 50,
+    // "align-content": "space-between",
   },
   buttons: {
     margin: 25,
     "justify-content": "space-between",
+  },
+  hr: {
+    margin: 25,
   },
 });
 
@@ -47,7 +51,6 @@ class SingleProduct extends Component {
   }
 
   render() {
-    console.log("PROPS", this.props);
     const { classes, product } = this.props;
 
     return (
@@ -59,7 +62,9 @@ class SingleProduct extends Component {
             image={product.imageUrl}
             alt={product.name}
           />
-          <hr />
+
+          <hr className={classes.hr} />
+
           <CardContent className={classes.content}>
             <Typography gutterBottom variant="h5" component="div">
               {product.name}
@@ -78,20 +83,10 @@ class SingleProduct extends Component {
                 : "In Stock"}
             </Typography>
           </CardContent>
-
-          {/* <CardActions>
-            <Link to={"/products"}>
-              <Button startIcon={<KeyboardArrowLeft />} size="small">
-                All Products
-              </Button>
-            </Link>
-            <Button endIcon={<AddShoppingCart />} size="small">
-              Add To Cart
-            </Button>
-          </CardActions> */}
         </Card>
+
         <CardActions className={classes.buttons}>
-          <Link to={"/products"}>
+          <Link to={"/"}>
             <Button startIcon={<KeyboardArrowLeft />} size="small">
               All Products
             </Button>
