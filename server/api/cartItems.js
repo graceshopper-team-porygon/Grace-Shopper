@@ -14,6 +14,7 @@ router.get("/", async (req, res, next) => {
     res.json(items);
   } catch (err) {
     next(err);
+<<<<<<< HEAD
   }
 });
 
@@ -50,5 +51,7 @@ router.delete("/:id", async (req, res, next) => {
     res.send(cartItem);
   } catch (error) {
     next(error);
+=======
+>>>>>>> 3496507a58e5900dc876e5bdaa37623b7696133d
   }
 });

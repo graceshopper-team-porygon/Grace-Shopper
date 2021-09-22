@@ -48,21 +48,21 @@ export const addToCart = (product, quantity = 1) => {
     try {
       let token = window.localStorage.getItem(TOKEN);
       if (token) {
-        const state = getState();
-        const currentItem = state.cartItems.filter(
-          (item) => item.productId === product.id
-        );
-        console.log('current item?',currentItem)
-        if (currentItem.length !== 0) {
-          const res = await axios.put(
-            "/api/item",
-            { product, quantity },
-            {
-              headers: { authorization: token },
-            }
-          );
-          dispatch(_updateCart(res))
-        } else {
+        // const state = getState();
+        // const currentItem = state.cartItems.filter(
+        //   (item) => item.productId === product.id
+        // );
+
+        // if (currentItem.length !== 0) {
+        //   const res = await axios.put(
+        //     "/api/item",
+        //     { product, quantity },
+        //     {
+        //       headers: { authorization: token },
+        //     }
+        //   );
+        //   dispatch(_updateCart(res))
+        // } else {
           const res = await axios.post(
             "/api/items",
             { product, quantity },
@@ -71,10 +71,9 @@ export const addToCart = (product, quantity = 1) => {
             }
           );
           dispatch(_addToCart(res));
-        }
-        //if no token, create temporary user, and then pass their token
-        //we want the new item back so we pass it into the action creator
         
+        //if no token, create temporary user, and then pass their token
+        //we want the new item back so we pass it into the action creat
       }
     } catch (error) {
       //is it already in the cart? increment quantity
@@ -85,7 +84,7 @@ export const addToCart = (product, quantity = 1) => {
 };
 //put request
 
-export const getCartItems = (id) => {
+export const getCartItems = () => {
   return async (dispatch) => {
     try {
       const token = window.localStorage.getItem(TOKEN);

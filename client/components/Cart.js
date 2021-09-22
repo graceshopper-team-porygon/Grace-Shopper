@@ -20,7 +20,7 @@ class Cart extends React.Component {
     this.state = { didFetch: false };
   }
   async componentDidMount() {
-    await this.props.getCartItems(this.props.userId);
+    await this.props.getCartItems();
     this.setState({ didFetch: true });
   }
 
@@ -73,7 +73,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     getCartItems: (user) => dispatch(getCartItems(user)),
-    removeCartItem: (id) => dispatch(removeCartItem(id)),
+    removeCartItem: () => dispatch(removeCartItem()),
   };
 };
 
