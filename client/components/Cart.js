@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getCartItems} from './cartItems'
+import {getCartItems} from '../store/cartItems'
 //get cartItems thunk
 //render all the items 
 //tests
@@ -10,7 +10,8 @@ class Cart extends React.Component{
         this.state = {didFetch: false}
     }
     async componentDidMount(){
-        await this.props.getCartItems(this.props.user)
+        console.log(this.props.userId)
+        await this.props.getCartItems(this.props.userId)
         this.setState({didFetch:true})
     }
     render(){
@@ -34,7 +35,7 @@ class Cart extends React.Component{
 
 const mapState = state =>{
     return{
-        user: state.auth,
+        userId: state.auth.id,
         cartItems: state.cartItems
     }
 }

@@ -7,13 +7,15 @@ const _getCartItems = (items) => ({
   items,
 });
 
-export const getCartItems = (user) => {
-  try {
-    const res = await axios.get(`/api/items/${user.id}`);
-    dispatch(_getCartItems(res.data));
-  } catch (error) {
-    console.log(error);
-  }
+export const getCartItems = (id) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.get(`/api/items/${id}`);
+      dispatch(_getCartItems(res.data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 };
 
 export default function (state = [], action) {

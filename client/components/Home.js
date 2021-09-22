@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {connect} from 'react-redux'
 
 /**
  * COMPONENT
  */
 export const Home = props => {
+  console.log(props.isAdmin)
   const {username} = props
 
   return (

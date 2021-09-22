@@ -2,7 +2,7 @@
 const { green, red } = require("chalk");
 const {
   db,
-  models: { User, Product },
+  models: { User, Product,CartItem },
 } = require("../server/db");
 // const { db } = require("../server/db");
 // const { User, Product } = require("../server/db/models");
@@ -117,15 +117,15 @@ const seed = async () => {
         return Product.create(product);
       })
     );
-await Promise.all(
-  cartItems.map(item=> cartItems.create(item))
-)
+
     await Promise.all(
       users.map((user) => {
         return User.create(user);
       })
     );
-
+    await Promise.all(
+      cartItems.map(item=> CartItem.create(item))
+    )
     console.log(green("Seeding Success"));
   } catch (err) {
     console.log(red(err));
