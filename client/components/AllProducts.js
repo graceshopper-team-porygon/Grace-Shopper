@@ -32,7 +32,6 @@ export class AllProducts extends React.Component {
   }
 
   render() {
-    console.log(this.props.products)
     const {classes} = this.props;
     return (
       <div>
