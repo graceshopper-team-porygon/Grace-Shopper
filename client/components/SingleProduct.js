@@ -20,13 +20,23 @@ const useStyles = (theme) => ({
     maxWidth: "100%",
     maxHeight: 645,
     margin: "auto",
-    "align-content": "center",
+    padding: 25,
+    display: "flex",
+    "justify-content": "center",
   },
   media: {
     height: "100%",
     width: 200,
+    "padding-right": 20,
     "border-top-left-radius": "10px",
     "border-bottom-right-radius": "10px",
+  },
+  content: {
+    "padding-left": 50,
+  },
+  buttons: {
+    margin: 25,
+    "justify-content": "space-between",
   },
 });
 
@@ -49,7 +59,8 @@ class SingleProduct extends Component {
             image={product.imageUrl}
             alt={product.name}
           />
-          <CardContent>
+          <hr />
+          <CardContent className={classes.content}>
             <Typography gutterBottom variant="h5" component="div">
               {product.name}
             </Typography>
@@ -68,7 +79,7 @@ class SingleProduct extends Component {
             </Typography>
           </CardContent>
 
-          <CardActions>
+          {/* <CardActions>
             <Link to={"/products"}>
               <Button startIcon={<KeyboardArrowLeft />} size="small">
                 All Products
@@ -77,8 +88,18 @@ class SingleProduct extends Component {
             <Button endIcon={<AddShoppingCart />} size="small">
               Add To Cart
             </Button>
-          </CardActions>
+          </CardActions> */}
         </Card>
+        <CardActions className={classes.buttons}>
+          <Link to={"/products"}>
+            <Button startIcon={<KeyboardArrowLeft />} size="small">
+              All Products
+            </Button>
+          </Link>
+          <Button endIcon={<AddShoppingCart />} size="small">
+            Add To Cart
+          </Button>
+        </CardActions>
       </div>
     );
   }
