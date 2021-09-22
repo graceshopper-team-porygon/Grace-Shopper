@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchProducts } from '../store/products'
-import { CardActionArea,
-          Card,
+import { fetchProducts } from '../store/products';
+import {  Card,
           Grid,
           CardActions,
           CardContent,
@@ -33,6 +32,7 @@ export class AllProducts extends React.Component {
   }
 
   render() {
+    console.log(this.props.products)
     const {classes} = this.props;
     return (
       <div>
@@ -60,7 +60,7 @@ export class AllProducts extends React.Component {
                   </CardContent>
                   <CardActions>
                     <Button size="small">Learn More</Button>
-                    <Button size="small">Add To Cart</Button>
+                    <Button onClick={() => console.log('clicked!')} size="small">Add To Cart</Button>
                   </CardActions>
               </Card>
             </Grid>
