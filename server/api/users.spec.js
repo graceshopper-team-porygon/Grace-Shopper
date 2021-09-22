@@ -13,13 +13,12 @@ describe('User routes', () => {
 
   describe('/api/users/', () => {
 
-    it('GET /api/users', async () => {
+    it('does not allow non admins to access all users', async () => {
+      const {data} = await request(app).post('/auth/login').send({username:"evil",password:"haxxor"})
+      console.log(data)
       const res = await request(app)
-        .get('/api/users')
-        .expect(200)
-
-      expect(res.body).to.be.an('array');
-      expect(res.body.length).to.equal(2);
+        .get('/api/users').set({"Authorization": data.token})
+        .expect(401)
     })
   }) // end describe('/api/users')
 }) // end describe('User routes')
