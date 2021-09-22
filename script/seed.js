@@ -2,7 +2,7 @@
 const { green, red } = require("chalk");
 const {
   db,
-  models: { User, Product },
+  models: { User, Product,CartItem },
 } = require("../server/db");
 // const { db } = require("../server/db");
 // const { User, Product } = require("../server/db/models");
@@ -96,6 +96,17 @@ const users = [
     email: "rracoon@gmail.com",
   },
 ];
+const cartItems = [
+  {
+    productId: 1, quantity: 3, userId: 1
+  },
+  {
+    productId: 2, quantity: 5, userId: 1
+  },
+  {
+    productId: 1, quantity: 1, userId: 1
+  }
+]
 
 const seed = async () => {
   try {
@@ -112,7 +123,9 @@ const seed = async () => {
         return User.create(user);
       })
     );
-
+    await Promise.all(
+      cartItems.map(item=> CartItem.create(item))
+    )
     console.log(green("Seeding Success"));
   } catch (err) {
     console.log(red(err));

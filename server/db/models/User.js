@@ -47,9 +47,9 @@ User.prototype.correctPassword = function (candidatePwd) {
   return bcrypt.compare(candidatePwd, this.password);
 };
 
-User.prototype.generateToken = function () {
-  return jwt.sign({ id: this.id, isAdmin: this.isAdmin }, process.env.JWT);
-};
+User.prototype.generateToken = function() {
+  return jwt.sign({id: this.id,username: this.username}, process.env.JWT)
+}
 
 /**
  * classMethods

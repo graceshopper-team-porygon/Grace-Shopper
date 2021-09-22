@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {connect} from 'react-redux'
 
 /**
  * COMPONENT
  */
 export const Home = props => {
+  
   const {username} = props
-
+  console.log(username)
   return (
     <div>
       <h3>Welcome, {username}</h3>
