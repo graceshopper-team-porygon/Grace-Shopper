@@ -1,14 +1,10 @@
 const router = require("express").Router();
 
-<<<<<<< HEAD
 //is this the name of model and where it is located and how it is exported?
 const {
   models: { Product },
 } = require("../db");
-const { isAdmin } = require("./gatekeeping");
-=======
-const { models: { Product } }= require('../db');
->>>>>>> main
+const { requireToken, isAdmin } = require("./gatekeeping");
 module.exports = router;
 
 router.get("/", async (req, res, next) => {
@@ -29,6 +25,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+//need to add requireToken and isAdmin after verify that this works through browser
 router.post("/", async (req, res, next) => {
   try {
     console.log(req);

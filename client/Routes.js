@@ -30,12 +30,7 @@ class Routes extends Component {
           </Switch>
         ) : ( */}
         <Switch>
-<<<<<<< HEAD
-          <Route path="/home" exact component={Home} />
-          <Route path="/products" exact component={AllProducts} />
-=======
           <Route path="/" exact component={AllProducts} />
->>>>>>> main
           <Route path="/products/:id" exact component={SingleProduct} />
           <Route path="/myCart" exact component={Cart} />
           {/* <Route path='/' exact component={ Login } /> */}
