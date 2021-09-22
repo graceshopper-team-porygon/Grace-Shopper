@@ -1,10 +1,14 @@
 const router = require("express").Router();
 
+<<<<<<< HEAD
 //is this the name of model and where it is located and how it is exported?
 const {
   models: { Product },
 } = require("../db");
 const { isAdmin } = require("./gatekeeping");
+=======
+const { models: { Product } }= require('../db');
+>>>>>>> main
 module.exports = router;
 
 router.get("/", async (req, res, next) => {
