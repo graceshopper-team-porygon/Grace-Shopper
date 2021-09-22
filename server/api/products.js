@@ -1,6 +1,5 @@
 const router = require('express').Router();
 
-//is this the name of model and where it is located and how it is exported?
 const { models: { Product } }= require('../db');
 module.exports = router;
 

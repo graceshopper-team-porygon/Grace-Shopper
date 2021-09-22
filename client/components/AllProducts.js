@@ -1,11 +1,30 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchProducts } from '../store/products'
+import { fetchProducts } from '../store/products';
+import {  Card,
+          Grid,
+          CardActions,
+          CardContent,
+          CardMedia,
+          Button,
+          Typography,
+          withStyles } from '@material-ui/core';
+
+const useStyles = theme => ({
+  root: {
+    maxWidth: 345,
+    maxHeight: 445,
+    margin: 'auto'
+  },
+  media: {
+    height: 200,
+    width: '100%'
+  }
+})
 
 export class AllProducts extends React.Component {
   constructor() {
     super()
-    // this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -13,9 +32,41 @@ export class AllProducts extends React.Component {
   }
 
   render() {
+    console.log(this.props.products)
+    const {classes} = this.props;
     return (
-      //will need to map over this.props.products and render out cards
-      <h1>All Products Page</h1>
+      <div>
+        <Grid
+          container
+          spacing={3}
+          justifyContent="center"
+          >
+          {this.props.products.map(plant => (
+            <Grid item key={plant.id} xs={12} md={6} lg={4}>
+              <Card className={classes.root}>
+                  <CardMedia
+                    className={classes.media}
+                    component="img"
+                    image={plant.imageUrl}
+                    alt={plant.name}
+                    />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {plant.name}
+                    </Typography>
+                    <Typography gutterBottom variant="h6" component="div">
+                      Price: ${plant.price}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button size="small">Learn More</Button>
+                    <Button onClick={() => console.log('clicked!')} size="small">Add To Cart</Button>
+                  </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </div>
     )
   }
 }
@@ -32,4 +83,7 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-export default connect(mapState, mapDispatch)(AllProducts);
+export default connect(
+  mapState,
+  mapDispatch)
+  (withStyles(useStyles)(AllProducts));
