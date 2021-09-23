@@ -1,14 +1,15 @@
 const router = require("express").Router();
+const {requireToken} = require('./gatekeeping')
 const {
   models: { User, CartItem, Product },
 } = require("../db");
 module.exports = router;
 
-router.get("/", async (req, res, next) => {
+router.get("/", requireToken,async (req, res, next) => {
   try {
-    const { id } = await User.findByToken(req.headers.authorization);
+
     const items = await CartItem.findAll({
-      where: { userId: id },
+      where: { userId: req.user.id },
       include: { model: Product },
     });
     res.json(items);
@@ -17,12 +18,11 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", requireToken,async (req, res, next) => {
   try {
-    const { id } = await User.findByToken(req.headers.authorization);
     let newItem = await CartItem.create({
       quantity: req.body.quantity,
-      userId: id,
+      userId: req.user.id,
       productId: req.body.product.id,
     });
     //decrement from product quantity in database
@@ -41,7 +41,6 @@ router.post("/", async (req, res, next) => {
 
 router.put("/", async (req, res, next) => {
   try {
-    const { id } = await User.findByToken(req.headers.authorization);
     const updatedItem = await CartItem.findOne({
       where: { productId: req.body.productId, userId: id },
     });
@@ -54,7 +53,7 @@ router.put("/", async (req, res, next) => {
   }
 });
 
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id",requireToken, async (req, res, next) => {
   try {
     const id = req.params.id;
     const cartItem = await CartItem.findByPk(id);
