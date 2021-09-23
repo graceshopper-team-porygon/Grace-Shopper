@@ -172,7 +172,6 @@ const order = [
     userId: 4,
   },
   {
-    status: "In Progress",
     total: 100,
     userId: 5,
   },
