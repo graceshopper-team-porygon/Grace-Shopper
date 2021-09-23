@@ -87,16 +87,6 @@ export const addToCart = (product, quantity = 1) => {
         //   );
         //   dispatch(_updateCart(res))
         // } else {
-<<<<<<< HEAD
-        const res = await axios.post(
-          "/api/items",
-          { product, quantity },
-          {
-            headers: { authorization: token },
-          }
-        );
-        dispatch(_addToCart(res.data));
-=======
           const res = await axios.post(
             "/api/items",
             { product, quantity },
@@ -105,7 +95,6 @@ export const addToCart = (product, quantity = 1) => {
             }
           );
           dispatch(_addToCart(res.data));
->>>>>>> main
 
         //if no token, create temporary user, and then pass their token
         //we want the new item back so we pass it into the action creat

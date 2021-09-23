@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../store";
 import { Box, AppBar, Toolbar, Typography, Button, IconButton } from "@material-ui/core";
-import HomeIcon from '@material-ui/icons';
+import  { Home } from '@material-ui/icons';
 
 const Navbar = ({ handleClick, isLoggedIn }) => (
   <Box sx={{ flexGrow: 1 }}>
@@ -12,15 +12,13 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Plants & Pants
         </Typography>
-        {/* <h1>Plants & Pants</h1> */}
         <nav>
           {isLoggedIn ? (
             <div>
               {/* The navbar will show these links after you log in */}
-              <Link to="/">Home</Link>
-              {/* <Link to={"/"}>
-                <HomeIcon size="small" ></HomeIcon>
-              </Link> */}
+              <Link to={"/"}>
+                <Home />
+              </Link>
               <Link to = '/myCart'>My Cart</Link>
               <a href="#" onClick={handleClick}>
                 Logout
