@@ -1,31 +1,34 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { fetchProducts } from '../store/products';
-import {addToCart,getCartItems} from '../store/cartItems'
-import {  Card,
-          Grid,
-          CardActions,
-          CardContent,
-          CardMedia,
-          Button,
-          Typography,
-          withStyles } from '@material-ui/core';
+import React from "react";
+import { connect } from "react-redux";
+import { fetchProducts } from "../store/products";
+import { Link } from "react-router-dom";
+import { addToCart, getCartItems } from "../store/cartItems";
+import {
+  Card,
+  Grid,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Button,
+  Typography,
+  withStyles,
+} from "@material-ui/core";
 
-const useStyles = theme => ({
+const useStyles = (theme) => ({
   root: {
     maxWidth: 345,
     maxHeight: 445,
-    margin: 'auto'
+    margin: "auto",
   },
   media: {
     height: 200,
-    width: '100%'
-  }
-})
+    width: "100%",
+  },
+});
 
 export class AllProducts extends React.Component {
   constructor() {
-    super()
+    super();
   }
 
   componentDidMount() {
@@ -34,59 +37,66 @@ export class AllProducts extends React.Component {
   }
 
   render() {
+<<<<<<< HEAD
     const {classes} = this.props;
+=======
+    const { classes } = this.props;
+>>>>>>> main
     return (
       <div>
-        <Grid
-          container
-          spacing={3}
-          justifyContent="center"
-          >
-          {this.props.products.map(plant => (
+        <Grid container spacing={3} justifyContent="center">
+          {this.props.products.map((plant) => (
             <Grid item key={plant.id} xs={12} md={6} lg={4}>
               <Card className={classes.root}>
-                  <CardMedia
-                    className={classes.media}
-                    component="img"
-                    image={plant.imageUrl}
-                    alt={plant.name}
-                    />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      {plant.name}
-                    </Typography>
-                    <Typography gutterBottom variant="h6" component="div">
-                      Price: ${plant.price}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
+                <CardMedia
+                  className={classes.media}
+                  component="img"
+                  image={plant.imageUrl}
+                  alt={plant.name}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {plant.name}
+                  </Typography>
+                  <Typography gutterBottom variant="h6" component="div">
+                    Price: ${plant.price}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Link to={`/products/${plant.id}`}>
                     <Button size="small">Learn More</Button>
-                    <Button onClick={() => this.props.addCartItem(plant)} size="small">Add To Cart</Button>
-                  </CardActions>
+                  </Link>
+                  <Button
+                    onClick={() => this.props.addCartItem(plant)}
+                    size="small"
+                  >
+                    Add To Cart
+                  </Button>
+                </CardActions>
               </Card>
             </Grid>
           ))}
         </Grid>
       </div>
-    )
+    );
   }
 }
 
 const mapState = (state) => {
   return {
-    products: state.products
-  }
-}
+    products: state.products,
+  };
+};
 
 const mapDispatch = (dispatch) => {
   return {
     getProducts: () => dispatch(fetchProducts()),
-    addCartItem: (item)=>dispatch(addToCart(item)),
-    getCartItems: ()=>dispatch(getCartItems())
-  }
-}
+    addCartItem: (item) => dispatch(addToCart(item)),
+    getCartItems: () => dispatch(getCartItems()),
+  };
+};
 
 export default connect(
   mapState,
-  mapDispatch)
-  (withStyles(useStyles)(AllProducts));
+  mapDispatch
+)(withStyles(useStyles)(AllProducts));
