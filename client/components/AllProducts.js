@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchProducts } from "../store/products";
 import { Link } from "react-router-dom";
-import { addToCart, getCartItems } from "../store/cartItems";
+import { addToCart, getCartItems,updateCart } from "../store/cartItems";
 import {
   Card,
   Grid,
@@ -13,6 +13,7 @@ import {
   Typography,
   withStyles,
 } from "@material-ui/core";
+import { PlaceTwoTone } from "@material-ui/icons";
 
 const useStyles = (theme) => ({
   root: {
@@ -29,41 +30,51 @@ const useStyles = (theme) => ({
 export class AllProducts extends React.Component {
   constructor() {
     super();
+    this.addClickHandler = this.addClickHandler.bind(this);
   }
 
   componentDidMount() {
     this.props.getProducts();
     this.props.getCartItems();
   }
-
+addClickHandler(product){
+  const isItemInCart = this.props.cartItems.filter(
+    (item) => item.id === product.id
+  );
+  if (isItemInCart.length !== 1) {
+    this.props.addToCart(product);
+  } else {
+    this.props.updateCart(product.id);
+  }
+}
   render() {
     const { classes } = this.props;
     return (
       <div>
         <Grid container spacing={3} justifyContent="center">
-          {this.props.products.map((plant) => (
-            <Grid item key={plant.id} xs={12} md={6} lg={4}>
+          {this.props.products.map((product) => (
+            <Grid item key={product.id} xs={12} md={6} lg={4}>
               <Card className={classes.root}>
                 <CardMedia
                   className={classes.media}
                   component="img"
-                  image={plant.imageUrl}
-                  alt={plant.name}
+                  image={product.imageUrl}
+                  alt={product.name}
                 />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
-                    {plant.name}
+                    {product.name}
                   </Typography>
                   <Typography gutterBottom variant="h6" component="div">
-                    Price: ${plant.price}
+                    Price: ${product.price}
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Link to={`/products/${plant.id}`}>
+                  <Link to={`/products/${product.id}`}>
                     <Button size="small">Learn More</Button>
                   </Link>
                   <Button
-                    onClick={() => this.props.addCartItem(plant)}
+                    onClick={() => this.addClickHandler(product)}
                     size="small"
                   >
                     Add To Cart
@@ -81,6 +92,7 @@ export class AllProducts extends React.Component {
 const mapState = (state) => {
   return {
     products: state.products,
+    cartItems: state.cartItems
   };
 };
 
@@ -89,6 +101,7 @@ const mapDispatch = (dispatch) => {
     getProducts: () => dispatch(fetchProducts()),
     addCartItem: (item) => dispatch(addToCart(item)),
     getCartItems: () => dispatch(getCartItems()),
+    updateCart: (productId,qty=1)=>dispatch(updateCart(productId,qty))
   };
 };
 

@@ -16,11 +16,11 @@ const Product = db.define("product", {
     defaultValue: 0,
     validate: {
       notEmpty: true,
-      min: 0
+      min: 0,
     },
   },
   price: {
-    type: Sequelize.DECIMAL(10, 2),
+    type: Sequelize.INTEGER,
     allowNull: false,
   },
   description: {

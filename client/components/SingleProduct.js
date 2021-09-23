@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchSingleProduct } from "../store/singleProduct";
+import { addToCart, getCartItems, updateCart } from "../store/cartItems";
 import {
   Card,
   CardActions,
@@ -51,9 +52,29 @@ const useStyles = (theme) => ({
 });
 
 class SingleProduct extends Component {
-  componentDidMount() {
+  constructor() {
+    super();
+    // this.state = {
+    //   isInCart: false,
+    // };
+    this.addClickHandler = this.addClickHandler.bind(this);
+  }
+  async componentDidMount() {
     const productID = this.props.match.params.id;
     this.props.fetchSingleProduct(productID);
+    this.props.getCartItems();
+  }
+
+  addClickHandler(product) {
+    const isItemInCart = this.props.cartItems.filter(
+      (item) => item.id === product.id
+    );
+    console.log("ITEM IN CART-->", isItemInCart);
+    if (isItemInCart.length !== 1) {
+      this.props.addToCart(product);
+    } else {
+      this.props.updateCart(product.id);
+    }
   }
 
   render() {
@@ -101,7 +122,11 @@ class SingleProduct extends Component {
               All Products
             </Button>
           </Link>
-          <Button endIcon={<AddShoppingCart />} size="small">
+          <Button
+            onClick={() => this.addClickHandler(product)}
+            endIcon={<AddShoppingCart />}
+            size="small"
+          >
             Add To Cart
           </Button>
         </CardActions>
@@ -113,12 +138,23 @@ class SingleProduct extends Component {
 const mapState = (state) => {
   return {
     product: state.product,
+    //   isInCart:
+    //     state.cartItems.filter((item) => item.id === state.product.id).length ===
+    //     1
+    //       ? true
+    //       : false,
+    cartItems: state.cartItems,
   };
 };
 
 const mapDispatch = (dispatch) => {
   return {
     fetchSingleProduct: (id) => dispatch(fetchSingleProduct(id)),
+    addToCart: (product, quantity = 1) =>
+      dispatch(addToCart(product, quantity)),
+    getCartItems: () => dispatch(getCartItems()),
+    updateCart: (productID, quantity = 1) =>
+      dispatch(updateCart(productID, quantity)),
   };
 };
 
