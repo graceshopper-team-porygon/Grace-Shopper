@@ -37,11 +37,7 @@ export class AllProducts extends React.Component {
   }
 
   render() {
-<<<<<<< HEAD
-    const {classes} = this.props;
-=======
     const { classes } = this.props;
->>>>>>> main
     return (
       <div>
         <Grid container spacing={3} justifyContent="center">
