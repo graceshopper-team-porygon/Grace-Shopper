@@ -70,7 +70,7 @@ export const addToCart = (product, quantity = 1) => {
               headers: { authorization: token },
             }
           );
-          dispatch(_addToCart(res));
+          dispatch(_addToCart(res.data));
         
         //if no token, create temporary user, and then pass their token
         //we want the new item back so we pass it into the action creat

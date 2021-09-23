@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { getCartItems, removeCartItem } from "../store/cartItems";
-//import React from 'react'
-import * as React from "react";
+import React, { useState, useEffect } from "react";
+// import * as React from "react";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -11,9 +11,6 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 
-//get cartItems thunk
-//render all the items
-//tests
 class Cart extends React.Component {
   constructor() {
     super();
@@ -25,9 +22,6 @@ class Cart extends React.Component {
   }
 
   render() {
-    if (!this.state.didFetch) return <h1>Loading...</h1>;
-    else if (this.props.cartItems.length === 0)
-      return <h1>Time to go shopping</h1>; //make this a link back to products
     return (
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -39,7 +33,7 @@ class Cart extends React.Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {this.props.cartItems.map((item) => (
+            {props.cartItems.map((item) => (
               <TableRow
                 key={item.product.name}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -52,7 +46,9 @@ class Cart extends React.Component {
                   {(item.quantity * item.product.price).toFixed(2)}
                 </TableCell>
                 <TableCell>
-                  <Button onClick={() => this.props.removeCartItem(item.id)}>Remove</Button>
+                  <Button onClick={() => this.props.removeCartItem(item.id)}>
+                    Remove
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
@@ -73,7 +69,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     getCartItems: (user) => dispatch(getCartItems(user)),
-    removeCartItem: () => dispatch(removeCartItem()),
+    removeCartItem: (id) => dispatch(removeCartItem(id)),
   };
 };
 
