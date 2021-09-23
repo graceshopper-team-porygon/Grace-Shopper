@@ -30,7 +30,7 @@ const User = db.define("user", {
       isEmail: true,
     },
   },
-  admin: {
+  isAdmin: {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
     allowNull: false,
@@ -47,9 +47,9 @@ User.prototype.correctPassword = function (candidatePwd) {
   return bcrypt.compare(candidatePwd, this.password);
 };
 
-User.prototype.generateToken = function() {
-  return jwt.sign({id: this.id,username: this.username}, process.env.JWT)
-}
+User.prototype.generateToken = function () {
+  return jwt.sign({ id: this.id, username: this.username }, process.env.JWT);
+};
 
 /**
  * classMethods
