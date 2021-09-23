@@ -9,8 +9,6 @@ import {
   CardMedia,
   Button,
   Typography,
-  Grid,
-  Paper,
   withStyles,
 } from "@material-ui/core";
 import { KeyboardArrowLeft, AddShoppingCart } from "@material-ui/icons";
@@ -25,15 +23,23 @@ const useStyles = (theme) => ({
     "justify-content": "flex-start",
   },
   media: {
-    height: "100%",
+    height: 350,
     width: 250,
     "justify-content": "center",
     "border-top-left-radius": "15px",
     "border-bottom-right-radius": "15px",
   },
   content: {
-    // "padding-left": 50,
-    // "align-content": "space-between",
+    display: "flex",
+    "flex-direction": "column",
+    "align-content": "center",
+  },
+  content1: {
+    "padding-top": 25,
+    "flex-grow": 5,
+  },
+  content2: {
+    "flex-grow": 1,
   },
   buttons: {
     margin: 25,
@@ -66,22 +72,26 @@ class SingleProduct extends Component {
           <hr className={classes.hr} />
 
           <CardContent className={classes.content}>
-            <Typography gutterBottom variant="h5" component="div">
-              {product.name}
-            </Typography>
-            <Typography gutterBottom variant="subtitle1" component="div">
-              {product.description}
-            </Typography>
-            <br />
-            <Typography gutterBottom variant="body1" component="div">
-              Price: ${product.price}
-              <br />
-              {product.quantity <= 3 && product.quantity > 0
-                ? `Only ${product.quantity} in Stock!`
-                : product.quantity === 0
-                ? "Out of Stock"
-                : "In Stock"}
-            </Typography>
+            <div className={classes.content1}>
+              <Typography gutterBottom variant="h5" component="div">
+                {product.name}
+              </Typography>
+              <Typography gutterBottom variant="subtitle1" component="div">
+                {product.description}
+              </Typography>
+            </div>
+
+            <div className={classes.content2}>
+              <Typography gutterBottom variant="body1" component="div">
+                Price: ${product.price}
+                <br />
+                {product.quantity <= 3 && product.quantity > 0
+                  ? `Only ${product.quantity} in Stock!`
+                  : product.quantity === 0
+                  ? "Out of Stock"
+                  : "In Stock"}
+              </Typography>
+            </div>
           </CardContent>
         </Card>
 
