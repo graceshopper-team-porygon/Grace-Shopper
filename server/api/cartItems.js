@@ -14,24 +14,26 @@ router.get("/", async (req, res, next) => {
     res.json(items);
   } catch (err) {
     next(err);
-<<<<<<< HEAD
   }
 });
 
 router.post("/", async (req, res, next) => {
   try {
     const { id } = await User.findByToken(req.headers.authorization);
-    const product = req.body.product;
     const newItem = await CartItem.create({
       quantity: req.body.quantity,
       userId: id,
-      productId: product.id,
+      productId: req.body.product.id,
     });
+    //decrement from product quantity in database
+    const product = await Product.findByPk(req.body.product.id)
+    product.update({quantity: product.quantity - req.body.quantity})
     res.json(newItem);
   } catch (error) {
     next(error);
   }
 });
+
 router.put("/api/item", async (req, res, next) => {
   try {
     const { id } = await User.findByToken(req.headers.authorization);
@@ -51,7 +53,5 @@ router.delete("/:id", async (req, res, next) => {
     res.send(cartItem);
   } catch (error) {
     next(error);
-=======
->>>>>>> 3496507a58e5900dc876e5bdaa37623b7696133d
   }
 });
