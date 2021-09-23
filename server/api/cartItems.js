@@ -60,3 +60,17 @@ router.delete("/:id", async (req, res, next) => {
     next(error);
   }
 });
+
+// router.delete("/", async (req, res, next) => {
+//   try {
+//     const { id } = await User.findByToken(req.headers.authorization);
+//     const cartItemsToDestroy = await CartItem.findAll({
+//       where: {
+//         userId: id }
+//       })
+//     await cartItemsToDestroy.destroy();
+//     res.send(cartItemsToDestroy);
+//   } catch (error) {
+//     next(error)
+//   }
+// })

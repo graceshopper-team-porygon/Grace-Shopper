@@ -2,11 +2,17 @@ import axios from "axios";
 
 const TOKEN = "token";
 
-const REMOVE_CART_ITEM = "remove cart items";
+const REMOVE_CART_ITEM = "remove_cart_items";
 const _removeCartItem = (id) => ({
   type: REMOVE_CART_ITEM,
   id,
 });
+
+// const DELETE_CART = "delete_cart";
+// const _deleteCart = (items) => ({
+//   type: DELETE_CART,
+//   items
+// })
 
 const GET_CART_ITEMS = "get_cart_items";
 const _getCartItems = (items) => ({
@@ -20,11 +26,12 @@ const _addToCart = (cartItem) => ({
   cartItem,
 });
 
-const UPDATE_CART = "update cart"
+const UPDATE_CART = "update_cart"
 const _updateCart = (cartItem)=>({
   type: UPDATE_CART,
   cartItem,
 })
+
 export const removeCartItem = (cartItemId) => {
   return async (dispatch) => {
     try {
@@ -42,6 +49,23 @@ export const removeCartItem = (cartItemId) => {
     }
   };
 };
+
+// export const deleteCart = () => {
+//   return async (dispatch) => {
+//     try {
+//       console.log('in delete cart')
+//       const token = window.localStorage.getItem(TOKEN);
+//       if (token) {
+//         const res = await axios.delete(`/api/items`, {
+//           headers: { authorization: token }
+//         })
+//         dispatch(_deleteCart(res.data))
+//       }
+//     } catch (e) {
+//       console.log(e)
+//     }
+//   }
+// }
 
 export const addToCart = (product, quantity = 1) => {
   return async (dispatch, getState) => {
@@ -71,7 +95,7 @@ export const addToCart = (product, quantity = 1) => {
             }
           );
           dispatch(_addToCart(res.data));
-        
+
         //if no token, create temporary user, and then pass their token
         //we want the new item back so we pass it into the action creat
       }
@@ -115,6 +139,8 @@ export default function (state = [], action) {
         (cartItem) => cartItem.id !== action.id
       );
       return newCartItems;
+    // case DELETE_CART:
+    //   return [];
     case ADD_TO_CART:
       return [...state, action.cartItem];
     case GET_CART_ITEMS:
