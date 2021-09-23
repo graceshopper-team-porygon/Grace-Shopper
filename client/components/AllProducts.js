@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchProducts } from '../store/products';
+import {addToCart,getCartItems} from '../store/cartItems'
 import {  Card,
           Grid,
           CardActions,
@@ -29,6 +30,7 @@ export class AllProducts extends React.Component {
 
   componentDidMount() {
     this.props.getProducts();
+    this.props.getCartItems();
   }
 
   render() {
@@ -60,7 +62,7 @@ export class AllProducts extends React.Component {
                   </CardContent>
                   <CardActions>
                     <Button size="small">Learn More</Button>
-                    <Button onClick={() => console.log('clicked!')} size="small">Add To Cart</Button>
+                    <Button onClick={() => this.props.addCartItem(plant)} size="small">Add To Cart</Button>
                   </CardActions>
               </Card>
             </Grid>
@@ -79,7 +81,9 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    getProducts: () => dispatch(fetchProducts())
+    getProducts: () => dispatch(fetchProducts()),
+    addCartItem: (item)=>dispatch(addToCart(item)),
+    getCartItems: ()=>dispatch(getCartItems())
   }
 }
 
