@@ -67,7 +67,7 @@ class SingleProduct extends Component {
 
   addClickHandler(product) {
     const isItemInCart = this.props.cartItems.filter(
-      (item) => item.id === product.id
+      (item) => item.productId === product.id
     );
     console.log("ITEM IN CART-->", isItemInCart);
     if (isItemInCart.length !== 1) {
