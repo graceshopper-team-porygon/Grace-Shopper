@@ -87,6 +87,14 @@ const products = [
     description:
       "Dracaena fragrans, is a flowering plant species that is native throughout tropical Africa, from Sudan south to Mozambique, west to Côte d'Ivoire and southwest to Angola, growing in upland regions at 600–2,250 m altitude. It is also known as striped dracaena, compact dracaena, and corn plant. ",
   },
+  {
+    name: "Hammer Pants",
+    quantity: 10,
+    price: 25.0,
+    imageUrl: "/product_images/hammer_pants",
+    description:
+      "Hammer pants are customized/modified baggy pants tapered at the ankle with a sagging rise made suitable for hip-hop dancing.",
+  },
 ];
 
 const users = [
@@ -99,6 +107,22 @@ const users = [
     username: "lucyBronze",
     password: "soccer",
     email: "lbronze@england.com",
+    isAdmin: true,
+  },
+  {
+    username: "cfisher",
+    password: "leia",
+    email: "starwars@lucasfilm.com",
+  },
+  {
+    username: "finnHuman",
+    password: "adventureTime",
+    email: "buffbaby@ooo.com",
+  },
+  {
+    username: "orlaMcCool",
+    password: "holySmirk",
+    email: "omccool@derrygirls.com",
     isAdmin: true,
   },
 ];
@@ -117,6 +141,21 @@ const cartItems = [
     productId: 3,
     quantity: 1,
     userId: 1,
+  },
+  {
+    productId: 6,
+    quantity: 7,
+    userId: 4,
+  },
+  {
+    productId: 8,
+    quantity: 2,
+    userId: 4,
+  },
+  {
+    productId: 11,
+    quantity: 5,
+    userId: 5,
   },
 ];
 
