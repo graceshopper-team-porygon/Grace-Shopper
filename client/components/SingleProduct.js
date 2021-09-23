@@ -47,7 +47,6 @@ class SingleProduct extends Component {
   }
 
   render() {
-    console.log("PROPS", this.props);
     const { classes, product } = this.props;
 
     return (

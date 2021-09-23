@@ -1,45 +1,74 @@
 import React from "react";
+import { connect } from "react-redux";
+import { createProduct } from "../store/products";
 
 export class AddProduct extends React.Component {
-  render() {
-    // constructor() {
-    //   super();
-    //   this.state = {
-    //     name: "",
-    //     me: "",
-    //     email: "",
-    //     gpa: "",
-    //   };
-    //   this.handleChange = this.handleChange.bind(this);
-    //   this.handleSubmit = this.handleSubmit.bind(this);
-    // }
+  constructor() {
+    super();
+    this.state = {
+      name: "",
+      price: "",
+      quantity: "",
+      description: "",
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
+  handleChange(evt) {
+    this.setState({
+      [evt.target.name]: evt.target.value,
+    });
+  }
+
+  handleSubmit(evt) {
+    evt.preventDefault();
+    this.props.addProduct({ ...this.state });
+  }
+
+  render() {
+    const { name, price, quantity, description } = this.state;
     return (
       <div>
-        <form onSubmit={() => console.log("button clicked")}>
+        <form onSubmit={this.handleSubmit}>
           <div>
             <label htmlFor="product_name">
               <small>Product Name</small>
             </label>
-            <input name="name" type="text" />
+            <input
+              name="name"
+              type="text"
+              value={name}
+              onChange={this.handleChange}
+            />
           </div>
           <div>
             <label>
               <small>Price</small>
             </label>
-            <input name="price" />
+            <input name="price" value={price} onChange={this.handleChange} />
           </div>
           <div>
             <label>
               <small>Quantity</small>
             </label>
-            <input name="quantity" />
+            <input
+              name="quantity"
+              value={quantity}
+              onChange={this.handleChange}
+            />
           </div>
           <div>
             <label>
               <small>Description</small>
             </label>
-            <textarea name="description" rows="4" cols="40" />
+            <textarea
+              name="description"
+              rows="4"
+              cols="40"
+              value={description}
+              onChange={this.handleChange}
+            />
           </div>
           <div>
             <button type="submit">Add Product</button>
@@ -49,3 +78,13 @@ export class AddProduct extends React.Component {
     );
   }
 }
+
+const mapDispatch = (dispatch, { history }) => {
+  return {
+    addProduct: (product) => {
+      dispatch(createProduct(product, history));
+    },
+  };
+};
+
+export default connect(null, mapDispatch)(AddProduct);
