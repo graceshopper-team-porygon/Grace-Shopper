@@ -45,6 +45,7 @@ router.put("/api/item", async (req, res, next) => {
     next(error);
   }
 });
+
 router.delete("/:id", async (req, res, next) => {
   try {
     const id = req.params.id;

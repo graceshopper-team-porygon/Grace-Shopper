@@ -33,7 +33,7 @@ class Cart extends React.Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.cartItems.map((item) => (
+            {this.props.cartItems.map((item) => (
               <TableRow
                 key={item.product.name}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
