@@ -2,31 +2,44 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../store";
+import { Box, AppBar, Toolbar, Typography, Button, IconButton } from "@material-ui/core";
+import HomeIcon from '@material-ui/icons';
 
 const Navbar = ({ handleClick, isLoggedIn }) => (
-  <div>
-    <h1>Plants & Pants</h1>
-    <nav>
-      {isLoggedIn ? (
-        <div>
-          {/* The navbar will show these links after you log in */}
-          <Link to="/">Home</Link>
-          <Link to = '/myCart'>My Cart</Link>
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
-        </div>
-      ) : (
-        <div>
-          {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-          <Link to ='/myCart'>My Cart</Link>
-        </div>
-      )}
-    </nav>
-    <hr />
-  </div>
+  <Box sx={{ flexGrow: 1 }}>
+    <AppBar position="static">
+      <Toolbar>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          Plants & Pants
+        </Typography>
+        {/* <h1>Plants & Pants</h1> */}
+        <nav>
+          {isLoggedIn ? (
+            <div>
+              {/* The navbar will show these links after you log in */}
+              <Link to="/">Home</Link>
+              {/* <Link to={"/"}>
+                <HomeIcon size="small" ></HomeIcon>
+              </Link> */}
+              <Link to = '/myCart'>My Cart</Link>
+              <a href="#" onClick={handleClick}>
+                Logout
+              </a>
+            </div>
+          ) : (
+            <div>
+              {/* The navbar will show these links before you log in */}
+              <Link to="/">Home</Link>
+              <Link to="/login">Login</Link>
+              <Link to="/signup">Sign Up</Link>
+              <Link to ='/myCart'>My Cart</Link>
+            </div>
+          )}
+        </nav>
+        <hr />
+      </Toolbar>
+    </AppBar>
+  </Box>
 );
 
 /**
