@@ -6,14 +6,6 @@ const bcrypt = require("bcrypt");
 const SALT_ROUNDS = 5;
 
 const User = db.define("user", {
-  username: {
-    type: Sequelize.STRING,
-    unique: true,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
-  },
   password: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -21,7 +13,7 @@ const User = db.define("user", {
       notEmpty: true,
     },
   },
-  email: {
+  username: {
     type: Sequelize.STRING,
     allowNull: false,
     unique: true,
@@ -30,7 +22,7 @@ const User = db.define("user", {
       isEmail: true,
     },
   },
-  admin: {
+  isAdmin: {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
     allowNull: false,
@@ -47,9 +39,9 @@ User.prototype.correctPassword = function (candidatePwd) {
   return bcrypt.compare(candidatePwd, this.password);
 };
 
-User.prototype.generateToken = function() {
-  return jwt.sign({id: this.id,username: this.username}, process.env.JWT)
-}
+User.prototype.generateToken = function () {
+  return jwt.sign({ id: this.id, username: this.username }, process.env.JWT);
+};
 
 /**
  * classMethods

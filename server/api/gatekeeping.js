@@ -4,9 +4,7 @@ const { models } = require("../db/");
 const requireToken = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
-    // console.log("got here>>>>>>", token);
     const user = await models.User.findByToken(token);
-    //console.log("is there a user????", user);
     req.user = user;
     next();
   } catch (error) {

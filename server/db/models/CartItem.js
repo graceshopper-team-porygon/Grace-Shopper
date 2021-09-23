@@ -7,8 +7,11 @@ const CartItem = db.define("cartItem", {
     allowNull: false,
     validate: {
       notEmpty: true,
-      min: 0 
+      min: 0,
     },
+  },
+  curPrice: {
+    type: Sequelize.INTEGER,
   },
 });
 

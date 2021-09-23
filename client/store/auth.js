@@ -38,6 +38,7 @@ export const authenticate =
       });
       window.localStorage.setItem(TOKEN, res.data.token);
       dispatch(me());
+      history.push('/')
     } catch (authError) {
       console.log("Goodbye", authError);
       return dispatch(setAuth({ error: authError }));
