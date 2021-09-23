@@ -91,7 +91,7 @@ const products = [
     name: "Hammer Pants",
     quantity: 10,
     price: 25.0,
-    imageUrl: "/product_images/hammer_pants",
+    imageUrl: "/product_images/hammer_pants.jpeg",
     description:
       "Hammer pants are customized/modified baggy pants tapered at the ankle with a sagging rise made suitable for hip-hop dancing.",
   },
