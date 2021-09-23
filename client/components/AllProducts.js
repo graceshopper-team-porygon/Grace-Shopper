@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import { fetchProducts } from "../store/products";
+import { Link } from "react-router-dom";
+import { addToCart, getCartItems } from "../store/cartItems";
 import {
   Card,
   Grid,
@@ -32,6 +33,7 @@ export class AllProducts extends React.Component {
 
   componentDidMount() {
     this.props.getProducts();
+    this.props.getCartItems();
   }
 
   render() {
@@ -60,7 +62,10 @@ export class AllProducts extends React.Component {
                   <Link to={`/products/${plant.id}`}>
                     <Button size="small">Learn More</Button>
                   </Link>
-                  <Button onClick={() => console.log("clicked!")} size="small">
+                  <Button
+                    onClick={() => this.props.addCartItem(plant)}
+                    size="small"
+                  >
                     Add To Cart
                   </Button>
                 </CardActions>
@@ -82,6 +87,8 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     getProducts: () => dispatch(fetchProducts()),
+    addCartItem: (item) => dispatch(addToCart(item)),
+    getCartItems: () => dispatch(getCartItems()),
   };
 };
 

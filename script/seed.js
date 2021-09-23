@@ -104,7 +104,7 @@ const cartItems = [
     productId: 2, quantity: 5, userId: 1
   },
   {
-    productId: 1, quantity: 1, userId: 1
+    productId: 3, quantity: 1, userId: 1
   }
 ]
 
