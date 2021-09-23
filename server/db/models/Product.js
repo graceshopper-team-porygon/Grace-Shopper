@@ -28,7 +28,7 @@ const Product = db.define("product", {
   },
   imageUrl: {
     type: Sequelize.TEXT,
-    defaultValue: "/product_images/default_plant.jpeg",
+    defaultValue: "/product_images/image-to-come.jpeg",
   },
 });
 

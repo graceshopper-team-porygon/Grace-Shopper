@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchProducts } from "../store/products";
 import { Link } from "react-router-dom";
-import { addToCart, getCartItems,updateCart } from "../store/cartItems";
+import { addToCart, getCartItems, updateCart } from "../store/cartItems";
 import {
   Card,
   Grid,
@@ -37,17 +37,16 @@ export class AllProducts extends React.Component {
     this.props.getProducts();
     this.props.getCartItems();
   }
-addClickHandler(product){
-  const isItemInCart = this.props.cartItems.filter(
-    (item) => item.productId === product.id
-  );
-  console.log(isItemInCart)
-  if (isItemInCart.length !== 1) {
-    this.props.addToCart(product);
-  } else {
-    this.props.updateCart(product.id);
+  addClickHandler(product) {
+    const isItemInCart = this.props.cartItems.filter(
+      (item) => item.id === product.id
+    );
+    if (isItemInCart.length !== 1) {
+      this.props.addToCart(product);
+    } else {
+      this.props.updateCart(product.id);
+    }
   }
-}
   render() {
     const { classes } = this.props;
     return (
@@ -67,7 +66,7 @@ addClickHandler(product){
                     {product.name}
                   </Typography>
                   <Typography gutterBottom variant="h6" component="div">
-                    Price: ${product.price}
+                    Price: ${(product.price / 100).toFixed(2)}
                   </Typography>
                 </CardContent>
                 <CardActions>
@@ -93,7 +92,7 @@ addClickHandler(product){
 const mapState = (state) => {
   return {
     products: state.products,
-    cartItems: state.cartItems
+    cartItems: state.cartItems,
   };
 };
 
@@ -102,7 +101,7 @@ const mapDispatch = (dispatch) => {
     getProducts: () => dispatch(fetchProducts()),
     addToCart: (item) => dispatch(addToCart(item)),
     getCartItems: () => dispatch(getCartItems()),
-    updateCart: (productId,qty=1)=>dispatch(updateCart(productId,qty))
+    updateCart: (productId, qty = 1) => dispatch(updateCart(productId, qty)),
   };
 };
 

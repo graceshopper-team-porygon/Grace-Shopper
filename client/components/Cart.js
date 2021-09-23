@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { getCartItems, removeCartItem } from "../store/cartItems";
 import React, { useState, useEffect } from "react";
 // import * as React from "react";
@@ -11,7 +11,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
-import deleteCart from '../store/cartItems';
+import deleteCart from "../store/cartItems";
 
 class Cart extends React.Component {
   constructor() {
@@ -20,7 +20,7 @@ class Cart extends React.Component {
   }
   async componentDidMount() {
     await this.props.getCartItems();
-    console.log('fetched')
+    console.log("fetched");
     this.setState({ didFetch: true });
   }
 
@@ -47,7 +47,7 @@ class Cart extends React.Component {
                   </TableCell>
                   <TableCell align="right">{item.quantity}</TableCell>
                   <TableCell align="right">
-                    {(item.quantity * item.product.price).toFixed(2)}
+                    {(item.quantity * (item.product.price / 100)).toFixed(2)}
                   </TableCell>
                   <TableCell>
                     <Button onClick={() => this.props.removeCartItem(item.id)}>
@@ -61,16 +61,12 @@ class Cart extends React.Component {
         </TableContainer>
         <Link to="/checkout">
           {/* <Button onClick={this.props.deleteCart()}> */}
-          <Button onClick={() => console.log('clicked!')}>
-          Checkout
-          </Button>
+          <Button onClick={() => console.log("clicked!")}>Checkout</Button>
         </Link>
         <Link to="/">
-          <Button>
-          Back to Products
-          </Button>
+          <Button>Back to Products</Button>
         </Link>
-    </div>
+      </div>
     );
   }
 }
