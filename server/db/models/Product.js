@@ -13,6 +13,7 @@ const Product = db.define("product", {
   quantity: {
     type: Sequelize.INTEGER,
     allowNull: false,
+    defaultValue: 0,
     validate: {
       notEmpty: true,
       min: 0
@@ -27,6 +28,7 @@ const Product = db.define("product", {
   },
   imageUrl: {
     type: Sequelize.TEXT,
+    defaultValue: "/product_images/default_plant.jpeg",
   },
 });
 
