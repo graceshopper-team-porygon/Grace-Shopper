@@ -11,7 +11,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
-import Checkout from './Checkout';
+import deleteCart from '../store/cartItems';
 
 class Cart extends React.Component {
   constructor() {
@@ -60,6 +60,7 @@ class Cart extends React.Component {
           </Table>
         </TableContainer>
         <Link to="/checkout">
+          {/* <Button onClick={this.props.deleteCart()}> */}
           <Button onClick={() => console.log('clicked!')}>
           Checkout
           </Button>
@@ -83,8 +84,9 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    getCartItems: (user) => dispatch(getCartItems(user)),
+    getCartItems: () => dispatch(getCartItems()),
     removeCartItem: (id) => dispatch(removeCartItem(id)),
+    // deleteCart: () => dispatch(deleteCart())
   };
 };
 
