@@ -39,14 +39,14 @@ router.post("/", requireToken,async (req, res, next) => {
   }
 });
 
-router.put("/", async (req, res, next) => {
+router.put("/", requireToken, async (req, res, next) => {
   try {
     const updatedItem = await CartItem.findOne({
-      where: { productId: req.body.productId, userId: id },
+      where: { productId: req.body.productId, userId: req.user.id },
     });
-    await updatedItem.update({
-      quantity: updatedItem.quantity + req.body.quantity,
-    });
+    // await updatedItem.update({
+    //   quantity: updatedItem.quantity + req.body.quantity,
+    // });
     res.json(updatedItem);
   } catch (error) {
     next(error);
@@ -58,7 +58,7 @@ router.delete("/:id",requireToken, async (req, res, next) => {
     const id = req.params.id;
     const cartItem = await CartItem.findByPk(id);
     const product = await Product.findByPk(cartItem.productId);
-    product.update({ quantity: product.quantity + cartItem.quantity });
+    // product.update({ quantity: product.quantity + cartItem.quantity });
     await cartItem.destroy();
     res.send(cartItem);
   } catch (error) {
