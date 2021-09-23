@@ -10,7 +10,7 @@ const AuthForm = (props) => {
       <form onSubmit={handleSubmit} name={name}>
         <div>
           <label htmlFor="username">
-            <small>Username</small>
+            <small>Email</small>
           </label>
           <input name="username" type="text" />
         </div>
@@ -20,15 +20,6 @@ const AuthForm = (props) => {
           </label>
           <input name="password" type="password" />
         </div>
-        {name === "signup" ? (
-          <div>
-            <label htmlFor="email">
-              <small>Email</small>
-            </label>
-            <input name="email" type="text" />
-          </div>
-        ) : null}
-
         <div>
           <button type="submit">{displayName}</button>
         </div>
@@ -61,7 +52,7 @@ const mapSignup = (state) => {
   };
 };
 
-const mapDispatchLogin = (dispatch) => {
+const mapDispatch = (dispatch) => {
   return {
     handleSubmit(evt) {
       evt.preventDefault();
@@ -73,18 +64,5 @@ const mapDispatchLogin = (dispatch) => {
   };
 };
 
-const mapDispatchSignup = (dispatch) => {
-  return {
-    handleSubmit(evt) {
-      evt.preventDefault();
-      const formName = evt.target.name;
-      const username = evt.target.username.value;
-      const password = evt.target.password.value;
-      const email = evt.target.email.value;
-      dispatch(authenticate(username, password, formName, email));
-    },
-  };
-};
-
-export const Login = connect(mapLogin, mapDispatchLogin)(AuthForm);
-export const Signup = connect(mapSignup, mapDispatchSignup)(AuthForm);
+export const Login = connect(mapLogin, mapDispatch)(AuthForm);
+export const Signup = connect(mapSignup, mapDispatch)(AuthForm);

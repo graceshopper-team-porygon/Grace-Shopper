@@ -26,11 +26,11 @@ const _addToCart = (cartItem) => ({
   cartItem,
 });
 
-const UPDATE_CART = "update_cart"
-const _updateCart = (cartItem)=>({
+const UPDATE_CART = "update_cart";
+const _updateCart = (cartItem) => ({
   type: UPDATE_CART,
   cartItem,
-})
+});
 
 export const removeCartItem = (cartItemId) => {
   return async (dispatch) => {
@@ -87,7 +87,6 @@ export const addToCart = (product, quantity = 1) => {
         //   );
         //   dispatch(_updateCart(res))
         // } else {
-<<<<<<< HEAD
         const res = await axios.post(
           "/api/items",
           { product, quantity },
@@ -96,16 +95,6 @@ export const addToCart = (product, quantity = 1) => {
           }
         );
         dispatch(_addToCart(res.data));
-=======
-          const res = await axios.post(
-            "/api/items",
-            { product, quantity },
-            {
-              headers: { authorization: token },
-            }
-          );
-          dispatch(_addToCart(res.data));
->>>>>>> main
 
         //if no token, create temporary user, and then pass their token
         //we want the new item back so we pass it into the action creat
@@ -167,9 +156,10 @@ export const getCartItems = () => {
 export default function (state = [], action) {
   switch (action.type) {
     case UPDATE_CART:
-      console.log(action)
+      console.log(action);
       const newItems = state.map((item) => {
-        if (item.id === action.cartItem.id) item.quantity = action.cartItem.quantity;
+        if (item.id === action.cartItem.id)
+          item.quantity = action.cartItem.quantity;
         return item;
       });
       return newItems;
