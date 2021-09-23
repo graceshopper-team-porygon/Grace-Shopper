@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../store";
 import { Box, AppBar, Toolbar, Typography, Button, IconButton } from "@material-ui/core";
-import  { Home } from '@material-ui/icons';
+import  { Home, ShoppingCartOutlined } from '@material-ui/icons';
 
 const Navbar = ({ handleClick, isLoggedIn }) => (
   <Box sx={{ flexGrow: 1 }}>
@@ -17,20 +17,33 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
             <div>
               {/* The navbar will show these links after you log in */}
               <Link to={"/"}>
-                <Home />
+                <Button><Home /></Button>
               </Link>
-              <Link to = '/myCart'>My Cart</Link>
-              <a href="#" onClick={handleClick}>
+              <Link to='/myCart'>
+                <Button><ShoppingCartOutlined /></Button>
+              </Link>
+              <Button onClick={handleClick}>
+              {/* <a href="#" onClick={handleClick}>
                 Logout
-              </a>
+              </a> */}
+                Logout
+              </Button>
             </div>
           ) : (
             <div>
               {/* The navbar will show these links before you log in */}
-              <Link to="/">Home</Link>
-              <Link to="/login">Login</Link>
-              <Link to="/signup">Sign Up</Link>
-              <Link to ='/myCart'>My Cart</Link>
+              <Link to={"/"}>
+                <Button><Home /></Button>
+              </Link>
+              <Link to="/login">
+                <Button>Login</Button>
+              </Link>
+              <Link to="/signup">
+                <Button>Sign Up</Button>
+              </Link>
+              <Link to='/myCart'>
+                <Button><ShoppingCartOutlined /></Button>
+              </Link>
             </div>
           )}
         </nav>
