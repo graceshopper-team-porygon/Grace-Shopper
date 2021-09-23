@@ -99,7 +99,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     getProducts: () => dispatch(fetchProducts()),
-    addCartItem: (item) => dispatch(addToCart(item)),
+    addToCart: (item) => dispatch(addToCart(item)),
     getCartItems: () => dispatch(getCartItems()),
     updateCart: (productId, qty = 1) => dispatch(updateCart(productId, qty)),
   };
