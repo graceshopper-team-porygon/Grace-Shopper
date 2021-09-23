@@ -20,7 +20,7 @@ router.get("/", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
   try {
     const { id } = await User.findByToken(req.headers.authorization);
-    const newItem = await CartItem.create({
+    let newItem = await CartItem.create({
       quantity: req.body.quantity,
       userId: id,
       productId: req.body.product.id,
@@ -28,6 +28,8 @@ router.post("/", async (req, res, next) => {
     //decrement from product quantity in database
     const product = await Product.findByPk(req.body.product.id)
     product.update({quantity: product.quantity - req.body.quantity})
+    //make sure cartItems array gets an item that includes a product before getCartItems is called
+    newItem = await CartItem.findOne({where: {id:newItem.id},include: Product})
     res.json(newItem);
   } catch (error) {
     next(error);
