@@ -16,6 +16,7 @@ const Product = db.define("product", {
     defaultValue: 0,
     validate: {
       notEmpty: true,
+      min: 0
     },
   },
   price: {

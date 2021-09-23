@@ -9,8 +9,6 @@ import {
   CardMedia,
   Button,
   Typography,
-  Grid,
-  Paper,
   withStyles,
 } from "@material-ui/core";
 import { KeyboardArrowLeft, AddShoppingCart } from "@material-ui/icons";
@@ -18,25 +16,37 @@ import { KeyboardArrowLeft, AddShoppingCart } from "@material-ui/icons";
 const useStyles = (theme) => ({
   root: {
     maxWidth: "100%",
-    maxHeight: 645,
-    margin: "auto",
-    padding: 25,
+    maxHeight: 800,
+    margin: 25,
     display: "flex",
-    "justify-content": "center",
+    "padding-bottom": 25,
+    "justify-content": "flex-start",
   },
   media: {
-    height: "100%",
-    width: 200,
-    "padding-right": 20,
-    "border-top-left-radius": "10px",
-    "border-bottom-right-radius": "10px",
+    height: 350,
+    width: 250,
+    "justify-content": "center",
+    "border-top-left-radius": "15px",
+    "border-bottom-right-radius": "15px",
   },
   content: {
-    "padding-left": 50,
+    display: "flex",
+    "flex-direction": "column",
+    "align-content": "center",
+  },
+  content1: {
+    "padding-top": 25,
+    "flex-grow": 5,
+  },
+  content2: {
+    "flex-grow": 1,
   },
   buttons: {
     margin: 25,
     "justify-content": "space-between",
+  },
+  hr: {
+    margin: 25,
   },
 });
 
@@ -58,39 +68,35 @@ class SingleProduct extends Component {
             image={product.imageUrl}
             alt={product.name}
           />
-          <hr />
-          <CardContent className={classes.content}>
-            <Typography gutterBottom variant="h5" component="div">
-              {product.name}
-            </Typography>
-            <Typography gutterBottom variant="subtitle1" component="div">
-              {product.description}
-            </Typography>
-            <br />
-            <Typography gutterBottom variant="body1" component="div">
-              Price: ${product.price}
-              <br />
-              {product.quantity <= 3 && product.quantity > 0
-                ? `Only ${product.quantity} in Stock!`
-                : product.quantity === 0
-                ? "Out of Stock"
-                : "In Stock"}
-            </Typography>
-          </CardContent>
 
-          {/* <CardActions>
-            <Link to={"/products"}>
-              <Button startIcon={<KeyboardArrowLeft />} size="small">
-                All Products
-              </Button>
-            </Link>
-            <Button endIcon={<AddShoppingCart />} size="small">
-              Add To Cart
-            </Button>
-          </CardActions> */}
+          <hr className={classes.hr} />
+
+          <CardContent className={classes.content}>
+            <div className={classes.content1}>
+              <Typography gutterBottom variant="h5" component="div">
+                {product.name}
+              </Typography>
+              <Typography gutterBottom variant="subtitle1" component="div">
+                {product.description}
+              </Typography>
+            </div>
+
+            <div className={classes.content2}>
+              <Typography gutterBottom variant="body1" component="div">
+                Price: ${product.price}
+                <br />
+                {product.quantity <= 3 && product.quantity > 0
+                  ? `Only ${product.quantity} in Stock!`
+                  : product.quantity === 0
+                  ? "Out of Stock"
+                  : "In Stock"}
+              </Typography>
+            </div>
+          </CardContent>
         </Card>
+
         <CardActions className={classes.buttons}>
-          <Link to={"/products"}>
+          <Link to={"/"}>
             <Button startIcon={<KeyboardArrowLeft />} size="small">
               All Products
             </Button>

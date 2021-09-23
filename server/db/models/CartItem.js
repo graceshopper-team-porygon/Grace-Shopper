@@ -7,6 +7,7 @@ const CartItem = db.define("cartItem", {
     allowNull: false,
     validate: {
       notEmpty: true,
+      min: 0 
     },
   },
 });
