@@ -2,7 +2,7 @@
 const { green, red } = require("chalk");
 const {
   db,
-  models: { User, Product, CartItem },
+  models: { User, Product, CartItem, Order },
 } = require("../server/db");
 // const { db } = require("../server/db");
 // const { User, Product } = require("../server/db/models");
@@ -11,14 +11,14 @@ const products = [
   {
     name: "Echeveria Arachnoides",
     quantity: 10,
-    price: 7.99,
+    price: 799,
     imageUrl: "/product_images/echeveria_arachnoides.jpeg",
     description: "Succulent",
   },
   {
     name: "Monstera Deliciosa",
     quantity: 10,
-    price: 35.0,
+    price: 3500,
     imageUrl: "/product_images/monstera_deliciosa.jpg",
     description:
       "the Swiss cheese plant, is a species of flowering plant native to tropical forests of southern Mexico.",
@@ -26,7 +26,7 @@ const products = [
   {
     name: "Zamioculcus Zamifolia",
     quantity: 10,
-    price: 54.99,
+    price: 5499,
     imageUrl: "/product_images/zamioculcus_zamifolia.jpeg",
     description:
       "Zamioculcas is a genus of flowering plants in the family Araceae, containing the single species Zamioculcas zamiifolia. It is a tropical perennial plant native to eastern Africa, from southern Kenya to northeastern South Africa.",
@@ -34,7 +34,7 @@ const products = [
   {
     name: "Ficus Lyrata",
     quantity: 10,
-    price: 95.0,
+    price: 9500,
     imageUrl: "/product_images/ficus_lyrata.jpeg",
     description:
       "Commonly known as the fiddle-leaf fig, is a species of flowering plant in the mulberry and fig family Moraceae. It is native to western Africa, from Cameroon west to Sierra Leone, where it grows in lowland tropical rainforest. It can grow up to 12–15 m tall.",
@@ -42,7 +42,7 @@ const products = [
   {
     name: "Begonia Rex",
     quantity: 10,
-    price: 24.99,
+    price: 2499,
     imageUrl: "/product_images/begonia_rex.jpeg",
     description:
       "The king begonia, is a species of flowering plant in the family Begoniaceae. It is found from Arunachal Pradesh to southeast China, and has been introduced to Bangladesh, Cuba, and Hispaniola.",
@@ -50,7 +50,7 @@ const products = [
   {
     name: "Venus Fly Trap",
     quantity: 10,
-    price: 12.0,
+    price: 1200,
     imageUrl: "/product_images/venus_fly_trap.jpg",
     description:
       "The Venus flytrap is a carnivorous plant native to subtropical wetlands on the East Coast of the United States in North Carolina and South Carolina.",
@@ -58,7 +58,7 @@ const products = [
   {
     name: "Snake Plant",
     quantity: 10,
-    price: 49.99,
+    price: 4999,
     imageUrl: "/product_images/snake_plant.jpg",
     description:
       "Dracaena trifasciata is a species of flowering plant in the family Asparagaceae, native to tropical West Africa from Nigeria east to the Congo. It is most commonly known as the snake plant, Saint George's sword, mother-in-law's tongue, and viper's bowstring hemp, among other names.",
@@ -66,7 +66,7 @@ const products = [
   {
     name: "Lady Palm",
     quantity: 10,
-    price: 125.95,
+    price: 12595,
     imageUrl: "/product_images/lady_palm.jpeg",
     description:
       "Rhapis excelsa, also known as broadleaf lady palm or bamboo palm, is a species of fan palm in the genus Rhapis, probably native to southern China and Taiwan. It is not known in the wild; all known plants come from cultivated groups in China. ",
@@ -74,7 +74,7 @@ const products = [
   {
     name: "Ponytail Palm",
     quantity: 10,
-    price: 69.95,
+    price: 6995,
     imageUrl: "/product_images/ponytail_palm.jpg",
     description:
       "Beaucarnea recurvata, the elephant's foot or ponytail palm, is a species of plant in the family Asparagaceae. The species was native to numerous states of eastern Mexico but is now confined to the state of Veracruz. Despite its common name, it is not closely related to the true palms. ",
@@ -82,7 +82,7 @@ const products = [
   {
     name: "Corn Plant",
     quantity: 10,
-    price: 79.95,
+    price: 7995,
     imageUrl: "/product_images/corn_plant.jpeg",
     description:
       "Dracaena fragrans, is a flowering plant species that is native throughout tropical Africa, from Sudan south to Mozambique, west to Côte d'Ivoire and southwest to Angola, growing in upland regions at 600–2,250 m altitude. It is also known as striped dracaena, compact dracaena, and corn plant. ",
@@ -90,7 +90,7 @@ const products = [
   {
     name: "Hammer Pants",
     quantity: 10,
-    price: 25.0,
+    price: 2500,
     imageUrl: "/product_images/hammer_pants.jpeg",
     description:
       "Hammer pants are customized/modified baggy pants tapered at the ankle with a sagging rise made suitable for hip-hop dancing.",
@@ -99,30 +99,25 @@ const products = [
 
 const users = [
   {
-    username: "rockyRacoon",
     password: "hello",
-    email: "rracoon@gmail.com",
+    username: "rracoon@gmail.com",
   },
   {
-    username: "lucyBronze",
     password: "soccer",
-    email: "lbronze@england.com",
+    username: "lbronze@england.com",
     isAdmin: true,
   },
   {
-    username: "cfisher",
     password: "leia",
-    email: "starwars@lucasfilm.com",
+    username: "starwars@lucasfilm.com",
   },
   {
-    username: "finnHuman",
     password: "adventureTime",
-    email: "buffbaby@ooo.com",
+    username: "buffbaby@ooo.com",
   },
   {
-    username: "orlaMcCool",
     password: "holySmirk",
-    email: "omccool@derrygirls.com",
+    username: "omccool@derrygirls.com",
     isAdmin: true,
   },
 ];
@@ -131,30 +126,54 @@ const cartItems = [
     productId: 1,
     quantity: 3,
     userId: 1,
+    orderId: 1,
   },
   {
     productId: 2,
     quantity: 5,
     userId: 1,
+    orderId: 1,
   },
   {
     productId: 3,
     quantity: 1,
     userId: 1,
+    orderId: 1,
   },
   {
     productId: 6,
     quantity: 7,
     userId: 4,
+    orderId: 2,
   },
   {
     productId: 8,
     quantity: 2,
     userId: 4,
+    orderId: 2,
   },
   {
     productId: 11,
     quantity: 5,
+    userId: 5,
+    orderId: 3,
+  },
+];
+
+const order = [
+  {
+    status: "In Progress",
+    total: 100,
+    userId: 1,
+  },
+  {
+    status: "In Progress",
+    total: 100,
+    userId: 4,
+  },
+  {
+    status: "In Progress",
+    total: 100,
     userId: 5,
   },
 ];
@@ -172,6 +191,12 @@ const seed = async () => {
     await Promise.all(
       users.map((user) => {
         return User.create(user);
+      })
+    );
+
+    await Promise.all(
+      order.map((order) => {
+        return Order.create(order);
       })
     );
     await Promise.all(cartItems.map((item) => CartItem.create(item)));
