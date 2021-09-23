@@ -104,7 +104,7 @@ class SingleProduct extends Component {
 
             <div className={classes.content2}>
               <Typography gutterBottom variant="body1" component="div">
-                Price: ${product.price}
+                Price: ${(product.price / 100).toFixed(2)}
                 <br />
                 {product.quantity <= 3 && product.quantity > 0
                   ? `Only ${product.quantity} in Stock!`
