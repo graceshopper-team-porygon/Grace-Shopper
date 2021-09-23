@@ -16,3 +16,47 @@ router.get("/", async (req, res, next) => {
     next(err);
   }
 });
+
+router.post("/", async (req, res, next) => {
+  try {
+    const { id } = await User.findByToken(req.headers.authorization);
+    let newItem = await CartItem.create({
+      quantity: req.body.quantity,
+      userId: id,
+      productId: req.body.product.id,
+    });
+    //decrement from product quantity in database
+    const product = await Product.findByPk(req.body.product.id)
+    product.update({quantity: product.quantity - req.body.quantity})
+    //make sure cartItems array gets an item that includes a product before getCartItems is called
+    newItem = await CartItem.findOne({where: {id:newItem.id},include: Product})
+    res.json(newItem);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.put("/api/item", async (req, res, next) => {
+  try {
+    const { id } = await User.findByToken(req.headers.authorization);
+    const updatedItem = await CartItem.findOne({
+      where: { productId: req.body.product.id, userId:id },
+    });
+    // await updatedItem.update({quantity: updatedItem.quantity + req.body.quantity})
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete("/:id", async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const cartItem = await CartItem.findByPk(id);
+    const product = await Product.findByPk(cartItem.productId)
+    product.update({quantity: product.quantity+cartItem.quantity})
+    await cartItem.destroy();
+    res.send(cartItem);
+  } catch (error) {
+    next(error);
+  }
+});
