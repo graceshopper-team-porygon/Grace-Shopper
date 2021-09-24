@@ -66,6 +66,9 @@ class Cart extends React.Component {
         <Link to="/">
           <Button>Back to Products</Button>
         </Link>
+        <div>
+          Total: {this.props.cartItems.map((item) => item.quantity * (item.product.price / 100).toFixed(2)).reduce((prev, curr) => prev + curr, 0)}
+        </div>
       </div>
     );
   }
