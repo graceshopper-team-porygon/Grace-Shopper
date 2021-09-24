@@ -51,7 +51,7 @@ class Cart extends React.Component {
                   </TableCell>
                   <TableCell>
                     {/* want to send the whole item so that i can increase the quanitity in the products db */}
-                    <Button onClick={() => this.props.removeCartItem(item)}>
+                    <Button onClick={() => this.props.removeCartItem(item.id)}>
                       Remove
                     </Button>
                   </TableCell>
