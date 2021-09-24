@@ -1,21 +1,39 @@
 const router = require("express").Router();
 const { requireToken } = require("./gatekeeping");
 const {
-  models: { User, CartItem, Product },
+  models: { User, CartItem, Product, Order },
 } = require("../db");
 module.exports = router;
 
+// router.get("/", requireToken, async (req, res, next) => {
+//   try {
+//     const items = await CartItem.findAll({
+//       where: { userId: req.user.id },
+//       include: { model: Product },
+//     });
+//     res.json(items);
+//   } catch (err) {
+//     next(err);
+//   }
+// });
+
 router.get("/", requireToken, async (req, res, next) => {
   try {
+    const order = await Order.findOne({
+      where: {
+        userId: req.user.id,
+        status: "In Progress"
+      }
+    })
     const items = await CartItem.findAll({
-      where: { userId: req.user.id },
+      where: { orderId: order.id },
       include: { model: Product },
     });
     res.json(items);
   } catch (err) {
-    next(err);
+    next(err)
   }
-});
+})
 
 router.post("/", requireToken, async (req, res, next) => {
   try {
@@ -65,17 +83,3 @@ router.delete("/:id", requireToken, async (req, res, next) => {
     next(error);
   }
 });
-
-// router.delete("/", async (req, res, next) => {
-//   try {
-//     const { id } = await User.findByToken(req.headers.authorization);
-//     const cartItemsToDestroy = await CartItem.findAll({
-//       where: {
-//         userId: id }
-//       })
-//     await cartItemsToDestroy.destroy();
-//     res.send(cartItemsToDestroy);
-//   } catch (error) {
-//     next(error)
-//   }
-// })
