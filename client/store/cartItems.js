@@ -68,7 +68,7 @@ export const removeCartItem = (cartItemId) => {
 // }
 
 export const addToCart = (product, quantity = 1) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     try {
       let token = window.localStorage.getItem(TOKEN);
       if (token) {
@@ -124,7 +124,7 @@ export const updateCart = (productId, quantity = 1) => {
             },
           }
         );
-        console.log(res.data);
+        // console.log(res.data);
         dispatch(_updateCart(res.data));
       }
     } catch (error) {

@@ -95,6 +95,78 @@ const products = [
     description:
       "Hammer pants are customized/modified baggy pants tapered at the ankle with a sagging rise made suitable for hip-hop dancing.",
   },
+  {
+    name: "Harem Pants",
+    quantity: 10,
+    price: 4700,
+    imageUrl: "/product_images/harem_pants.jpg",
+    description:
+      "Harem pants are loose fitted, flowing pants, that end right around the ankles and can have a straight fit that is pinched at the end or a drop crotch style.",
+  },
+  {
+    name: "Cow Print Pants",
+    quantity: 10,
+    price: 1300,
+    imageUrl: "/product_images/cow_print_pants.webp",
+    description:
+      "A pair of knit pants featuring an allover cow print, a high-rise, elasticized waistband, and a flare leg.",
+  },
+  {
+    name: "Sailor Pants",
+    quantity: 10,
+    price: 7200,
+    imageUrl: "/product_images/sailor_pants.jpeg",
+    description:
+      "Sailor trousers are wide-leg, high-waisted slacks with buttons along the pockets creating a bib front",
+  },
+  {
+    name: "Hearts Jeans",
+    quantity: 10,
+    price: 6799,
+    imageUrl: "/product_images/hearts_jeans.jpeg",
+    description:
+      "The heart knows what it wants, and something tells me it’s these! Wide-leg jeans in high-waisted fit with super-fun graffiti-style heart graphic print all-over. Including button and zip closure, front round pockets and back patch pockets. Crushin’ hard.",
+  },
+  {
+    name: "Punk Jogger Cargo Pants",
+    quantity: 10,
+    price: 3699,
+    imageUrl: "/product_images/punk_joggers.jpg",
+    description:
+      "These mens joggers pants are made of high quality imported cotton material and excellent imported polyester material. It is very comfortable and breathable. These joggers are suitable for all seasons.",
+  },
+  {
+    name: "Paint Pants",
+    quantity: 10,
+    price: 2899,
+    imageUrl: "/product_images/paint_pant.jpg",
+    description:
+      "This casual sweatpant is soft and comfy. Great for festivals and birthday gift choice!",
+  },
+  {
+    name: "Khaki Pants",
+    quantity: 10,
+    price: 2900,
+    imageUrl: "/product_images/khaki_pant.jpg",
+    description:
+      "Just your common khaki pant for those buyers that don't want to think too much about what to put on in the morning and blend in with the plaster",
+  },
+  {
+    name: "Yoga Pants",
+    quantity: 10,
+    price: 1999,
+    imageUrl: "/product_images/yoga_pants.png",
+    description:
+      "Yoga pants are high-denier hosiery reaching from ankle to waist, originally designed for yoga as exercise and first sold in 1998 by Lululemon.",
+  },
+  {
+    name: "Pencil Pants",
+    quantity: 10,
+    price: 5499,
+    imageUrl: "/product_images/pencil_pant.jpg",
+    description:
+      "These comfy casual tie waist pants are the perfect choice for Work, Office, Date, Vacation, Holiday, Party, Outdoors, Casual out, Daily wear, Shopping and any other occasions in Spring, Summer, Fall and Winter.",
+  },
 ];
 
 const users = [

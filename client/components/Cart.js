@@ -20,7 +20,7 @@ class Cart extends React.Component {
   }
   async componentDidMount() {
     await this.props.getCartItems();
-    console.log("fetched");
+    // console.log("fetched");
     this.setState({ didFetch: true });
   }
 
