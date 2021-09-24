@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { logout } from "../store";
 import { Box, AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import  { Home, ShoppingCartOutlined } from '@material-ui/icons';
+import { clearCart } from "../store/cartItems"
 
 const Navbar = ({ handleClick, isLoggedIn }) => (
   <Box sx={{ flexGrow: 1 }}>
@@ -70,6 +71,7 @@ const mapDispatch = (dispatch) => {
   return {
     handleClick() {
       dispatch(logout());
+      dispatch(clearCart())
     },
   };
 };
