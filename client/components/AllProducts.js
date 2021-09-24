@@ -39,7 +39,7 @@ export class AllProducts extends React.Component {
   }
   addClickHandler(product) {
     const isItemInCart = this.props.cartItems.filter(
-      (item) => item.id === product.id
+      (item) => item.productId === product.id
     );
     if (isItemInCart.length !== 1) {
       this.props.addToCart(product);
