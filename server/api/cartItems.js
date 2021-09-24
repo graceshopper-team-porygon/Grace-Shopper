@@ -58,7 +58,7 @@ router.delete("/:id", requireToken, async (req, res, next) => {
     const id = req.params.id;
     const cartItem = await CartItem.findByPk(id);
     const product = await Product.findByPk(cartItem.productId);
-    // product.update({ quantity: product.quantity + cartItem.quantity });
+    product.update({ quantity: product.quantity + cartItem.quantity });
     await cartItem.destroy();
     res.send(cartItem);
   } catch (error) {
