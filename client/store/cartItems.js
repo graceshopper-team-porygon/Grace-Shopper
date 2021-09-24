@@ -32,17 +32,17 @@ const _updateCart = (cartItem) => ({
   cartItem,
 });
 
-export const removeCartItem = (cartItemId) => {
+export const removeCartItem = (item) => {
   return async (dispatch) => {
     try {
       const token = window.localStorage.getItem(TOKEN);
       if (token) {
         //remove
-        const res = await axios.delete(`/api/items/${cartItemId}`, {
+        const res = await axios.delete(`/api/items/${item.id}`, {
           headers: { authorization: token },
         });
 
-        dispatch(_removeCartItem(cartItemId));
+        dispatch(_removeCartItem(item.id));
       }
     } catch (e) {
       console.log(e);

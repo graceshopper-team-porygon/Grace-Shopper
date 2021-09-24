@@ -50,7 +50,8 @@ class Cart extends React.Component {
                     {(item.quantity * (item.product.price / 100)).toFixed(2)}
                   </TableCell>
                   <TableCell>
-                    <Button onClick={() => this.props.removeCartItem(item.id)}>
+                    {/* want to send the whole item so that i can increase the quanitity in the products db */}
+                    <Button onClick={() => this.props.removeCartItem(item)}>
                       Remove
                     </Button>
                   </TableCell>
