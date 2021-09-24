@@ -11,7 +11,6 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
-import deleteCart from "../store/cartItems";
 
 class Cart extends React.Component {
   constructor() {
@@ -67,6 +66,9 @@ class Cart extends React.Component {
         <Link to="/">
           <Button>Back to Products</Button>
         </Link>
+        <div>
+          Total: {(this.props.cartItems.map((item) => item.quantity * item.product.price).reduce((prev, curr) => prev + curr, 0) / 100).toFixed(2)}
+        </div>
       </div>
     );
   }
