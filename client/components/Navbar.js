@@ -2,14 +2,14 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../store";
-import { Box, AppBar, Toolbar, Typography, Button, IconButton } from "@material-ui/core";
+import { Box, AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import  { Home, ShoppingCartOutlined } from '@material-ui/icons';
 
 const Navbar = ({ handleClick, isLoggedIn }) => (
   <Box sx={{ flexGrow: 1 }}>
-    <AppBar position="static">
+    <AppBar position="fixed" style={{backgroundColor: "#458a55"}}>
       <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
           Plants & Pants
         </Typography>
         <nav>
@@ -50,6 +50,10 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
         <hr />
       </Toolbar>
     </AppBar>
+    <Toolbar />
+    <div>
+      <br/>
+    </div>
   </Box>
 );
 
