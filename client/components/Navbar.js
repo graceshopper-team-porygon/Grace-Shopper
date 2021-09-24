@@ -5,8 +5,18 @@ import { logout } from "../store";
 import { Box, AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import  { Home, ShoppingCartOutlined } from '@material-ui/icons';
 import { clearCart } from "../store/cartItems"
+import {getAuth,me} from '../store/auth'
 
-const Navbar = ({ handleClick, isLoggedIn }) => (
+
+class Navbar extends React.Component{
+  constructor(){
+    super()
+  }
+  componentDidMount(){
+this.props.me()
+  }
+  render(){
+  return(
   <Box sx={{ flexGrow: 1 }}>
     <AppBar position="fixed" style={{backgroundColor: "#458a55"}}>
       <Toolbar>
@@ -14,7 +24,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
           Plants & Pants
         </Typography>
         <nav>
-          {isLoggedIn ? (
+          {this.props.isLoggedIn ? (
             <div>
               {/* The navbar will show these links after you log in */}
               <Link to={"/"}>
@@ -23,7 +33,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
               <Link to='/myCart'>
                 <Button><ShoppingCartOutlined /></Button>
               </Link>
-              <Button onClick={handleClick}>
+              <Button onClick={this.props.handleClick}>
                 Logout
               </Button>
             </div>
@@ -54,7 +64,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
     </div>
   </Box>
 );
-
+}}
 /**
  * CONTAINER
  */
@@ -70,6 +80,12 @@ const mapDispatch = (dispatch) => {
       dispatch(logout());
       dispatch(clearCart())
     },
+    // getAuth(){
+    //   dispatch(getAuth())
+    // }
+    me(){
+      dispatch(me())
+    }
   };
 };
 
