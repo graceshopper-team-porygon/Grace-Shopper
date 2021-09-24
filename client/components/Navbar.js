@@ -7,9 +7,9 @@ import  { Home, ShoppingCartOutlined } from '@material-ui/icons';
 
 const Navbar = ({ handleClick, isLoggedIn }) => (
   <Box sx={{ flexGrow: 1 }}>
-    <AppBar position="fixed">
+    <AppBar position="fixed" style={{backgroundColor: "#458a55"}}>
       <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
           Plants & Pants
         </Typography>
         <nav>
