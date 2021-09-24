@@ -1,13 +1,12 @@
 const router = require("express").Router();
-const {requireToken} = require('./gatekeeping')
+const { requireToken } = require("./gatekeeping");
 const {
   models: { User, CartItem, Product },
 } = require("../db");
 module.exports = router;
 
-router.get("/", requireToken,async (req, res, next) => {
+router.get("/", requireToken, async (req, res, next) => {
   try {
-
     const items = await CartItem.findAll({
       where: { userId: req.user.id },
       include: { model: Product },
@@ -18,12 +17,13 @@ router.get("/", requireToken,async (req, res, next) => {
   }
 });
 
-router.post("/", requireToken,async (req, res, next) => {
+router.post("/", requireToken, async (req, res, next) => {
   try {
     let newItem = await CartItem.create({
       quantity: req.body.quantity,
       userId: req.user.id,
       productId: req.body.product.id,
+      curPrice: req.body.product.price,
     });
     //decrement from product quantity in database
     const product = await Product.findByPk(req.body.product.id);
@@ -44,16 +44,16 @@ router.put("/", requireToken, async (req, res, next) => {
     const updatedItem = await CartItem.findOne({
       where: { productId: req.body.productId, userId: req.user.id },
     });
-    // await updatedItem.update({
-    //   quantity: updatedItem.quantity + req.body.quantity,
-    // });
+    const product = await Product.findByPk(req.body.productId);
+    product.update({ quantity: product.quantity - req.body.quantity });
+    updatedItem.update({ quantity: updatedItem.quantity + req.body.quantity });
     res.json(updatedItem);
   } catch (error) {
     next(error);
   }
 });
 
-router.delete("/:id",requireToken, async (req, res, next) => {
+router.delete("/:id", requireToken, async (req, res, next) => {
   try {
     const id = req.params.id;
     const cartItem = await CartItem.findByPk(id);

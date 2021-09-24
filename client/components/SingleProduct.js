@@ -69,7 +69,8 @@ class SingleProduct extends Component {
     const isItemInCart = this.props.cartItems.filter(
       (item) => item.productId === product.id
     );
-    console.log("ITEM IN CART-->", isItemInCart);
+    this.props.product.quantity--;
+
     if (isItemInCart.length !== 1) {
       this.props.addToCart(product);
     } else {
