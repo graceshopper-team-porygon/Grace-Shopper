@@ -8,12 +8,6 @@ const _removeCartItem = (id) => ({
   id,
 });
 
-// const DELETE_CART = "delete_cart";
-// const _deleteCart = (items) => ({
-//   type: DELETE_CART,
-//   items
-// })
-
 const GET_CART_ITEMS = "get_cart_items";
 const _getCartItems = (items) => ({
   type: GET_CART_ITEMS,
