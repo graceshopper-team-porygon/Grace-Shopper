@@ -60,7 +60,6 @@ class Cart extends React.Component {
           </Table>
         </TableContainer>
         <Link to="/checkout">
-          {/* <Button onClick={this.props.deleteCart()}> */}
           <Button onClick={() => console.log("clicked!")}>Checkout</Button>
         </Link>
         <Link to="/">
@@ -85,7 +84,6 @@ const mapDispatch = (dispatch) => {
   return {
     getCartItems: () => dispatch(getCartItems()),
     removeCartItem: (id) => dispatch(removeCartItem(id)),
-    // deleteCart: () => dispatch(deleteCart())
   };
 };
 

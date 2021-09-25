@@ -1,5 +1,6 @@
 body {
   font-family: sans-serif;
+  background-color: #f2f2f2;
 }
 
 a {
@@ -19,5 +20,23 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+#sign-in-btn {
+  background-color: #306bbd;
+  color: #fff;
+  margin-top: 20px;
+  /* need this if there's an autofill for fields to center
+  margin-left: 10px; */
+}
+
+#avatar {
+  background-color: black;
+}
+
+#log-title {
+  margin-top: 15px;
+}
+
+
 
 
