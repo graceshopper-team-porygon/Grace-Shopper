@@ -22,18 +22,20 @@ router.get("/", requireToken, async (req, res, next) => {
     const order = await Order.findOne({
       where: {
         userId: req.user.id,
-        status: "In Progress"
-      }
-    })
-    const items = await CartItem.findAll({
-      where: { orderId: order.id },
-      include: { model: Product },
+        status: "In Progress",
+      },
     });
-    res.json(items);
+    if (order) {
+      const items = await CartItem.findAll({
+        where: { orderId: order.id },
+        include: { model: Product },
+      });
+      res.json(items);
+    }
   } catch (err) {
-    next(err)
+    next(err);
   }
-})
+});
 
 router.post("/", requireToken, async (req, res, next) => {
   try {
