@@ -55,7 +55,7 @@ this.props.me()
             </div>
           )}
         </nav>
-        <hr />
+        <br />
       </Toolbar>
     </AppBar>
     <Toolbar />
