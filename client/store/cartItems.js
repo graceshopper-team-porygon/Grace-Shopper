@@ -97,7 +97,6 @@ export const updateCart = (productId, quantity = 1) => {
             },
           }
         );
-        // console.log(res.data);
         dispatch(_updateCart(res.data));
       }
     } catch (error) {

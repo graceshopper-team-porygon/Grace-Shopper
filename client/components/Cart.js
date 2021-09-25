@@ -20,9 +20,10 @@ class Cart extends React.Component {
   }
   async componentDidMount() {
     await this.props.getCartItems();
-    // console.log("fetched");
     this.setState({ didFetch: true });
   }
+
+  checkoutClickHandler() {}
 
   render() {
     return (
@@ -61,8 +62,7 @@ class Cart extends React.Component {
           </Table>
         </TableContainer>
         <Link to="/checkout">
-          {/* <Button onClick={this.props.deleteCart()}> */}
-          <Button onClick={() => console.log("clicked!")}>Checkout</Button>
+          <Button onClick={() => this.checkoutClickHandler()}>Checkout</Button>
         </Link>
         <Link to="/">
           <Button>Back to Products</Button>
