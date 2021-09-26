@@ -16,7 +16,7 @@ import {
 } from "@material-ui/core";
 import { HighlightOff, Edit } from "@material-ui/icons";
 
-const useStyles = (theme) => ({
+const useStyles = () => ({
   root: {
     maxWidth: 345,
     maxHeight: 445,
@@ -84,7 +84,7 @@ export class AllProducts extends React.Component {
                 </CardContent>
 
                 {!isAdmin ? (
-                  // IF USER IS ADMIN, THESE BUTTON WILL RENDER
+                  // IF USER ISNT ADMIN, THESE BUTTON WILL RENDER
                   <CardActions>
                     <Link to={`/products/${product.id}`}>
                       <Button size="small">Learn More</Button>
