@@ -18,7 +18,7 @@ const isAdmin = (req, res, next) => {
   else next();
 };
 
-const isSameUser = async (req,res,next)=>{
+const isSameUser = async (req, res, next) => {
   //if person's id is same as auth token
-}
+};
 module.exports = { isAdmin, requireToken };

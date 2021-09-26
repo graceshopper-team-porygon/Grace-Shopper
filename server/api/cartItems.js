@@ -44,6 +44,7 @@ router.post("/", requireToken, async (req, res, next) => {
       userId: req.user.id,
       productId: req.body.product.id,
       curPrice: req.body.product.price,
+      orderId: req.body.product.orderId,
     });
     //decrement from product quantity in database
     const product = await Product.findByPk(req.body.product.id);

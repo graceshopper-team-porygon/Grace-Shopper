@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { getCartItems, removeCartItem } from "../store/cartItems";
+import { getCartItems, removeCartItem, clearCart } from "../store/cartItems";
 import { closeOrder } from "../store/order";
 import React, { useState, useEffect } from "react";
 // import * as React from "react";
@@ -32,7 +32,7 @@ class Cart extends React.Component {
     const orderId = this.props.cartItems[0].orderId;
     const total = this.state.total;
     const order = { total, orderId };
-
+    this.props.clearCart();
     this.props.closeOrder(order);
   }
 
@@ -96,6 +96,7 @@ const mapDispatch = (dispatch) => {
     getCartItems: () => dispatch(getCartItems()),
     removeCartItem: (id) => dispatch(removeCartItem(id)),
     closeOrder: (order) => dispatch(closeOrder(order)),
+    clearCart: () => dispatch(clearCart()),
   };
 };
 

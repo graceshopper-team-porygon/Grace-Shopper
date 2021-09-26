@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { fetchProducts } from "../store/products";
 import { Link } from "react-router-dom";
 import { addToCart, getCartItems, updateCart } from "../store/cartItems";
+import { setOrder } from "../store/order";
 import {
   Card,
   Grid,
@@ -36,7 +37,9 @@ export class AllProducts extends React.Component {
   componentDidMount() {
     this.props.getProducts();
     this.props.getCartItems();
+    this.props.setOrder();
   }
+
   addClickHandler(product) {
     const isItemInCart = this.props.cartItems.filter(
       (item) => item.productId === product.id
@@ -92,9 +95,11 @@ export class AllProducts extends React.Component {
 }
 
 const mapState = (state) => {
+  console.log("state", state);
   return {
     products: state.products,
     cartItems: state.cartItems,
+    order: state.order,
   };
 };
 
@@ -104,6 +109,7 @@ const mapDispatch = (dispatch) => {
     addToCart: (item) => dispatch(addToCart(item)),
     getCartItems: () => dispatch(getCartItems()),
     updateCart: (productId, qty = 1) => dispatch(updateCart(productId, qty)),
+    setOrder: () => dispatch(setOrder()),
   };
 };
 

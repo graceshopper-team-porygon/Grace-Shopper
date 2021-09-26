@@ -128,7 +128,6 @@ export const getCartItems = () => {
 export default function (state = [], action) {
   switch (action.type) {
     case UPDATE_CART:
-      console.log(action);
       const newItems = state.map((item) => {
         if (item.id === action.cartItem.id)
           item.quantity = action.cartItem.quantity;

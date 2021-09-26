@@ -5,9 +5,10 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import auth from "./auth";
 import product from "./singleProduct";
 import products from "./products";
-import cartItems from './cartItems'
+import cartItems from "./cartItems";
+import order from "./order";
 
-const reducer = combineReducers({ auth, product, products, cartItems });
+const reducer = combineReducers({ auth, product, products, cartItems, order });
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
 );
