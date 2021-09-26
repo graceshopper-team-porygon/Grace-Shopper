@@ -30,8 +30,22 @@ form div {
 
 .form-container {
   text-align: center;
-  height: 600px;
+  height: 700px;
   margin-left: -15px;
+  /* margin-bottom: 50px; */
+}
+
+.add-form {
+  background: url(plant-bg.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-style: ridge;
+  border-radius: 25px;
+  width: 550px;
+  height: 500px;
+  margin-left: 275px;
+  padding-top: 25px;
 }
 
 .form {
@@ -42,18 +56,19 @@ form div {
   border-style: ridge;
   border-radius: 25px;
   width: 550px;
-  height: 450px;
+  height: 550px;
   margin-left: 275px;
   padding-top: 25px;
   /* padding-right: 100px; */
 }
-.label {
+
+/* .label {
   background-color: rgba(253, 253, 253, 0.7);
   width: 125px;
   display: inline-block;
-  /* text-align: right; */
+  text-align: right;
   margin-right: 15px;
-}
+} */
 
 .input {
   width: 300px;
