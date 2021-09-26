@@ -58,7 +58,7 @@ class EditProduct extends Component {
       <div className="form-container">
         <h4>UPDATE PRODUCT</h4>
         <form onSubmit={handleSubmit} className="form">
-          <label className="label">Name</label>
+          <label>Name</label>
           <input
             type="text"
             name="name"
@@ -68,7 +68,7 @@ class EditProduct extends Component {
           />
           <br />
 
-          <label className="label">Quantity</label>
+          <label>Quantity</label>
           <input
             type="number"
             name="quantity"
@@ -78,7 +78,7 @@ class EditProduct extends Component {
           />
           <br />
 
-          <label className="label">Price</label>
+          <label>Price</label>
           <input
             type="number"
             name="price"
@@ -88,7 +88,7 @@ class EditProduct extends Component {
           />
           <br />
 
-          <label className="label">Description</label>
+          <label>Description</label>
           <textarea
             type="text"
             name="description"
@@ -98,7 +98,7 @@ class EditProduct extends Component {
           />
           <br />
 
-          <label className="label">Product Image</label>
+          <label>Product Image</label>
           <input
             name="imageUrl"
             value={imageUrl}
