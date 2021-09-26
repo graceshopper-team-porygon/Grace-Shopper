@@ -2,38 +2,60 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../store";
+import { fetchAllUsers } from "../store/users";
 import { Box, AppBar, Toolbar, Typography, Button } from "@material-ui/core";
-import  { Home, ShoppingCartOutlined } from '@material-ui/icons';
+import { Home, ShoppingCartOutlined, Group } from "@material-ui/icons";
 
-const Navbar = ({ handleClick, isLoggedIn }) => (
+const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
   <Box sx={{ flexGrow: 1 }}>
-    <AppBar position="fixed" style={{backgroundColor: "#458a55"}}>
+    <AppBar position="fixed" style={{ backgroundColor: "#458a55" }}>
       <Toolbar>
         <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
           Plants & Pants
         </Typography>
         <nav>
-          {isLoggedIn ? (
+          {isLoggedIn && !isAdmin ? (
             <div>
               {/* The navbar will show these links after you log in */}
               <Link to={"/"}>
-                <Button><Home /></Button>
+                <Button>
+                  <Home />
+                </Button>
               </Link>
-              <Link to='/myCart'>
-                <Button><ShoppingCartOutlined /></Button>
+              <Link to="/myCart">
+                <Button>
+                  <ShoppingCartOutlined />
+                </Button>
               </Link>
-              <Button onClick={handleClick}>
-              {/* <a href="#" onClick={handleClick}>
-                Logout
-              </a> */}
-                Logout
-              </Button>
+              <Button onClick={handleClick}>Logout</Button>
+            </div>
+          ) : isLoggedIn && isAdmin ? (
+            <div>
+              {/* The navbar will show these links after you log in IF YOU ARE ADMIN */}
+              <Link to={"/"}>
+                <Button>
+                  <Home />
+                </Button>
+              </Link>
+              <Link to="/myCart">
+                <Button>
+                  <ShoppingCartOutlined />
+                </Button>
+              </Link>
+              <Button onClick={handleClick}>Logout</Button>
+              <Link to="/users">
+                <Button>
+                  <Group />
+                </Button>
+              </Link>
             </div>
           ) : (
             <div>
               {/* The navbar will show these links before you log in */}
               <Link to={"/"}>
-                <Button><Home /></Button>
+                <Button>
+                  <Home />
+                </Button>
               </Link>
               <Link to="/login">
                 <Button>Login</Button>
@@ -41,8 +63,10 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
               <Link to="/signup">
                 <Button>Sign Up</Button>
               </Link>
-              <Link to='/myCart'>
-                <Button><ShoppingCartOutlined /></Button>
+              <Link to="/myCart">
+                <Button>
+                  <ShoppingCartOutlined />
+                </Button>
               </Link>
             </div>
           )}
@@ -52,7 +76,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
     </AppBar>
     <Toolbar />
     <div>
-      <br/>
+      <br />
     </div>
   </Box>
 );
@@ -63,6 +87,8 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
 const mapState = (state) => {
   return {
     isLoggedIn: !!state.auth.id,
+    users: state.users,
+    isAdmin: !!state.users.length,
   };
 };
 
@@ -71,6 +97,7 @@ const mapDispatch = (dispatch) => {
     handleClick() {
       dispatch(logout());
     },
+    fetchAllUsers: () => dispatch(fetchAllUsers()),
   };
 };
 
