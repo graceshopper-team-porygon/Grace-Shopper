@@ -37,6 +37,7 @@ export class AllProducts extends React.Component {
     this.props.getProducts();
     this.props.getCartItems();
   }
+
   addClickHandler(product) {
     const isItemInCart = this.props.cartItems.filter(
       (item) => item.productId === product.id
