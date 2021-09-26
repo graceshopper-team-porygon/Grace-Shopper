@@ -62,6 +62,7 @@ router.post("/", requireToken, async (req, res, next) => {
 
 router.put("/", requireToken, async (req, res, next) => {
   try {
+    console.log("in the put request");
     const updatedItem = await CartItem.findOne({
       where: { productId: req.body.productId, userId: req.user.id },
     });

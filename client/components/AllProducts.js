@@ -41,11 +41,15 @@ export class AllProducts extends React.Component {
   }
 
   addClickHandler(product) {
+    const orderId = this.props.order.id;
     const isItemInCart = this.props.cartItems.filter(
       (item) => item.productId === product.id
     );
     const idxOfProd = this.props.products.indexOf(product);
     this.props.products[idxOfProd].quantity--;
+
+    product.orderId = this.props.order.id;
+
     if (isItemInCart.length !== 1) {
       this.props.addToCart(product);
     } else {
@@ -95,7 +99,6 @@ export class AllProducts extends React.Component {
 }
 
 const mapState = (state) => {
-  console.log("state", state);
   return {
     products: state.products,
     cartItems: state.cartItems,

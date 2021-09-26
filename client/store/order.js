@@ -68,11 +68,10 @@ export const closeOrder = (order) => {
 };
 
 export default function (state = {}, action) {
-  switch (action) {
+  switch (action.type) {
     case SET_ORDER:
       return { ...state, ...action.order };
     case CLOSE_ORDER:
-      console.log(action);
       return action.order;
     default:
       return state;
