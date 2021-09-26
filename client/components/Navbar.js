@@ -4,7 +4,12 @@ import { Link } from "react-router-dom";
 import { logout } from "../store";
 import { fetchAllUsers } from "../store/users";
 import { Box, AppBar, Toolbar, Typography, Button } from "@material-ui/core";
-import { Home, ShoppingCartOutlined, Group } from "@material-ui/icons";
+import {
+  Home,
+  ShoppingCartOutlined,
+  Group,
+  AddCircleOutline,
+} from "@material-ui/icons";
 
 const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
   <Box sx={{ flexGrow: 1 }}>
@@ -43,10 +48,11 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
                 </Button>
               </Link>
               <Button onClick={handleClick}>Logout</Button>
+              <Link to={"/addproduct"}>
+                <Button endIcon={<AddCircleOutline />}>New Product</Button>
+              </Link>
               <Link to="/users">
-                <Button>
-                  <Group />
-                </Button>
+                <Button endIcon={<Group />}>Users List</Button>
               </Link>
             </div>
           ) : (
