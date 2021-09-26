@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchProducts } from "../store/products";
+import { fetchProducts, fetchDeleteProduct } from "../store/products";
+import { fetchAllUsers } from "../store/users";
 import { Link } from "react-router-dom";
 import { addToCart, getCartItems, updateCart } from "../store/cartItems";
 import {
@@ -13,7 +14,7 @@ import {
   Typography,
   withStyles,
 } from "@material-ui/core";
-import { PlaceTwoTone } from "@material-ui/icons";
+import { HighlightOff, Edit } from "@material-ui/icons";
 
 const useStyles = (theme) => ({
   root: {
@@ -25,18 +26,25 @@ const useStyles = (theme) => ({
     height: 200,
     width: "100%",
   },
+  centerButtons: {
+    display: "flex",
+    "justify-content": "space-around",
+  },
 });
 
 export class AllProducts extends React.Component {
   constructor() {
     super();
+
     this.addClickHandler = this.addClickHandler.bind(this);
   }
 
   componentDidMount() {
     this.props.getProducts();
     this.props.getCartItems();
+    this.props.fetchAllUsers();
   }
+
   addClickHandler(product) {
     const isItemInCart = this.props.cartItems.filter(
       (item) => item.productId === product.id
@@ -49,8 +57,10 @@ export class AllProducts extends React.Component {
       this.props.updateCart(product.id);
     }
   }
+
   render() {
-    const { classes } = this.props;
+    const { classes, isAdmin, fetchDeleteProduct } = this.props;
+
     return (
       <div>
         <Grid container spacing={3} justifyContent="center">
@@ -63,6 +73,7 @@ export class AllProducts extends React.Component {
                   image={product.imageUrl}
                   alt={product.name}
                 />
+
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
                     {product.name}
@@ -71,17 +82,44 @@ export class AllProducts extends React.Component {
                     Price: ${(product.price / 100).toFixed(2)}
                   </Typography>
                 </CardContent>
-                <CardActions>
-                  <Link to={`/products/${product.id}`}>
-                    <Button size="small">Learn More</Button>
-                  </Link>
-                  <Button
-                    onClick={() => this.addClickHandler(product)}
-                    size="small"
-                  >
-                    Add To Cart
-                  </Button>
-                </CardActions>
+
+                {!isAdmin ? (
+                  // IF USER IS ADMIN, THESE BUTTON WILL RENDER
+                  <CardActions>
+                    <Link to={`/products/${product.id}`}>
+                      <Button size="small">Learn More</Button>
+                    </Link>
+                    <Button
+                      onClick={() => this.addClickHandler(product)}
+                      size="small"
+                    >
+                      Add To Cart
+                    </Button>
+                  </CardActions>
+                ) : (
+                  // IF USER IS ADMIN, THESE BUTTON WILL RENDER
+                  <CardActions className={classes.centerButtons}>
+                    <Button
+                      onClick={() => this.addClickHandler(product)}
+                      size="small"
+                    >
+                      Add To Cart
+                    </Button>
+                    <Button>
+                      <Link
+                        to={`/products/${product.id}`}
+                        className={("link", "visited")}
+                      >
+                        <Edit />
+                      </Link>
+                    </Button>
+                    <Button>
+                      <HighlightOff
+                        onClick={() => fetchDeleteProduct(product.id)}
+                      />
+                    </Button>
+                  </CardActions>
+                )}
               </Card>
             </Grid>
           ))}
@@ -95,6 +133,8 @@ const mapState = (state) => {
   return {
     products: state.products,
     cartItems: state.cartItems,
+    users: state.users,
+    isAdmin: !!state.users.length,
   };
 };
 
@@ -104,6 +144,8 @@ const mapDispatch = (dispatch) => {
     addToCart: (item) => dispatch(addToCart(item)),
     getCartItems: () => dispatch(getCartItems()),
     updateCart: (productId, qty = 1) => dispatch(updateCart(productId, qty)),
+    fetchAllUsers: () => dispatch(fetchAllUsers()),
+    fetchDeleteProduct: (id) => dispatch(fetchDeleteProduct(id)),
   };
 };
 
