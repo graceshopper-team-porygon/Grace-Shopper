@@ -22,18 +22,20 @@ router.get("/", requireToken, async (req, res, next) => {
     const order = await Order.findOne({
       where: {
         userId: req.user.id,
-        status: "In Progress"
-      }
-    })
-    const items = await CartItem.findAll({
-      where: { orderId: order.id },
-      include: { model: Product },
+        status: "In Progress",
+      },
     });
-    res.json(items);
+    if (order) {
+      const items = await CartItem.findAll({
+        where: { orderId: order.id },
+        include: { model: Product },
+      });
+      res.json(items);
+    }
   } catch (err) {
-    next(err)
+    next(err);
   }
-})
+});
 
 router.post("/", requireToken, async (req, res, next) => {
   console.log(req.body)
@@ -43,6 +45,7 @@ router.post("/", requireToken, async (req, res, next) => {
       userId: req.user.id,
       productId: req.body.product.id,
       curPrice: req.body.product.price,
+      orderId: req.body.product.orderId,
     });
     //decrement from product quantity in database
     const product = await Product.findByPk(req.body.product.id);
@@ -60,6 +63,7 @@ router.post("/", requireToken, async (req, res, next) => {
 
 router.put("/", requireToken, async (req, res, next) => {
   try {
+    console.log("in the put request");
     const updatedItem = await CartItem.findOne({
       where: { productId: req.body.productId, userId: req.user.id },
     });

@@ -1,11 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
 import { authenticate } from "../store";
-import { CssBaseline, Container, Box, Avatar, Typography, TextField, Button } from "@material-ui/core";
+import {
+  CssBaseline,
+  Container,
+  Box,
+  Avatar,
+  Typography,
+  TextField,
+  Button,
+} from "@material-ui/core";
 import { LockOutlined } from "@material-ui/icons";
 
 const AuthForm = (props) => {
-  const { name, displayName, handleSubmit, error } = props;
+  const { name, displayName, handleSubmit, error, handleClick } = props;
 
   return (
     <Container component="main" maxWidth="xs">
@@ -13,9 +21,9 @@ const AuthForm = (props) => {
       <Box
         sx={{
           marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center'
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
         <Avatar id="avatar">
@@ -24,7 +32,7 @@ const AuthForm = (props) => {
         <Typography component="h1" variant="h5" id="log-title">
           {displayName}
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} name={name} >
+        <Box component="form" onSubmit={handleSubmit} name={name}>
           <TextField
             margin="normal"
             required
@@ -45,12 +53,7 @@ const AuthForm = (props) => {
             id="password"
             autoComplete="current-password"
           />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            id="sign-in-btn"
-          >
+          <Button type="submit" fullWidth variant="contained" id="sign-in-btn">
             {displayName}
           </Button>
           {error && error.response && <div> {error.response.data} </div>}

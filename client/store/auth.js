@@ -13,11 +13,10 @@ const SET_AUTH = "SET_AUTH";
  */
 const setAuth = (auth) => ({ type: SET_AUTH, auth });
 
-const GET_AUTH ='get_auth'
-export const getAuth = ()=>{
-  console.log('getauth')
-  return{type:GET_AUTH
-}}
+const GET_AUTH = "get_auth";
+export const getAuth = () => {
+  return { type: GET_AUTH };
+};
 /**
  * THUNK CREATORS
  */
@@ -65,8 +64,8 @@ export default function (state = {}, action) {
   switch (action.type) {
     case SET_AUTH:
       return action.auth;
-      case GET_AUTH:
-        return state
+    case GET_AUTH:
+      return state;
     default:
       return state;
   }
