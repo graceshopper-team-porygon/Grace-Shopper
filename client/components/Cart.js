@@ -141,7 +141,13 @@ class Cart extends React.Component {
                 ))}
                 <TableRow>
                   <TableCell />
-                  <TableCell></TableCell>
+                  <TableCell>
+                    <Link to="/checkout">
+                      <Button onClick={() => this.checkoutClickHandler()}>
+                        Checkout
+                      </Button>
+                    </Link>
+                  </TableCell>
                   <TableCell />
                   <TableCell align="right">
                     Total:
@@ -152,13 +158,6 @@ class Cart extends React.Component {
             )}
           </Table>
         </TableContainer>
-        <div>
-          <Link to="/checkout">
-            <Button onClick={() => this.checkoutClickHandler()}>
-              Checkout
-            </Button>
-          </Link>
-        </div>
       </div>
     );
   }
