@@ -9,6 +9,12 @@ const _removeCartItem = (id) => ({
   id,
 });
 
+const REMOVE_CART_ITEM_FROM_LS = "remove_cart_items_from_ls";
+const _removeCartItemFromLs = (id) => ({
+  type: REMOVE_CART_ITEM_FROM_LS,
+  id,
+});
+
 const GET_CART_ITEMS = "get_cart_items";
 export const _getCartItems = (items) => ({
   type: GET_CART_ITEMS,
@@ -43,6 +49,11 @@ export const removeCartItem = (cartItemId) => {
         });
 
         dispatch(_removeCartItem(cartItemId));
+      } else {
+        const lsCart = JSON.parse(window.localStorage.getItem(CART));
+        if (lsCart) {
+          lsCart.filter((item) => item.productId);
+        }
       }
     } catch (e) {
       console.log(e);
