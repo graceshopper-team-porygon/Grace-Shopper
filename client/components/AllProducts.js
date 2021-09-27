@@ -42,13 +42,12 @@ export class AllProducts extends React.Component {
 
   componentDidMount() {
     this.props.getProducts();
+    this.props.setOrder();
     this.props.getCartItems();
     this.props.fetchAllUsers();
-    this.props.setOrder();
   }
 
   addClickHandler(product) {
-    const orderId = this.props.order.id;
     const isItemInCart = this.props.cartItems.filter(
       (item) => item.productId === product.id
     );

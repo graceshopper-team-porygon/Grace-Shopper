@@ -50,13 +50,11 @@ export const removeCartItem = (cartItemId) => {
   };
 };
 
-//going to try to take care of all guest cart in one thunk rather than splitting into updateCart as well
 export const addToCart = (product, quantity = 1) => {
   return async (dispatch) => {
     try {
       let token = window.localStorage.getItem(TOKEN);
       if (token) {
-        console.log("in cart items token");
         const res = await axios.post(
           "/api/items",
           { product, quantity },
@@ -65,37 +63,34 @@ export const addToCart = (product, quantity = 1) => {
           }
         );
         dispatch(_addToCart(res.data));
-
         //if no token, check if there's a cart on the local storage.
         //If there is, add this item to it.
       } else if (window.localStorage.getItem(CART)) {
         const lsCart = JSON.parse(window.localStorage.getItem(CART));
-        console.log("in add to cart else if: lsCart", lsCart);
         //if that productId already exists, add it.
         for (let i = 0; i < lsCart.length; i++) {
           if (lsCart[i].productId === product.id) {
-            console.log("found matching product id");
             lsCart[i].quantity = lsCart[i].quantity + 1;
             break;
             //if you've made it to the end and haven't updated, create new product object on cart
           } else if (i === lsCart.length - 1) {
-            console.log("didnt find match, i: ", i);
             lsCart.push({
               productId: product.id,
               quantity: 1,
+              product: product,
             });
             break;
           }
         }
         window.localStorage.setItem(CART, JSON.stringify(lsCart));
       } else {
-        //if there's not, create a cart with this item
+        //if there's not a cart, create one with this item
         // (they've just landed on page for first time)
-        console.log("in add to cart else: creating cart", product);
         const newItem = [
           {
             productId: product.id,
             quantity: 1,
+            product: product,
           },
         ];
         window.localStorage.setItem(CART, JSON.stringify(newItem));
@@ -116,7 +111,7 @@ export const updateCart = (productId, quantity = 1, inCart = false) => {
           {
             productId,
             quantity,
-            inCart
+            inCart,
           },
           {
             headers: {

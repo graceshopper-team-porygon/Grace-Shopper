@@ -5,8 +5,9 @@ import {
   removeCartItem,
   clearCart,
   updateCart,
+  addToCart,
 } from "../store/cartItems";
-import { closeOrder } from "../store/order";
+import order, { closeOrder, setOrder } from "../store/order";
 import React, { useState, useEffect } from "react";
 // import * as React from "react";
 import Table from "@material-ui/core/Table";
@@ -29,6 +30,22 @@ class Cart extends React.Component {
   }
 
   async componentDidMount() {
+    await this.props.setOrder();
+    if (window.localStorage.getItem("cart")) {
+      if (window.localStorage.getItem("token")) {
+        const lsCart = JSON.parse(window.localStorage.getItem("cart"));
+        lsCart.map((item) => {
+          item.product.orderId = this.props.order.id;
+          item.product.quantity = item.quantity;
+        });
+        Promise.all(
+          lsCart.map((item) =>
+            this.props.addToCart(item.product, item.product.quantity)
+          )
+        );
+        window.localStorage.removeItem("cart");
+      }
+    }
     await this.props.getCartItems();
     this.setState({
       didFetch: true,
@@ -54,11 +71,13 @@ class Cart extends React.Component {
     }
   }
   checkoutClickHandler() {
-    const orderId = this.props.cartItems[0].orderId;
-    const total = this.state.total;
-    const order = { total, orderId };
-    this.props.clearCart();
-    this.props.closeOrder(order);
+    if (window.localStorage.getItem("token")) {
+      const orderId = this.props.cartItems[0].orderId;
+      const total = this.state.total;
+      const order = { total, orderId };
+      this.props.clearCart();
+      this.props.closeOrder(order);
+    }
   }
 
   handleChange(e) {
@@ -141,13 +160,7 @@ class Cart extends React.Component {
                 ))}
                 <TableRow>
                   <TableCell />
-                  <TableCell>
-                    <Link to="/checkout">
-                      <Button onClick={() => this.checkoutClickHandler()}>
-                        Checkout
-                      </Button>
-                    </Link>
-                  </TableCell>
+                  <TableCell></TableCell>
                   <TableCell />
                   <TableCell align="right">
                     Total:
@@ -158,6 +171,19 @@ class Cart extends React.Component {
             )}
           </Table>
         </TableContainer>
+        {window.localStorage.getItem("token") ? (
+          <Link to="/checkout">
+            <Button onClick={() => this.checkoutClickHandler()}>
+              Checkout
+            </Button>
+          </Link>
+        ) : (
+          <Link to="/signup">
+            <Button onClick={() => this.checkoutClickHandler()}>
+              Checkout
+            </Button>
+          </Link>
+        )}
       </div>
     );
   }
@@ -167,17 +193,20 @@ const mapState = (state) => {
   return {
     userId: state.auth.id,
     cartItems: state.cartItems,
+    order: state.order,
   };
 };
 
 const mapDispatch = (dispatch) => {
   return {
     getCartItems: () => dispatch(getCartItems()),
+    addToCart: (item, qty) => dispatch(addToCart(item, qty)),
     removeCartItem: (id) => dispatch(removeCartItem(id)),
     closeOrder: (order) => dispatch(closeOrder(order)),
     clearCart: () => dispatch(clearCart()),
     updateCart: (productId, quantity, inCart) =>
       dispatch(updateCart(productId, quantity, inCart)),
+    setOrder: () => dispatch(setOrder()),
   };
 };
 
