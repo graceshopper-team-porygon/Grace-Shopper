@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { getCartItems, removeCartItem } from "../store/cartItems";
+import { getCartItems, removeCartItem, clearCart } from "../store/cartItems";
+import { closeOrder } from "../store/order";
 import React, { useState, useEffect } from "react";
 // import * as React from "react";
 import Table from "@material-ui/core/Table";
@@ -19,8 +20,20 @@ class Cart extends React.Component {
   }
   async componentDidMount() {
     await this.props.getCartItems();
-    // console.log("fetched");
-    this.setState({ didFetch: true });
+    this.setState({
+      didFetch: true,
+      total: this.props.cartItems
+        .map((item) => item.quantity * item.product.price)
+        .reduce((prev, curr) => prev + curr, 0),
+    });
+  }
+
+  checkoutClickHandler() {
+    const orderId = this.props.cartItems[0].orderId;
+    const total = this.state.total;
+    const order = { total, orderId };
+    this.props.clearCart();
+    this.props.closeOrder(order);
   }
 
   render() {
@@ -60,14 +73,12 @@ class Cart extends React.Component {
           </Table>
         </TableContainer>
         <Link to="/checkout">
-          <Button onClick={() => console.log("clicked!")}>Checkout</Button>
+          <Button onClick={() => this.checkoutClickHandler()}>Checkout</Button>
         </Link>
         <Link to="/">
           <Button>Back to Products</Button>
         </Link>
-        <div>
-          Total: {(this.props.cartItems.map((item) => item.quantity * item.product.price).reduce((prev, curr) => prev + curr, 0) / 100).toFixed(2)}
-        </div>
+        <div>Total: {(this.state.total / 100).toFixed(2)}</div>
       </div>
     );
   }
@@ -84,6 +95,8 @@ const mapDispatch = (dispatch) => {
   return {
     getCartItems: () => dispatch(getCartItems()),
     removeCartItem: (id) => dispatch(removeCartItem(id)),
+    closeOrder: (order) => dispatch(closeOrder(order)),
+    clearCart: () => dispatch(clearCart()),
   };
 };
 

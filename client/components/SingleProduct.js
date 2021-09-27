@@ -70,7 +70,7 @@ class SingleProduct extends Component {
       (item) => item.productId === product.id
     );
     this.props.product.quantity--;
-
+    product.orderId = this.props.order.id;
     if (isItemInCart.length !== 1) {
       this.props.addToCart(product);
     } else {
@@ -153,6 +153,7 @@ const mapState = (state) => {
     product: state.product,
     cartItems: state.cartItems,
     isAdmin: !!state.users.length,
+    order: state.order,
   };
 };
 
