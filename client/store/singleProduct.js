@@ -1,4 +1,5 @@
 import axios from "axios";
+import { EDIT_PRODUCT } from "./products";
 
 const SINGLE_PRODUCT = "SINGLE_PRODUCT";
 
@@ -19,6 +20,8 @@ export const fetchSingleProduct = (id) => {
 export default function singleProductReducer(state = {}, action) {
   switch (action.type) {
     case SINGLE_PRODUCT:
+      return action.product;
+    case EDIT_PRODUCT:
       return action.product;
     default:
       return state;
