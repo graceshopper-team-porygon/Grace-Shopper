@@ -6,6 +6,14 @@ const CLOSE_ORDER = "CLOSE_ORDER";
 
 const SET_ORDER = "SET_ORDER";
 
+const SET_TOTAL = "SET TOTAL"
+
+//dispatch this on checkout using total in local state!
+export const setTotal=(total)=>({
+  type: SET_TOTAL,
+  total
+})
+
 const _setOrder = (order) => {
   return {
     type: SET_ORDER,
@@ -17,6 +25,8 @@ const _closeOrder = (order) => ({
   type: CLOSE_ORDER,
   order,
 });
+
+
 
 export const setOrder = (data) => {
   return async (dispatch) => {
@@ -70,9 +80,11 @@ export const closeOrder = (order) => {
 export default function (state = {}, action) {
   switch (action.type) {
     case SET_ORDER:
-      return { ...state, ...action.order };
+      return action.order;
     case CLOSE_ORDER:
       return action.order;
+    case SET_TOTAL:
+      return {...state, ...action.total}
     default:
       return state;
   }

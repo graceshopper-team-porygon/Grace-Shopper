@@ -69,7 +69,8 @@ router.put("/", requireToken, async (req, res, next) => {
     });
     const product = await Product.findByPk(req.body.productId);
     // product.update({ quantity: product.quantity - req.body.quantity });
-    updatedItem.update({ quantity: updatedItem.quantity + req.body.quantity });
+    if(req.body.inCart) updatedItem.update({quantity: req.body.quantity})
+    else updatedItem.update({ quantity: updatedItem.quantity + req.body.quantity });
     res.json(updatedItem);
   } catch (error) {
     next(error);

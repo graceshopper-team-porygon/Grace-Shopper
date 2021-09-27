@@ -56,7 +56,7 @@ export const addToCart = (product, quantity = 1) => {
     try {
       let token = window.localStorage.getItem(TOKEN);
       if (token) {
-        console.log('in cart items token')
+        console.log("in cart items token");
         const res = await axios.post(
           "/api/items",
           { product, quantity },
@@ -69,34 +69,36 @@ export const addToCart = (product, quantity = 1) => {
         //if no token, check if there's a cart on the local storage.
         //If there is, add this item to it.
       } else if (window.localStorage.getItem(CART)) {
-        const lsCart = JSON.parse(window.localStorage.getItem(CART))
-        console.log('in add to cart else if: lsCart', lsCart)
+        const lsCart = JSON.parse(window.localStorage.getItem(CART));
+        console.log("in add to cart else if: lsCart", lsCart);
         //if that productId already exists, add it.
         for (let i = 0; i < lsCart.length; i++) {
           if (lsCart[i].productId === product.id) {
-            console.log('found matching product id')
-            lsCart[i].quantity = lsCart[i].quantity + 1
+            console.log("found matching product id");
+            lsCart[i].quantity = lsCart[i].quantity + 1;
             break;
             //if you've made it to the end and haven't updated, create new product object on cart
-          } else if (i === lsCart.length-1) {
-            console.log('didnt find match, i: ', i)
+          } else if (i === lsCart.length - 1) {
+            console.log("didnt find match, i: ", i);
             lsCart.push({
               productId: product.id,
-              quantity: 1
-            })
+              quantity: 1,
+            });
             break;
           }
         }
-        window.localStorage.setItem(CART, JSON.stringify(lsCart))
+        window.localStorage.setItem(CART, JSON.stringify(lsCart));
       } else {
         //if there's not, create a cart with this item
         // (they've just landed on page for first time)
-        console.log('in add to cart else: creating cart', product)
-        const newItem = [{
-          productId: product.id,
-          quantity: 1
-        }]
-        window.localStorage.setItem(CART, JSON.stringify(newItem))
+        console.log("in add to cart else: creating cart", product);
+        const newItem = [
+          {
+            productId: product.id,
+            quantity: 1,
+          },
+        ];
+        window.localStorage.setItem(CART, JSON.stringify(newItem));
       }
     } catch (error) {
       console.log(error);
@@ -104,7 +106,7 @@ export const addToCart = (product, quantity = 1) => {
   };
 };
 
-export const updateCart = (productId, quantity = 1) => {
+export const updateCart = (productId, quantity = 1, inCart = false) => {
   return async (dispatch) => {
     try {
       const token = window.localStorage.getItem(TOKEN);
@@ -114,6 +116,7 @@ export const updateCart = (productId, quantity = 1) => {
           {
             productId,
             quantity,
+            inCart
           },
           {
             headers: {
@@ -130,7 +133,6 @@ export const updateCart = (productId, quantity = 1) => {
 };
 
 //put request
-
 
 export const getCartItems = () => {
   return async (dispatch) => {
