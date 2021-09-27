@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import EditProduct from "./EditProduct";
 import { fetchSingleProduct } from "../store/singleProduct";
 import { addToCart, getCartItems, updateCart } from "../store/cartItems";
 import {
@@ -14,7 +15,7 @@ import {
 } from "@material-ui/core";
 import { KeyboardArrowLeft, AddShoppingCart } from "@material-ui/icons";
 
-const useStyles = (theme) => ({
+const useStyles = () => ({
   root: {
     maxWidth: "100%",
     maxHeight: 800,
@@ -54,11 +55,10 @@ const useStyles = (theme) => ({
 class SingleProduct extends Component {
   constructor() {
     super();
-    // this.state = {
-    //   isInCart: false,
-    // };
+
     this.addClickHandler = this.addClickHandler.bind(this);
   }
+
   async componentDidMount() {
     const productID = this.props.match.params.id;
     this.props.fetchSingleProduct(productID);
@@ -79,7 +79,7 @@ class SingleProduct extends Component {
   }
 
   render() {
-    const { classes, product } = this.props;
+    const { classes, product, isAdmin } = this.props;
 
     return (
       <div>
@@ -131,6 +131,18 @@ class SingleProduct extends Component {
             Add To Cart
           </Button>
         </CardActions>
+
+        {isAdmin ? (
+          // EDIT PRODUCT FORM APPEARS ONLY IF YOU ARE ADMIN
+          <div>
+            <div>
+              <hr />
+              <EditProduct />
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     );
   }
@@ -139,12 +151,8 @@ class SingleProduct extends Component {
 const mapState = (state) => {
   return {
     product: state.product,
-    //   isInCart:
-    //     state.cartItems.filter((item) => item.id === state.product.id).length ===
-    //     1
-    //       ? true
-    //       : false,
     cartItems: state.cartItems,
+    isAdmin: !!state.users.length,
     order: state.order,
   };
 };
