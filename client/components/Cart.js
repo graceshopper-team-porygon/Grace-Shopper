@@ -1,6 +1,11 @@
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { getCartItems, removeCartItem, clearCart } from "../store/cartItems";
+import {
+  getCartItems,
+  removeCartItem,
+  clearCart,
+  updateCart,
+} from "../store/cartItems";
 import { closeOrder } from "../store/order";
 import React, { useState, useEffect } from "react";
 // import * as React from "react";
@@ -12,12 +17,17 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import { Delete, Done } from "@material-ui/icons";
 
 class Cart extends React.Component {
   constructor() {
     super();
-    this.state = { didFetch: false };
+    this.state = { didFetch: false, quantity: {}, total: 0, updated: false };
+    this.handleChange = this.handleChange.bind(this);
   }
+
   async componentDidMount() {
     await this.props.getCartItems();
     this.setState({
@@ -26,8 +36,23 @@ class Cart extends React.Component {
         .map((item) => item.quantity * item.product.price)
         .reduce((prev, curr) => prev + curr, 0),
     });
+    this.props.cartItems.forEach((item) =>
+      this.setState({
+        quantity: {
+          ...this.state.quantity,
+          [item.product.id]: item.quantity,
+        },
+      })
+    );
   }
-
+  componentDidUpdate(prevProps, prevState) {
+    const total = this.props.cartItems
+      .map((item) => item.quantity * item.product.price)
+      .reduce((prev, curr) => prev + curr, 0);
+    if (prevState.total !== total) {
+      this.setState({ total });
+    }
+  }
   checkoutClickHandler() {
     const orderId = this.props.cartItems[0].orderId;
     const total = this.state.total;
@@ -36,6 +61,17 @@ class Cart extends React.Component {
     this.props.closeOrder(order);
   }
 
+  handleChange(e) {
+    this.setState({
+      quantity: {
+        ...this.state.quantity,
+        [e.target.name]: e.target.value,
+      },
+      updated: true,
+    });
+    this.props.updateCart(e.target.name, e.target.value, true);
+    //dispatch thunk to store to update price and total price
+  }
   render() {
     return (
       <div>
@@ -48,37 +84,80 @@ class Cart extends React.Component {
                 <TableCell align="right">Total Cost</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
-              {this.props.cartItems.map((item) => (
-                <TableRow
-                  key={item.product.name}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {item.product.name}
-                  </TableCell>
-                  <TableCell align="right">{item.quantity}</TableCell>
-                  <TableCell align="right">
-                    {(item.quantity * (item.product.price / 100)).toFixed(2)}
-                  </TableCell>
+
+            {!this.state.didFetch ? (
+              <TableBody>
+                <TableRow>
+                  <TableCell>Loading...</TableCell>
+                </TableRow>
+              </TableBody>
+            ) : this.props.cartItems.length === 0 ? (
+              <TableBody>
+                <TableRow>
+                  <TableCell>Time to go shopping</TableCell>
+                </TableRow>
+              </TableBody>
+            ) : (
+              <TableBody>
+                {this.props.cartItems.map((item) => (
+                  <TableRow
+                    key={item.product.name}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {item.product.name}
+                    </TableCell>
+                    <TableCell align="right">
+                      <Select
+                        name={item.product.id.toString()}
+                        value={
+                          this.state.quantity[item.product.id]
+                            ? this.state.quantity[item.product.id]
+                            : ""
+                        }
+                        onChange={this.handleChange}
+                      >
+                        {Array(item.quantity < 10 ? 10 : item.quantity + 5)
+                          .fill("")
+                          .map((x, i) => {
+                            return (
+                              <MenuItem key={i} value={i + 1}>
+                                {i + 1}
+                              </MenuItem>
+                            );
+                          })}
+                      </Select>
+                      <Button
+                        onClick={() => this.props.removeCartItem(item.id)}
+                      >
+                        <Delete />
+                      </Button>
+                    </TableCell>
+                    <TableCell align="right">
+                      {(item.quantity * (item.product.price / 100)).toFixed(2)}
+                    </TableCell>
+                    <TableCell />
+                  </TableRow>
+                ))}
+                <TableRow>
+                  <TableCell />
                   <TableCell>
-                    {/* want to send the whole item so that i can increase the quanitity in the products db */}
-                    <Button onClick={() => this.props.removeCartItem(item.id)}>
-                      Remove
-                    </Button>
+                    <Link to="/checkout">
+                      <Button onClick={() => this.checkoutClickHandler()}>
+                        Checkout
+                      </Button>
+                    </Link>
+                  </TableCell>
+                  <TableCell />
+                  <TableCell align="right">
+                    Total:
+                    {(this.state.total / 100).toFixed(2)}
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
+              </TableBody>
+            )}
           </Table>
         </TableContainer>
-        <Link to="/checkout">
-          <Button onClick={() => this.checkoutClickHandler()}>Checkout</Button>
-        </Link>
-        <Link to="/">
-          <Button>Back to Products</Button>
-        </Link>
-        <div>Total: {(this.state.total / 100).toFixed(2)}</div>
       </div>
     );
   }
@@ -97,6 +176,8 @@ const mapDispatch = (dispatch) => {
     removeCartItem: (id) => dispatch(removeCartItem(id)),
     closeOrder: (order) => dispatch(closeOrder(order)),
     clearCart: () => dispatch(clearCart()),
+    updateCart: (productId, quantity, inCart) =>
+      dispatch(updateCart(productId, quantity, inCart)),
   };
 };
 
