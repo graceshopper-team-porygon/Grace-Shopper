@@ -144,7 +144,7 @@ class Cart extends React.Component {
                           })}
                       </Select>
                       <Button
-                        onClick={() => this.props.removeCartItem(item.id)}
+                        onClick={() => this.props.removeCartItem(item)}
                       >
                         <Delete />
                       </Button>
@@ -189,7 +189,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     getCartItems: () => dispatch(getCartItems()),
-    removeCartItem: (id) => dispatch(removeCartItem(id)),
+    removeCartItem: (item) => dispatch(removeCartItem(item)),
     closeOrder: (order) => dispatch(closeOrder(order)),
     clearCart: () => dispatch(clearCart()),
     updateCart: (productId, quantity, inCart) =>

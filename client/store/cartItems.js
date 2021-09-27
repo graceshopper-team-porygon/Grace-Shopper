@@ -4,15 +4,9 @@ const TOKEN = "token";
 const CART = "cart";
 
 const REMOVE_CART_ITEM = "remove_cart_items";
-const _removeCartItem = (id) => ({
+const _removeCartItem = (cartItem) => ({
   type: REMOVE_CART_ITEM,
-  id,
-});
-
-const REMOVE_CART_ITEM_FROM_LS = "remove_cart_items_from_ls";
-const _removeCartItemFromLs = (id) => ({
-  type: REMOVE_CART_ITEM_FROM_LS,
-  id,
+  cartItem,
 });
 
 const GET_CART_ITEMS = "get_cart_items";
@@ -38,23 +32,24 @@ export const clearCart = () => ({
   type: CLEAR_CART,
 });
 
-export const removeCartItem = (cartItemId) => {
+export const removeCartItem = (cartItem) => {
   return async (dispatch) => {
     try {
       const token = window.localStorage.getItem(TOKEN);
       if (token) {
         //remove
-        const res = await axios.delete(`/api/items/${cartItemId}`, {
+        const res = await axios.delete(`/api/items/${cartItem.id}`, {
           headers: { authorization: token },
         });
-
-        dispatch(_removeCartItem(cartItemId));
+        
       } else {
         const lsCart = JSON.parse(window.localStorage.getItem(CART));
         if (lsCart) {
-          lsCart.filter((item) => item.productId);
+          const newLsCart = lsCart.filter((item) => item.productId !== cartItem.product.id);
+          window.localStorage.setItem(CART, JSON.stringify(newLsCart))
         }
       }
+      dispatch(_removeCartItem(cartItem));
     } catch (e) {
       console.log(e);
     }
@@ -186,14 +181,14 @@ export default function (state = [], action) {
     case UPDATE_CART:
       const newItems = state.map((item) => {
         console.log("REDUCER", action.cartItem);
-        if (item.id === action.cartItem.id)
+        if (item.productId === action.cartItem.productId)
           item.quantity = action.cartItem.quantity;
         return item;
       });
       return newItems;
     case REMOVE_CART_ITEM:
       const newCartItems = state.filter(
-        (cartItem) => cartItem.id !== action.id
+        (cartItem) => cartItem.product.id !== action.cartItem.product.id
       );
       return newCartItems;
     case ADD_TO_CART:
