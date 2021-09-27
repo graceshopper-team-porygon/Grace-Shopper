@@ -38,7 +38,6 @@ router.get("/", requireToken, async (req, res, next) => {
 });
 
 router.post("/", requireToken, async (req, res, next) => {
-  console.log('post req.body', req.body)
   try {
     let newItem = await CartItem.create({
       quantity: req.body.quantity,
@@ -47,8 +46,8 @@ router.post("/", requireToken, async (req, res, next) => {
       curPrice: req.body.product.price,
       orderId: req.body.product.orderId,
     });
-    //decrement from product quantity in database
-    const product = await Product.findByPk(req.body.product.id);
+    // decrement from product quantity in database
+    // const product = await Product.findByPk(req.body.product.id);
     //make sure cartItems array gets an item that includes a product before getCartItems is called
     newItem = await CartItem.findOne({
       where: { id: newItem.id },
@@ -62,13 +61,15 @@ router.post("/", requireToken, async (req, res, next) => {
 
 router.put("/", requireToken, async (req, res, next) => {
   try {
-    console.log("in the put request");
     const updatedItem = await CartItem.findOne({
       where: { productId: req.body.productId, userId: req.user.id },
     });
-    const product = await Product.findByPk(req.body.productId);
-    if(req.body.inCart) updatedItem.update({quantity: req.body.quantity})
-    else updatedItem.update({ quantity: updatedItem.quantity + req.body.quantity });
+    //  const product = await Product.findByPk(req.body.productId);
+    if (req.body.inCart) updatedItem.update({ quantity: req.body.quantity });
+    else
+      updatedItem.update({
+        quantity: updatedItem.quantity + req.body.quantity,
+      });
     res.json(updatedItem);
   } catch (error) {
     next(error);

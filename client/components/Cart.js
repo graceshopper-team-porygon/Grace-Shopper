@@ -5,8 +5,9 @@ import {
   removeCartItem,
   clearCart,
   updateCart,
+  addToCart,
 } from "../store/cartItems";
-import { closeOrder } from "../store/order";
+import order, { closeOrder, setOrder } from "../store/order";
 import React, { useState, useEffect } from "react";
 // import * as React from "react";
 import Table from "@material-ui/core/Table";
@@ -29,6 +30,22 @@ class Cart extends React.Component {
   }
 
   async componentDidMount() {
+    await this.props.setOrder();
+    if (window.localStorage.getItem("cart")) {
+      if (window.localStorage.getItem("token")) {
+        const lsCart = JSON.parse(window.localStorage.getItem("cart"));
+        lsCart.map((item) => {
+          item.product.orderId = this.props.order.id;
+          item.product.quantity = item.quantity;
+        });
+        Promise.all(
+          lsCart.map((item) =>
+            this.props.addToCart(item.product, item.product.quantity)
+          )
+        );
+        window.localStorage.removeItem("cart");
+      }
+    }
     await this.props.getCartItems();
     this.setState({
       didFetch: true,
@@ -60,8 +77,6 @@ class Cart extends React.Component {
       const order = { total, orderId };
       this.props.clearCart();
       this.props.closeOrder(order);
-    } else {
-      console.log("you are a visitor");
     }
   }
 
@@ -178,17 +193,20 @@ const mapState = (state) => {
   return {
     userId: state.auth.id,
     cartItems: state.cartItems,
+    order: state.order,
   };
 };
 
 const mapDispatch = (dispatch) => {
   return {
     getCartItems: () => dispatch(getCartItems()),
+    addToCart: (item, qty) => dispatch(addToCart(item, qty)),
     removeCartItem: (id) => dispatch(removeCartItem(id)),
     closeOrder: (order) => dispatch(closeOrder(order)),
     clearCart: () => dispatch(clearCart()),
     updateCart: (productId, quantity, inCart) =>
       dispatch(updateCart(productId, quantity, inCart)),
+    setOrder: () => dispatch(setOrder()),
   };
 };
 

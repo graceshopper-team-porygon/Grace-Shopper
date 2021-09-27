@@ -50,9 +50,7 @@ export const removeCartItem = (cartItemId) => {
   };
 };
 
-//going to try to take care of all guest cart in one thunk rather than splitting into updateCart as well
 export const addToCart = (product, quantity = 1) => {
-  console.log('thunk quantity', quantity)
   return async (dispatch) => {
     try {
       let token = window.localStorage.getItem(TOKEN);
@@ -79,7 +77,7 @@ export const addToCart = (product, quantity = 1) => {
             lsCart.push({
               productId: product.id,
               quantity: 1,
-              product: product
+              product: product,
             });
             break;
           }
@@ -92,7 +90,7 @@ export const addToCart = (product, quantity = 1) => {
           {
             productId: product.id,
             quantity: 1,
-            product: product
+            product: product,
           },
         ];
         window.localStorage.setItem(CART, JSON.stringify(newItem));
@@ -113,7 +111,7 @@ export const updateCart = (productId, quantity = 1, inCart = false) => {
           {
             productId,
             quantity,
-            inCart
+            inCart,
           },
           {
             headers: {

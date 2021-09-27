@@ -40,21 +40,9 @@ export class AllProducts extends React.Component {
     this.addClickHandler = this.addClickHandler.bind(this);
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.props.getProducts();
-    await this.props.setOrder();
-    if (window.localStorage.getItem("cart")) {
-      if (window.localStorage.getItem("token")) {
-        const lsCart = JSON.parse(window.localStorage.getItem("cart"))
-        lsCart.map(item => {
-          item.product.orderId = this.props.order.id
-          item.product.quantity = item.quantity
-          console.log('quantity', item.quantity)
-        })
-        Promise.all(lsCart.map(item => this.props.addToCart(item.product, item.product.quantity)))
-      }
-      window.localStorage.removeItem("cart");
-    }
+    this.props.setOrder();
     this.props.getCartItems();
     this.props.fetchAllUsers();
   }
@@ -159,9 +147,9 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     getProducts: () => dispatch(fetchProducts()),
-    addToCart: (item, qty) => dispatch(addToCart(item, qty)),
+    addToCart: (item) => dispatch(addToCart(item)),
     getCartItems: () => dispatch(getCartItems()),
-    updateCart: (productId, qty=1) => dispatch(updateCart(productId, qty)),
+    updateCart: (productId, qty = 1) => dispatch(updateCart(productId, qty)),
     fetchAllUsers: () => dispatch(fetchAllUsers()),
     fetchDeleteProduct: (id) => dispatch(fetchDeleteProduct(id)),
     setOrder: () => dispatch(setOrder()),

@@ -41,7 +41,11 @@ export const authenticate =
       });
       window.localStorage.setItem(TOKEN, res.data.token);
       dispatch(me());
-      history.push("/");
+      if (window.localStorage.getItem("cart")) {
+        history.push("/myCart");
+      } else {
+        history.push("/");
+      }
     } catch (authError) {
       console.log("Goodbye", authError);
       return dispatch(setAuth({ error: authError }));
