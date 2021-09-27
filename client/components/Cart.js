@@ -5,6 +5,7 @@ import {
   removeCartItem,
   clearCart,
   updateCart,
+  _getCartItems,
 } from "../store/cartItems";
 import { closeOrder } from "../store/order";
 import React, { useState, useEffect } from "react";
@@ -24,18 +25,29 @@ import { Delete, Done } from "@material-ui/icons";
 class Cart extends React.Component {
   constructor() {
     super();
-    this.state = { didFetch: false, quantity: {}, total: 0, updated: false };
+    this.state = {
+      didFetch: false,
+      quantity: {},
+      total: 0,
+      updated: false,
+    };
     this.handleChange = this.handleChange.bind(this);
   }
 
   async componentDidMount() {
-    await this.props.getCartItems();
+    if (window.localStorage.getItem("cart")) {
+      await this.props.setCart(JSON.parse(window.localStorage.getItem("cart")));
+    } else {
+      await this.props.getCartItems();
+    }
+
     this.setState({
       didFetch: true,
       total: this.props.cartItems
         .map((item) => item.quantity * item.product.price)
         .reduce((prev, curr) => prev + curr, 0),
     });
+
     this.props.cartItems.forEach((item) =>
       this.setState({
         quantity: {
@@ -45,14 +57,17 @@ class Cart extends React.Component {
       })
     );
   }
+
   componentDidUpdate(prevProps, prevState) {
     const total = this.props.cartItems
       .map((item) => item.quantity * item.product.price)
       .reduce((prev, curr) => prev + curr, 0);
+
     if (prevState.total !== total) {
       this.setState({ total });
     }
   }
+
   checkoutClickHandler() {
     const orderId = this.props.cartItems[0].orderId;
     const total = this.state.total;
@@ -69,6 +84,7 @@ class Cart extends React.Component {
       },
       updated: true,
     });
+
     this.props.updateCart(e.target.name, e.target.value, true);
     //dispatch thunk to store to update price and total price
   }
@@ -178,6 +194,7 @@ const mapDispatch = (dispatch) => {
     clearCart: () => dispatch(clearCart()),
     updateCart: (productId, quantity, inCart) =>
       dispatch(updateCart(productId, quantity, inCart)),
+    setCart: (cart) => dispatch(_getCartItems(cart)),
   };
 };
 
