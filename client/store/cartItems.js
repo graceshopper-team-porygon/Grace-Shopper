@@ -9,8 +9,14 @@ const _removeCartItem = (id) => ({
   id,
 });
 
+const REMOVE_CART_ITEM_FROM_LS = "remove_cart_items_from_ls";
+const _removeCartItemFromLs = (id) => ({
+  type: REMOVE_CART_ITEM_FROM_LS,
+  id,
+});
+
 const GET_CART_ITEMS = "get_cart_items";
-const _getCartItems = (items) => ({
+export const _getCartItems = (items) => ({
   type: GET_CART_ITEMS,
   items,
 });
@@ -43,6 +49,11 @@ export const removeCartItem = (cartItemId) => {
         });
 
         dispatch(_removeCartItem(cartItemId));
+      } else {
+        const lsCart = JSON.parse(window.localStorage.getItem(CART));
+        if (lsCart) {
+          lsCart.filter((item) => item.productId);
+        }
       }
     } catch (e) {
       console.log(e);
@@ -83,6 +94,7 @@ export const addToCart = (product, quantity = 1) => {
             lsCart.push({
               productId: product.id,
               quantity: 1,
+              product,
             });
             break;
           }
@@ -96,6 +108,7 @@ export const addToCart = (product, quantity = 1) => {
           {
             productId: product.id,
             quantity: 1,
+            product,
           },
         ];
         window.localStorage.setItem(CART, JSON.stringify(newItem));
@@ -116,7 +129,7 @@ export const updateCart = (productId, quantity = 1, inCart = false) => {
           {
             productId,
             quantity,
-            inCart
+            inCart,
           },
           {
             headers: {
@@ -125,6 +138,22 @@ export const updateCart = (productId, quantity = 1, inCart = false) => {
           }
         );
         dispatch(_updateCart(res.data));
+      } else {
+        const lsCart = JSON.parse(window.localStorage.getItem(CART));
+        if (lsCart) {
+          for (let i = 0; i < lsCart.length; i++) {
+            if (lsCart[i].productId === +productId) {
+              lsCart[i].quantity = quantity;
+            }
+          }
+
+          const updatedItem = lsCart.filter(
+            (item) => item.productId === +productId
+          );
+
+          window.localStorage.setItem(CART, JSON.stringify(lsCart));
+          dispatch(_updateCart(updatedItem[0]));
+        }
       }
     } catch (error) {
       console.log(error);
@@ -156,6 +185,7 @@ export default function (state = [], action) {
   switch (action.type) {
     case UPDATE_CART:
       const newItems = state.map((item) => {
+        console.log("REDUCER", action.cartItem);
         if (item.id === action.cartItem.id)
           item.quantity = action.cartItem.quantity;
         return item;
