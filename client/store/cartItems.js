@@ -32,6 +32,11 @@ const _updateCart = (cartItem) => ({
   cartItem,
 });
 
+const CLEAR_CART = "clear_cart";
+export const clearCart = () => ({
+  type: CLEAR_CART,
+});
+
 export const removeCartItem = (cartItemId) => {
   return async (dispatch) => {
     try {
@@ -50,43 +55,11 @@ export const removeCartItem = (cartItemId) => {
   };
 };
 
-// export const deleteCart = () => {
-//   return async (dispatch) => {
-//     try {
-//       console.log('in delete cart')
-//       const token = window.localStorage.getItem(TOKEN);
-//       if (token) {
-//         const res = await axios.delete(`/api/items`, {
-//           headers: { authorization: token }
-//         })
-//         dispatch(_deleteCart(res.data))
-//       }
-//     } catch (e) {
-//       console.log(e)
-//     }
-//   }
-// }
-
 export const addToCart = (product, quantity = 1) => {
   return async (dispatch) => {
     try {
       let token = window.localStorage.getItem(TOKEN);
       if (token) {
-        // const state = getState();
-        // const currentItem = state.cartItems.filter(
-        //   (item) => item.productId === product.id
-        // );
-
-        // if (currentItem.length !== 0) {
-        //   const res = await axios.put(
-        //     "/api/item",
-        //     { product, quantity },
-        //     {
-        //       headers: { authorization: token },
-        //     }
-        //   );
-        //   dispatch(_updateCart(res))
-        // } else {
         const res = await axios.post(
           "/api/items",
           { product, quantity },
@@ -168,12 +141,12 @@ export default function (state = [], action) {
         (cartItem) => cartItem.id !== action.id
       );
       return newCartItems;
-    // case DELETE_CART:
-    //   return [];
     case ADD_TO_CART:
       return [...state, action.cartItem];
     case GET_CART_ITEMS:
       return action.items;
+    case CLEAR_CART:
+      return [];
     default:
       return state;
   }

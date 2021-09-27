@@ -11,7 +11,6 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
-import deleteCart from "../store/cartItems";
 
 class Cart extends React.Component {
   constructor() {
@@ -50,6 +49,7 @@ class Cart extends React.Component {
                     {(item.quantity * (item.product.price / 100)).toFixed(2)}
                   </TableCell>
                   <TableCell>
+                    {/* want to send the whole item so that i can increase the quanitity in the products db */}
                     <Button onClick={() => this.props.removeCartItem(item.id)}>
                       Remove
                     </Button>
@@ -60,12 +60,14 @@ class Cart extends React.Component {
           </Table>
         </TableContainer>
         <Link to="/checkout">
-          {/* <Button onClick={this.props.deleteCart()}> */}
           <Button onClick={() => console.log("clicked!")}>Checkout</Button>
         </Link>
         <Link to="/">
           <Button>Back to Products</Button>
         </Link>
+        <div>
+          Total: {(this.props.cartItems.map((item) => item.quantity * item.product.price).reduce((prev, curr) => prev + curr, 0) / 100).toFixed(2)}
+        </div>
       </div>
     );
   }
@@ -82,7 +84,6 @@ const mapDispatch = (dispatch) => {
   return {
     getCartItems: () => dispatch(getCartItems()),
     removeCartItem: (id) => dispatch(removeCartItem(id)),
-    // deleteCart: () => dispatch(deleteCart())
   };
 };
 

@@ -4,7 +4,9 @@ const { models } = require("../db/");
 const requireToken = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
+    console.log("TOKEN", token);
     const user = await models.User.findByToken(token);
+    console.log("ID", user.id);
     req.user = user;
     next();
   } catch (error) {
@@ -18,7 +20,7 @@ const isAdmin = (req, res, next) => {
   else next();
 };
 
-const isSameUser = async (req,res,next)=>{
+const isSameUser = async (req, res, next) => {
   //if person's id is same as auth token
-}
+};
 module.exports = { isAdmin, requireToken };
