@@ -50,7 +50,6 @@ export class AllProducts extends React.Component {
   }
 
   addClickHandler(product) {
-    const orderId = this.props.order.id;
     const isItemInCart = this.props.cartItems.filter(
       (item) => item.productId === product.id
     );

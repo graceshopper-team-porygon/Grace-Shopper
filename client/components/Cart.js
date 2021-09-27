@@ -142,11 +142,7 @@ class Cart extends React.Component {
                 <TableRow>
                   <TableCell />
                   <TableCell>
-                    <Link to="/checkout">
-                      <Button onClick={() => this.checkoutClickHandler()}>
-                        Checkout
-                      </Button>
-                    </Link>
+
                   </TableCell>
                   <TableCell />
                   <TableCell align="right">
@@ -158,6 +154,11 @@ class Cart extends React.Component {
             )}
           </Table>
         </TableContainer>
+        <Link to="/checkout">
+          <Button onClick={() => this.checkoutClickHandler()}>
+            Checkout
+          </Button>
+        </Link>
       </div>
     );
   }
