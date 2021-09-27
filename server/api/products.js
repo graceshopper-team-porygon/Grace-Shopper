@@ -31,4 +31,24 @@ router.post("/", requireToken, isAdmin, async (req, res, next) => {
   }
 });
 
+router.delete("/:id", requireToken, isAdmin, async (req, res, next) => {
+  try {
+    const productToDelete = await Product.findByPk(req.params.id);
+    await productToDelete.destroy();
+    res.send(productToDelete);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.put("/:id", requireToken, isAdmin, async (req, res, next) => {
+  try {
+    const editProduct = await Product.findByPk(req.params.id);
+    await editProduct.update(req.body);
+    res.send(editProduct);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
