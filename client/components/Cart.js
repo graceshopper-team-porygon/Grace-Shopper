@@ -54,11 +54,15 @@ class Cart extends React.Component {
     }
   }
   checkoutClickHandler() {
-    const orderId = this.props.cartItems[0].orderId;
-    const total = this.state.total;
-    const order = { total, orderId };
-    this.props.clearCart();
-    this.props.closeOrder(order);
+    if (window.localStorage.getItem("token")) {
+      const orderId = this.props.cartItems[0].orderId;
+      const total = this.state.total;
+      const order = { total, orderId };
+      this.props.clearCart();
+      this.props.closeOrder(order);
+    } else {
+      console.log("you are a visitor");
+    }
   }
 
   handleChange(e) {
@@ -141,9 +145,7 @@ class Cart extends React.Component {
                 ))}
                 <TableRow>
                   <TableCell />
-                  <TableCell>
-
-                  </TableCell>
+                  <TableCell></TableCell>
                   <TableCell />
                   <TableCell align="right">
                     Total:
@@ -154,11 +156,19 @@ class Cart extends React.Component {
             )}
           </Table>
         </TableContainer>
-        <Link to="/checkout">
-          <Button onClick={() => this.checkoutClickHandler()}>
-            Checkout
-          </Button>
-        </Link>
+        {window.localStorage.getItem("token") ? (
+          <Link to="/checkout">
+            <Button onClick={() => this.checkoutClickHandler()}>
+              Checkout
+            </Button>
+          </Link>
+        ) : (
+          <Link to="/signup">
+            <Button onClick={() => this.checkoutClickHandler()}>
+              Checkout
+            </Button>
+          </Link>
+        )}
       </div>
     );
   }

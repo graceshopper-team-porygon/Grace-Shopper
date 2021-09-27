@@ -13,7 +13,7 @@ import {
 import { LockOutlined } from "@material-ui/icons";
 
 const AuthForm = (props) => {
-  const { name, displayName, handleSubmit, error, handleClick } = props;
+  const { name, displayName, handleSubmit, error } = props;
 
   return (
     <Container component="main" maxWidth="xs">

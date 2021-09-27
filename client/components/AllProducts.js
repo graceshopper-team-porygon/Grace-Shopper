@@ -42,6 +42,12 @@ export class AllProducts extends React.Component {
 
   componentDidMount() {
     this.props.getProducts();
+    if (window.localStorage.getItem("cart")) {
+      if (window.localStorage.getItem("token")) {
+        //call thunk to get local storage cart, send to database, associate with open order
+        console.log("New user needs cart in database"); //we are getting here
+      }
+    }
     this.props.getCartItems();
     if (this.props.isAdmin) {
       this.props.fetchAllUsers();
