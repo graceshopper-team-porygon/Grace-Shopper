@@ -15,8 +15,9 @@ router.get("/", requireToken, async (req, res, next) => {
     });
     if (existOrder) {
       res.send(existOrder);
+    } else {
+      res.send("no open orders");
     }
-    res.send("no open orders");
   } catch (error) {
     next(error);
   }
