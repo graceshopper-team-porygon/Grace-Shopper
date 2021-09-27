@@ -43,7 +43,9 @@ export class AllProducts extends React.Component {
   componentDidMount() {
     this.props.getProducts();
     this.props.getCartItems();
-    this.props.fetchAllUsers();
+    if (this.props.isAdmin) {
+      this.props.fetchAllUsers();
+    }
     this.props.setOrder();
   }
 
