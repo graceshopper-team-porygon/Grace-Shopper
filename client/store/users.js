@@ -2,6 +2,7 @@ import axios from "axios";
 
 const ALL_USERS = "ALL_USERS";
 const DELETE_USER = "DELETE_USER";
+const CLEAR_USERS = "CLEAR_USERS";
 const TOKEN = "token";
 
 const allUsers = (users) => {
@@ -15,6 +16,12 @@ const deleteUser = (user) => {
   return {
     type: DELETE_USER,
     user,
+  };
+};
+
+export const clearUsers = () => {
+  return {
+    type: CLEAR_USERS,
   };
 };
 
@@ -51,6 +58,8 @@ export default function allUsersReducer(state = [], action) {
       return action.users;
     case DELETE_USER:
       return state.filter((user) => user.id !== action.user.id);
+    case CLEAR_USERS:
+      return [];
     default:
       return state;
   }
