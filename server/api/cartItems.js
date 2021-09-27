@@ -49,7 +49,7 @@ router.post("/", requireToken, async (req, res, next) => {
     });
     //decrement from product quantity in database
     const product = await Product.findByPk(req.body.product.id);
-    product.update({ quantity: product.quantity - req.body.quantity });
+    // product.update({ quantity: product.quantity - req.body.quantity });
     //make sure cartItems array gets an item that includes a product before getCartItems is called
     newItem = await CartItem.findOne({
       where: { id: newItem.id },
@@ -68,7 +68,7 @@ router.put("/", requireToken, async (req, res, next) => {
       where: { productId: req.body.productId, userId: req.user.id },
     });
     const product = await Product.findByPk(req.body.productId);
-    product.update({ quantity: product.quantity - req.body.quantity });
+    // product.update({ quantity: product.quantity - req.body.quantity });
     updatedItem.update({ quantity: updatedItem.quantity + req.body.quantity });
     res.json(updatedItem);
   } catch (error) {
