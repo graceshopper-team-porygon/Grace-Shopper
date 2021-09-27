@@ -38,7 +38,7 @@ router.get("/", requireToken, async (req, res, next) => {
 });
 
 router.post("/", requireToken, async (req, res, next) => {
-  console.log(req.body)
+  console.log('post req.body', req.body)
   try {
     let newItem = await CartItem.create({
       quantity: req.body.quantity,

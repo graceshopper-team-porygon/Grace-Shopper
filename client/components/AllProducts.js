@@ -40,19 +40,23 @@ export class AllProducts extends React.Component {
     this.addClickHandler = this.addClickHandler.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.props.getProducts();
+    await this.props.setOrder();
     if (window.localStorage.getItem("cart")) {
       if (window.localStorage.getItem("token")) {
-        //call thunk to get local storage cart, send to database, associate with open order
-        console.log("New user needs cart in database"); //we are getting here
+        const lsCart = JSON.parse(window.localStorage.getItem("cart"))
+        lsCart.map(item => {
+          item.product.orderId = this.props.order.id
+          item.product.quantity = item.quantity
+          console.log('quantity', item.quantity)
+        })
+        Promise.all(lsCart.map(item => this.props.addToCart(item.product, item.product.quantity)))
       }
+      window.localStorage.removeItem("cart");
     }
     this.props.getCartItems();
-    if (this.props.isAdmin) {
-      this.props.fetchAllUsers();
-    }
-    this.props.setOrder();
+    this.props.fetchAllUsers();
   }
 
   addClickHandler(product) {
@@ -155,9 +159,9 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     getProducts: () => dispatch(fetchProducts()),
-    addToCart: (item) => dispatch(addToCart(item)),
+    addToCart: (item, qty) => dispatch(addToCart(item, qty)),
     getCartItems: () => dispatch(getCartItems()),
-    updateCart: (productId, qty = 1) => dispatch(updateCart(productId, qty)),
+    updateCart: (productId, qty=1) => dispatch(updateCart(productId, qty)),
     fetchAllUsers: () => dispatch(fetchAllUsers()),
     fetchDeleteProduct: (id) => dispatch(fetchDeleteProduct(id)),
     setOrder: () => dispatch(setOrder()),

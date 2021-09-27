@@ -52,10 +52,9 @@ export const removeCartItem = (cartItemId) => {
 
 //going to try to take care of all guest cart in one thunk rather than splitting into updateCart as well
 export const addToCart = (product, quantity = 1) => {
-  console.log('product', product)
+  console.log('thunk quantity', quantity)
   return async (dispatch) => {
     try {
-      console.log(product)
       let token = window.localStorage.getItem(TOKEN);
       if (token) {
         const res = await axios.post(
@@ -66,7 +65,6 @@ export const addToCart = (product, quantity = 1) => {
           }
         );
         dispatch(_addToCart(res.data));
-
         //if no token, check if there's a cart on the local storage.
         //If there is, add this item to it.
       } else if (window.localStorage.getItem(CART)) {
