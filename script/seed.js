@@ -170,6 +170,7 @@ const products = [
 ];
 
 const users = [
+  { password: "admin", username: "admin@admin.com", isAdmin: true },
   {
     password: "hello",
     username: "rracoon@gmail.com",
