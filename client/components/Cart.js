@@ -5,6 +5,7 @@ import {
   removeCartItem,
   clearCart,
   updateCart,
+  _getCartItems,
   addToCart,
 } from "../store/cartItems";
 import order, { closeOrder, setOrder } from "../store/order";
@@ -25,11 +26,22 @@ import { Delete, Done } from "@material-ui/icons";
 class Cart extends React.Component {
   constructor() {
     super();
-    this.state = { didFetch: false, quantity: {}, total: 0, updated: false };
+    this.state = {
+      didFetch: false,
+      quantity: {},
+      total: 0,
+      updated: false,
+    };
     this.handleChange = this.handleChange.bind(this);
   }
 
   async componentDidMount() {
+    if (window.localStorage.getItem("cart")) {
+      await this.props.setCart(JSON.parse(window.localStorage.getItem("cart")));
+    } else {
+      await this.props.getCartItems();
+    }
+
     await this.props.setOrder();
     if (window.localStorage.getItem("cart")) {
       if (window.localStorage.getItem("token")) {
@@ -53,6 +65,7 @@ class Cart extends React.Component {
         .map((item) => item.quantity * item.product.price)
         .reduce((prev, curr) => prev + curr, 0),
     });
+
     this.props.cartItems.forEach((item) =>
       this.setState({
         quantity: {
@@ -62,14 +75,17 @@ class Cart extends React.Component {
       })
     );
   }
+
   componentDidUpdate(prevProps, prevState) {
     const total = this.props.cartItems
       .map((item) => item.quantity * item.product.price)
       .reduce((prev, curr) => prev + curr, 0);
+
     if (prevState.total !== total) {
       this.setState({ total });
     }
   }
+
   checkoutClickHandler() {
     if (window.localStorage.getItem("token")) {
       const orderId = this.props.cartItems[0].orderId;
@@ -88,6 +104,7 @@ class Cart extends React.Component {
       },
       updated: true,
     });
+
     this.props.updateCart(e.target.name, e.target.value, true);
     //dispatch thunk to store to update price and total price
   }
@@ -147,7 +164,7 @@ class Cart extends React.Component {
                           })}
                       </Select>
                       <Button
-                        onClick={() => this.props.removeCartItem(item.id)}
+                        onClick={() => this.props.removeCartItem(item)}
                       >
                         <Delete />
                       </Button>
@@ -200,12 +217,13 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     getCartItems: () => dispatch(getCartItems()),
+    removeCartItem: (item) => dispatch(removeCartItem(item)),
     addToCart: (item, qty) => dispatch(addToCart(item, qty)),
-    removeCartItem: (id) => dispatch(removeCartItem(id)),
     closeOrder: (order) => dispatch(closeOrder(order)),
     clearCart: () => dispatch(clearCart()),
     updateCart: (productId, quantity, inCart) =>
       dispatch(updateCart(productId, quantity, inCart)),
+    setCart: (cart) => dispatch(_getCartItems(cart)),
     setOrder: () => dispatch(setOrder()),
   };
 };
