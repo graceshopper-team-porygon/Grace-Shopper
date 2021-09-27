@@ -11,20 +11,9 @@ import {
   AddCircleOutline,
 } from "@material-ui/icons";
 import { clearCart } from "../store/cartItems";
-import { getAuth, me } from "../store/auth";
-
-// const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
-// import  { Home, ShoppingCartOutlined } from '@material-ui/icons';
-// import { clearCart } from "../store/cartItems"
-// import {getAuth,me} from '../store/auth'
+import { clearUsers } from "../store/users";
 
 class Navbar extends React.Component {
-  constructor() {
-    super();
-  }
-  componentDidMount() {
-    this.props.me();
-  }
   render() {
     const { isLoggedIn, isAdmin, handleClick } = this.props;
 
@@ -71,7 +60,6 @@ class Navbar extends React.Component {
                   <Link to="/users">
                     <Button endIcon={<Group />}>Users List</Button>
                   </Link>
-                  <Button onClick={this.props.handleClick}>Logout</Button>
                 </div>
               ) : (
                 <div>
@@ -122,14 +110,10 @@ const mapDispatch = (dispatch) => {
     handleClick() {
       dispatch(logout());
       dispatch(clearCart());
+      dispatch(clearUsers());
     },
+
     fetchAllUsers: () => dispatch(fetchAllUsers()),
-    // getAuth(){
-    //   dispatch(getAuth())
-    // }
-    me() {
-      dispatch(me());
-    },
   };
 };
 
