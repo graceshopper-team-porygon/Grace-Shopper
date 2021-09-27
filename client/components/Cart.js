@@ -24,7 +24,7 @@ import { Delete, Done } from "@material-ui/icons";
 class Cart extends React.Component {
   constructor() {
     super();
-    this.state = { didFetch: false, quantity: {}, total: 0 };
+    this.state = { didFetch: false, quantity: {}, total: 0, updated: false };
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -45,14 +45,14 @@ class Cart extends React.Component {
       })
     );
   }
-  componentDidUpdate(prevProps,prevState) {
-    if(prevState.total !== this.state.total){
-      this.setState({total: this.props.cartItems
-        .map((item) => item.quantity * item.product.price)
-        .reduce((prev, curr) => prev + curr, 0),
-    })}
+  componentDidUpdate(prevProps, prevState) {
+    const total = this.props.cartItems
+      .map((item) => item.quantity * item.product.price)
+      .reduce((prev, curr) => prev + curr, 0);
+    if (prevState.total !== total) {
+      this.setState({ total });
     }
-  
+  }
   checkoutClickHandler() {
     const orderId = this.props.cartItems[0].orderId;
     const total = this.state.total;
@@ -67,6 +67,7 @@ class Cart extends React.Component {
         ...this.state.quantity,
         [e.target.name]: e.target.value,
       },
+      updated: true,
     });
     this.props.updateCart(e.target.name, e.target.value, true);
     //dispatch thunk to store to update price and total price
@@ -116,7 +117,7 @@ class Cart extends React.Component {
                         }
                         onChange={this.handleChange}
                       >
-                        {Array(item.quantity < 10? 10 : item.quantity+5)
+                        {Array(item.quantity < 10 ? 10 : item.quantity + 5)
                           .fill("")
                           .map((x, i) => {
                             return (
@@ -135,7 +136,7 @@ class Cart extends React.Component {
                     <TableCell align="right">
                       {(item.quantity * (item.product.price / 100)).toFixed(2)}
                     </TableCell>
-                    <TableCell/>
+                    <TableCell />
                   </TableRow>
                 ))}
                 <TableRow>
