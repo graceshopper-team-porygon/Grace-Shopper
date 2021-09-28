@@ -35,10 +35,10 @@ const _editProduct = (product) => {
   };
 };
 
-export const fetchProducts = () => {
+export const fetchProducts = (category) => {
   return async (dispatch) => {
     try {
-      const result = await axios.get("/api/products");
+      const result = await axios.get(`/api/products?category=${category}`);
       const data = result.data;
       dispatch(setProducts(data));
     } catch (err) {

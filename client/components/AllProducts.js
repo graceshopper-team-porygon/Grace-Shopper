@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchProducts, fetchDeleteProduct } from "../store/products";
 import { fetchAllUsers } from "../store/users";
+import {me} from '../store/auth'
 import { Link } from "react-router-dom";
 import { addToCart, getCartItems, updateCart } from "../store/cartItems";
 import { setOrder } from "../store/order";
@@ -14,6 +15,8 @@ import {
   Button,
   Typography,
   withStyles,
+  Select,
+  MenuItem,
 } from "@material-ui/core";
 import { HighlightOff, Edit } from "@material-ui/icons";
 
@@ -36,17 +39,22 @@ const useStyles = () => ({
 export class AllProducts extends React.Component {
   constructor() {
     super();
-
+this.state = ({category: 'all'})
     this.addClickHandler = this.addClickHandler.bind(this);
+    this.categoryChange = this.categoryChange.bind(this)
   }
 
   componentDidMount() {
-    this.props.getProducts();
+    this.props.getProducts('all');
     this.props.setOrder();
     this.props.getCartItems();
+    this.props.me()
     // this.props.fetchAllUsers();
   }
-
+categoryChange(e){
+  this.setState({category: e.target.value})
+  this.props.getProducts(e.target.value)
+}
   addClickHandler(product) {
     const isItemInCart = this.props.cartItems.filter(
       (item) => item.productId === product.id
@@ -68,6 +76,13 @@ export class AllProducts extends React.Component {
 
     return (
       <div>
+        <div className = 'category-selector'>
+          <Select value = {this.state.category}onChange = {this.categoryChange}>
+          <MenuItem value = 'all'>Plants & Pants</MenuItem>
+            <MenuItem value = 'pant'>Pants</MenuItem>
+            <MenuItem value = 'plant'>Plants</MenuItem>
+          </Select>
+        </div>
         <Grid container spacing={3} justifyContent="center">
           {this.props.products.map((product) => (
             <Grid item key={product.id} xs={12} md={6} lg={4}>
@@ -139,20 +154,20 @@ const mapState = (state) => {
     products: state.products,
     cartItems: state.cartItems,
     users: state.users,
-    isAdmin: !!state.users.length,
+    isAdmin: state.auth.isAdmin,
     order: state.order,
   };
 };
 
 const mapDispatch = (dispatch) => {
   return {
-    getProducts: () => dispatch(fetchProducts()),
+    getProducts: (category) => dispatch(fetchProducts(category)),
     addToCart: (item) => dispatch(addToCart(item)),
     getCartItems: () => dispatch(getCartItems()),
     updateCart: (productId, qty = 1) => dispatch(updateCart(productId, qty)),
-    fetchAllUsers: () => dispatch(fetchAllUsers()),
     fetchDeleteProduct: (id) => dispatch(fetchDeleteProduct(id)),
     setOrder: () => dispatch(setOrder()),
+    me: ()=> dispatch(me())
   };
 };
 

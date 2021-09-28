@@ -151,8 +151,6 @@ const mapDispatch = (dispatch) => {
       dispatch(clearCart());
       dispatch(clearUsers());
     },
-
-    fetchAllUsers: () => dispatch(fetchAllUsers()),
   };
 };
 
