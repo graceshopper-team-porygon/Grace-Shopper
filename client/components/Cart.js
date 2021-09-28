@@ -42,7 +42,6 @@ class Cart extends React.Component {
       await this.props.getCartItems();
     }
 
-    await this.props.setOrder();
     if (window.localStorage.getItem("cart")) {
       if (window.localStorage.getItem("token")) {
         const lsCart = JSON.parse(window.localStorage.getItem("cart"));

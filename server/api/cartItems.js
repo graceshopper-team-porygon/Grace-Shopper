@@ -39,13 +39,21 @@ router.get("/", requireToken, async (req, res, next) => {
 
 router.post("/", requireToken, async (req, res, next) => {
   try {
+    let order = await Order.findOne({
+      where: {
+        userId: req.user.id,
+        status: "In Progress"
+      }
+    })
+    console.log(order)
     let newItem = await CartItem.create({
       quantity: req.body.quantity,
       userId: req.user.id,
       productId: req.body.product.id,
       curPrice: req.body.product.price,
-      orderId: req.body.product.orderId,
+      orderId: order.id
     });
+    console.log('before product', newItem)
     // decrement from product quantity in database
     // const product = await Product.findByPk(req.body.product.id);
     //make sure cartItems array gets an item that includes a product before getCartItems is called
@@ -53,7 +61,9 @@ router.post("/", requireToken, async (req, res, next) => {
       where: { id: newItem.id },
       include: Product,
     });
+    console.log('after product', newItem)
     res.json(newItem);
+
   } catch (error) {
     next(error);
   }

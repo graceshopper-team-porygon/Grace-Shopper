@@ -46,7 +46,7 @@ this.state = ({category: 'all'})
 
   componentDidMount() {
     this.props.getProducts('all');
-    this.props.setOrder();
+    // this.props.setOrder();
     this.props.getCartItems();
     this.props.me()
     // this.props.fetchAllUsers();
@@ -59,10 +59,6 @@ categoryChange(e){
     const isItemInCart = this.props.cartItems.filter(
       (item) => item.productId === product.id
     );
-    const idxOfProd = this.props.products.indexOf(product);
-    this.props.products[idxOfProd].quantity--;
-
-    product.orderId = this.props.order.id;
 
     if (isItemInCart.length !== 1) {
       this.props.addToCart(product);
@@ -166,7 +162,6 @@ const mapDispatch = (dispatch) => {
     getCartItems: () => dispatch(getCartItems()),
     updateCart: (productId, qty = 1) => dispatch(updateCart(productId, qty)),
     fetchDeleteProduct: (id) => dispatch(fetchDeleteProduct(id)),
-    setOrder: () => dispatch(setOrder()),
     me: ()=> dispatch(me())
   };
 };

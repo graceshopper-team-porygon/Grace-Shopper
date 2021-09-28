@@ -26,24 +26,16 @@ const _closeOrder = (order) => ({
   order,
 });
 
-export const setOrder = (data) => {
+export const setOrder = () => {
   return async (dispatch) => {
     try {
       const token = window.localStorage.getItem(TOKEN);
       if (token) {
-        const existOrder = await axios.get("api/orders", {
+        const existOrder = await axios.get("/api/orders", {
           headers: {
             authorization: token,
           },
         });
-        if (existOrder.data === "no open orders") {
-          const newOrder = await axios.post("api/orders", data, {
-            headers: {
-              authorization: token,
-            },
-          });
-          return dispatch(_setOrder(newOrder.data));
-        }
         return dispatch(_setOrder(existOrder.data));
       }
     } catch (error) {

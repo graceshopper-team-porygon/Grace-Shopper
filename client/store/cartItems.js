@@ -1,4 +1,5 @@
 import axios from "axios";
+import { setOrder } from './order'
 
 const TOKEN = "token";
 const CART = "cart";
@@ -58,18 +59,23 @@ export const removeCartItem = (cartItem) => {
 };
 
 export const addToCart = (product, quantity = 1) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
       let token = window.localStorage.getItem(TOKEN);
       if (token) {
+        const { cartItems } = getState()
+        if (cartItems.length === 0) {
+          await dispatch(setOrder())
+        }
+
         const res = await axios.post(
           "/api/items",
           { product, quantity },
           {
             headers: { authorization: token },
           }
-        );
-        dispatch(_addToCart(res.data));
+          );
+          dispatch(_addToCart(res.data));
         //if no token, check if there's a cart on the local storage.
         //If there is, add this item to it.
       } else if (window.localStorage.getItem(CART)) {

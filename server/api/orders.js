@@ -7,29 +7,26 @@ module.exports = router;
 
 router.get("/", requireToken, async (req, res, next) => {
   try {
-    let existOrder = await Order.findOne({
+    let existOrder = await Order.findOrCreate({
       where: {
         userId: req.user.id,
         status: "In Progress",
       },
     });
-    if (existOrder) {
-      res.send(existOrder);
-    } else {
-      res.send("no open orders");
-    }
+    res.send(existOrder[0]);
   } catch (error) {
     next(error);
   }
 });
-router.post("/", requireToken, async (req, res, next) => {
-  try {
-    let newOrder = await Order.create({ userId: req.user.id });
-    res.send(newOrder);
-  } catch (error) {
-    next(error);
-  }
-});
+
+// router.post("/", requireToken, async (req, res, next) => {
+//   try {
+//     let newOrder = await Order.create({ userId: req.user.id });
+//     res.send(newOrder);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 router.put("/", requireToken, async (req, res, next) => {
   try {
