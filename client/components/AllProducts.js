@@ -44,7 +44,7 @@ export class AllProducts extends React.Component {
     this.props.getProducts();
     this.props.setOrder();
     this.props.getCartItems();
-    this.props.fetchAllUsers();
+    // this.props.fetchAllUsers();
   }
 
   addClickHandler(product) {

@@ -30,7 +30,7 @@ class Cart extends React.Component {
       didFetch: false,
       quantity: {},
       total: 0,
-      updated: false,
+      updated: false
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -65,7 +65,6 @@ class Cart extends React.Component {
         .map((item) => item.quantity * item.product.price)
         .reduce((prev, curr) => prev + curr, 0),
     });
-
     this.props.cartItems.forEach((item) =>
       this.setState({
         quantity: {
