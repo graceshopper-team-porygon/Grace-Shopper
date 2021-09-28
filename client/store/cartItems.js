@@ -101,14 +101,14 @@ export const addToCart = (product, quantity = 1) => {
       } else {
         //if there's not a cart, create one with this item
         // (they've just landed on page for first time)
-        const newItem = [
+        const newCart = [
           {
             productId: product.id,
             quantity: 1,
             product,
           },
         ];
-        window.localStorage.setItem(CART, JSON.stringify(newItem));
+        window.localStorage.setItem(CART, JSON.stringify(newCart));
         // dispatch(_addToCart(newItem[0]));
       }
     } catch (error) {
@@ -169,7 +169,9 @@ export const getCartItems = () => {
     try {
       const token = window.localStorage.getItem(TOKEN);
       if (token) {
+        console.log("has token");
         if (window.localStorage.getItem("cart")) {
+          console.log("has a cart");
           await dispatch(setOrder());
           const cart = JSON.parse(window.localStorage.getItem("cart"));
           Promise.all(
