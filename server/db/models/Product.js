@@ -30,6 +30,9 @@ const Product = db.define("product", {
     type: Sequelize.TEXT,
     defaultValue: "/product_images/image-to-come.jpeg",
   },
+  category: {
+    type: Sequelize.STRING
+  }
 });
 
 module.exports = Product;

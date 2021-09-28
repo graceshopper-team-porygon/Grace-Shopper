@@ -14,6 +14,7 @@ const products = [
     price: 799,
     imageUrl: "/product_images/echeveria_arachnoides.jpeg",
     description: "Succulent",
+    category: 'plant'
   },
   {
     name: "Monstera Deliciosa",
@@ -22,16 +23,18 @@ const products = [
     imageUrl: "/product_images/monstera_deliciosa.jpg",
     description:
       "the Swiss cheese plant, is a species of flowering plant native to tropical forests of southern Mexico.",
+      category: 'plant'
   },
   {
     name: "Zamioculcus Zamifolia",
     quantity: 10,
     price: 5499,
     imageUrl: "/product_images/zamioculcus_zamifolia.jpeg",
+    category: 'plant',
     description:
       "Zamioculcas is a genus of flowering plants in the family Araceae, containing the single species Zamioculcas zamiifolia. It is a tropical perennial plant native to eastern Africa, from southern Kenya to northeastern South Africa.",
   },
-  {
+  {category: 'plant',
     name: "Ficus Lyrata",
     quantity: 10,
     price: 9500,
@@ -39,7 +42,7 @@ const products = [
     description:
       "Commonly known as the fiddle-leaf fig, is a species of flowering plant in the mulberry and fig family Moraceae. It is native to western Africa, from Cameroon west to Sierra Leone, where it grows in lowland tropical rainforest. It can grow up to 12–15 m tall.",
   },
-  {
+  {category: 'plant',
     name: "Begonia Rex",
     quantity: 10,
     price: 2499,
@@ -47,7 +50,7 @@ const products = [
     description:
       "The king begonia, is a species of flowering plant in the family Begoniaceae. It is found from Arunachal Pradesh to southeast China, and has been introduced to Bangladesh, Cuba, and Hispaniola.",
   },
-  {
+  {category: 'plant',
     name: "Venus Fly Trap",
     quantity: 10,
     price: 1200,
@@ -55,7 +58,7 @@ const products = [
     description:
       "The Venus flytrap is a carnivorous plant native to subtropical wetlands on the East Coast of the United States in North Carolina and South Carolina.",
   },
-  {
+  {category: 'plant',
     name: "Snake Plant",
     quantity: 10,
     price: 4999,
@@ -63,7 +66,7 @@ const products = [
     description:
       "Dracaena trifasciata is a species of flowering plant in the family Asparagaceae, native to tropical West Africa from Nigeria east to the Congo. It is most commonly known as the snake plant, Saint George's sword, mother-in-law's tongue, and viper's bowstring hemp, among other names.",
   },
-  {
+  {category: 'plant',
     name: "Lady Palm",
     quantity: 10,
     price: 12595,
@@ -71,7 +74,7 @@ const products = [
     description:
       "Rhapis excelsa, also known as broadleaf lady palm or bamboo palm, is a species of fan palm in the genus Rhapis, probably native to southern China and Taiwan. It is not known in the wild; all known plants come from cultivated groups in China. ",
   },
-  {
+  {category: 'plant',
     name: "Ponytail Palm",
     quantity: 10,
     price: 6995,
@@ -79,7 +82,7 @@ const products = [
     description:
       "Beaucarnea recurvata, the elephant's foot or ponytail palm, is a species of plant in the family Asparagaceae. The species was native to numerous states of eastern Mexico but is now confined to the state of Veracruz. Despite its common name, it is not closely related to the true palms. ",
   },
-  {
+  {category: 'plant',
     name: "Corn Plant",
     quantity: 10,
     price: 7995,
@@ -87,7 +90,7 @@ const products = [
     description:
       "Dracaena fragrans, is a flowering plant species that is native throughout tropical Africa, from Sudan south to Mozambique, west to Côte d'Ivoire and southwest to Angola, growing in upland regions at 600–2,250 m altitude. It is also known as striped dracaena, compact dracaena, and corn plant. ",
   },
-  {
+  {category: 'pant',
     name: "Hammer Pants",
     quantity: 10,
     price: 2500,
@@ -95,7 +98,7 @@ const products = [
     description:
       "Hammer pants are customized/modified baggy pants tapered at the ankle with a sagging rise made suitable for hip-hop dancing.",
   },
-  {
+  {category: 'pant',
     name: "Harem Pants",
     quantity: 10,
     price: 4700,
@@ -103,7 +106,7 @@ const products = [
     description:
       "Harem pants are loose fitted, flowing pants, that end right around the ankles and can have a straight fit that is pinched at the end or a drop crotch style.",
   },
-  {
+  {category: 'pant',
     name: "Cow Print Pants",
     quantity: 10,
     price: 1300,
@@ -111,7 +114,7 @@ const products = [
     description:
       "A pair of knit pants featuring an allover cow print, a high-rise, elasticized waistband, and a flare leg.",
   },
-  {
+  {category: 'pant',
     name: "Sailor Pants",
     quantity: 10,
     price: 7200,
@@ -119,7 +122,7 @@ const products = [
     description:
       "Sailor trousers are wide-leg, high-waisted slacks with buttons along the pockets creating a bib front",
   },
-  {
+  {category: 'pant',
     name: "Hearts Jeans",
     quantity: 10,
     price: 6799,
@@ -127,7 +130,7 @@ const products = [
     description:
       "The heart knows what it wants, and something tells me it’s these! Wide-leg jeans in high-waisted fit with super-fun graffiti-style heart graphic print all-over. Including button and zip closure, front round pockets and back patch pockets. Crushin’ hard.",
   },
-  {
+  {category: 'pant',
     name: "Punk Jogger Cargo Pants",
     quantity: 10,
     price: 3699,
@@ -135,7 +138,7 @@ const products = [
     description:
       "These mens joggers pants are made of high quality imported cotton material and excellent imported polyester material. It is very comfortable and breathable. These joggers are suitable for all seasons.",
   },
-  {
+  {category: 'pant',
     name: "Paint Pants",
     quantity: 10,
     price: 2899,
@@ -143,7 +146,7 @@ const products = [
     description:
       "This casual sweatpant is soft and comfy. Great for festivals and birthday gift choice!",
   },
-  {
+  {category: 'pant',
     name: "Khaki Pants",
     quantity: 10,
     price: 2900,
@@ -151,7 +154,7 @@ const products = [
     description:
       "Just your common khaki pant for those buyers that don't want to think too much about what to put on in the morning and blend in with the plaster",
   },
-  {
+  {category: 'pant',
     name: "Yoga Pants",
     quantity: 10,
     price: 1999,
@@ -159,7 +162,7 @@ const products = [
     description:
       "Yoga pants are high-denier hosiery reaching from ankle to waist, originally designed for yoga as exercise and first sold in 1998 by Lululemon.",
   },
-  {
+  {category: 'pant',
     name: "Pencil Pants",
     quantity: 10,
     price: 5499,

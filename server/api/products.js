@@ -6,7 +6,12 @@ const { requireToken, isAdmin } = require("./gatekeeping");
 
 router.get("/", async (req, res, next) => {
   try {
-    const result = await Product.findAll();
+    const category = req.query.category;
+
+    const result =
+      category === "all"
+        ? await Product.findAll()
+        : await Product.findAll({ where: { category }});
     res.send(result);
   } catch (err) {
     next(err);
