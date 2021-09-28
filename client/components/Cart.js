@@ -36,12 +36,7 @@ class Cart extends React.Component {
   }
 
   async componentDidMount() {
-    if (window.localStorage.getItem("cart")) {
-      await this.props.setCart(JSON.parse(window.localStorage.getItem("cart")));
-    } else {
-      await this.props.getCartItems();
-    }
-
+//this is our way to check if they were a recent guest. keep this
     if (window.localStorage.getItem("cart")) {
       if (window.localStorage.getItem("token")) {
         const lsCart = JSON.parse(window.localStorage.getItem("cart"));
@@ -57,7 +52,9 @@ class Cart extends React.Component {
         window.localStorage.removeItem("cart");
       }
     }
+
     await this.props.getCartItems();
+
     this.setState({
       didFetch: true,
       total: this.props.cartItems

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setOrder } from './order'
+import { setOrder } from "./order";
 
 const TOKEN = "token";
 const CART = "cart";
@@ -43,12 +43,13 @@ export const removeCartItem = (cartItem) => {
         const res = await axios.delete(`/api/items/${cartItem.id}`, {
           headers: { authorization: token },
         });
-
       } else {
         const lsCart = JSON.parse(window.localStorage.getItem(CART));
         if (lsCart) {
-          const newLsCart = lsCart.filter((item) => item.productId !== cartItem.product.id);
-          window.localStorage.setItem(CART, JSON.stringify(newLsCart))
+          const newLsCart = lsCart.filter(
+            (item) => item.productId !== cartItem.product.id
+          );
+          window.localStorage.setItem(CART, JSON.stringify(newLsCart));
         }
       }
       dispatch(_removeCartItem(cartItem));
@@ -63,9 +64,9 @@ export const addToCart = (product, quantity = 1) => {
     try {
       let token = window.localStorage.getItem(TOKEN);
       if (token) {
-        const { cartItems } = getState()
+        const { cartItems } = getState();
         if (cartItems.length === 0) {
-          await dispatch(setOrder())
+          await dispatch(setOrder());
         }
 
         const res = await axios.post(
@@ -74,8 +75,8 @@ export const addToCart = (product, quantity = 1) => {
           {
             headers: { authorization: token },
           }
-          );
-          dispatch(_addToCart(res.data));
+        );
+        dispatch(_addToCart(res.data));
         //if no token, check if there's a cart on the local storage.
         //If there is, add this item to it.
       } else if (window.localStorage.getItem(CART)) {
@@ -96,8 +97,7 @@ export const addToCart = (product, quantity = 1) => {
           }
         }
         window.localStorage.setItem(CART, JSON.stringify(lsCart));
-        dispatch(_addToCart(newItem[0]))
-
+        dispatch(_addToCart(newItem[0]));
       } else {
         //if there's not a cart, create one with this item
         // (they've just landed on page for first time)
@@ -109,7 +109,7 @@ export const addToCart = (product, quantity = 1) => {
           },
         ];
         window.localStorage.setItem(CART, JSON.stringify(newItem));
-        dispatch(_addToCart(newItem[0]))
+        dispatch(_addToCart(newItem[0]));
       }
     } catch (error) {
       console.log(error);
@@ -144,7 +144,7 @@ export const updateCart = (productId, quantity = 1, inCart = false) => {
               if (inCart) {
                 lsCart[i].quantity = quantity;
               } else {
-                lsCart[i].quantity = lsCart[i].quantity + 1
+                lsCart[i].quantity = lsCart[i].quantity + 1;
               }
             }
           }
@@ -175,6 +175,12 @@ export const getCartItems = () => {
           },
         });
         return dispatch(_getCartItems(res.data));
+      } else {
+        if (window.localStorage.getItem("cart")) {
+          dispatch(
+            _getCartItems(JSON.parse(window.localStorage.getItem("cart")))
+          );
+        }
       }
     } catch (error) {
       console.log(error);
