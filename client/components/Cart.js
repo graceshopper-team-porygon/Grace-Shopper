@@ -30,28 +30,29 @@ class Cart extends React.Component {
       didFetch: false,
       quantity: {},
       total: 0,
-      updated: false
+      updated: false,
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
   async componentDidMount() {
-//this is our way to check if they were a recent guest. keep this
-    if (window.localStorage.getItem("cart")) {
-      if (window.localStorage.getItem("token")) {
-        const lsCart = JSON.parse(window.localStorage.getItem("cart"));
-        lsCart.map((item) => {
-          item.product.orderId = this.props.order.id;
-          item.product.quantity = item.quantity;
-        });
-        Promise.all(
-          lsCart.map((item) =>
-            this.props.addToCart(item.product, item.product.quantity)
-          )
-        );
-        window.localStorage.removeItem("cart");
-      }
-    }
+    //this is our way to check if they were a recent guest. keep this
+    // if (window.localStorage.getItem("cart")) {
+    //   if (window.localStorage.getItem("token")) {
+    //     const lsCart = JSON.parse(window.localStorage.getItem("cart"));
+    // lsCart.map((item) => {
+    //   item.product.orderId = this.props.order.id;
+    //   item.product.quantity = item.quantity;
+    // });
+
+    // Promise.all(
+    //   lsCart.map((item) =>
+    //     this.props.addToCart(item.product, item.quantity)
+    //   )
+    // );
+    // window.localStorage.removeItem("cart");
+    //   }
+    // }
 
     await this.props.getCartItems();
 
@@ -158,9 +159,7 @@ class Cart extends React.Component {
                             );
                           })}
                       </Select>
-                      <Button
-                        onClick={() => this.props.removeCartItem(item)}
-                      >
+                      <Button onClick={() => this.props.removeCartItem(item)}>
                         <Delete />
                       </Button>
                     </TableCell>
