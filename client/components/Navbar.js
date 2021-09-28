@@ -12,8 +12,12 @@ import {
 } from "@material-ui/icons";
 import { clearCart } from "../store/cartItems";
 import { clearUsers } from "../store/users";
+import {me} from '../store/auth'
 
 class Navbar extends React.Component {
+  componentDidMount(){
+    this.props.me()
+  }
   render() {
     const { isLoggedIn, isAdmin, handleClick } = this.props;
 
@@ -100,13 +104,15 @@ class Navbar extends React.Component {
 const mapState = (state) => {
   return {
     isLoggedIn: !!state.auth.id,
-    users: state.users,
-    isAdmin: !!state.users.length,
+    isAdmin: !!state.auth.isAdmin
   };
 };
 
 const mapDispatch = (dispatch) => {
   return {
+    me(){
+      dispatch(me())
+    },
     handleClick() {
       dispatch(logout());
       dispatch(clearCart());
