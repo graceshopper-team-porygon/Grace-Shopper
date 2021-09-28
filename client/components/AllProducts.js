@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchProducts, fetchDeleteProduct } from "../store/products";
 import { fetchAllUsers } from "../store/users";
+import {me} from '../store/auth'
 import { Link } from "react-router-dom";
 import { addToCart, getCartItems, updateCart } from "../store/cartItems";
 import { setOrder } from "../store/order";
@@ -47,6 +48,7 @@ this.state = ({category: 'all'})
     this.props.getProducts('all');
     this.props.setOrder();
     this.props.getCartItems();
+    this.props.me()
   }
 categoryChange(e){
   this.setState({category: e.target.value})
@@ -73,7 +75,7 @@ categoryChange(e){
 
     return (
       <div>
-        <div>
+        <div className = 'category-selector'>
           <Select value = {this.state.category}onChange = {this.categoryChange}>
           <MenuItem value = 'all'>Plants & Pants</MenuItem>
             <MenuItem value = 'pant'>Pants</MenuItem>
@@ -151,7 +153,7 @@ const mapState = (state) => {
     products: state.products,
     cartItems: state.cartItems,
     users: state.users,
-    isAdmin: !!state.users.length,
+    isAdmin: state.auth.isAdmin,
     order: state.order,
   };
 };
@@ -164,6 +166,7 @@ const mapDispatch = (dispatch) => {
     updateCart: (productId, qty = 1) => dispatch(updateCart(productId, qty)),
     fetchDeleteProduct: (id) => dispatch(fetchDeleteProduct(id)),
     setOrder: () => dispatch(setOrder()),
+    me: ()=> dispatch(me())
   };
 };
 
