@@ -49,6 +49,7 @@ this.state = ({category: 'all'})
     this.props.setOrder();
     this.props.getCartItems();
     this.props.me()
+    // this.props.fetchAllUsers();
   }
 categoryChange(e){
   this.setState({category: e.target.value})

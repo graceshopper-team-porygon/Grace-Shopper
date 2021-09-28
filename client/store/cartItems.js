@@ -28,6 +28,7 @@ const _updateCart = (cartItem) => ({
 });
 
 const CLEAR_CART = "clear_cart";
+
 export const clearCart = () => ({
   type: CLEAR_CART,
 });
@@ -41,7 +42,7 @@ export const removeCartItem = (cartItem) => {
         const res = await axios.delete(`/api/items/${cartItem.id}`, {
           headers: { authorization: token },
         });
-        
+
       } else {
         const lsCart = JSON.parse(window.localStorage.getItem(CART));
         if (lsCart) {
@@ -89,6 +90,8 @@ export const addToCart = (product, quantity = 1) => {
           }
         }
         window.localStorage.setItem(CART, JSON.stringify(lsCart));
+        dispatch(_addToCart(newItem[0]))
+
       } else {
         //if there's not a cart, create one with this item
         // (they've just landed on page for first time)
@@ -100,6 +103,7 @@ export const addToCart = (product, quantity = 1) => {
           },
         ];
         window.localStorage.setItem(CART, JSON.stringify(newItem));
+        dispatch(_addToCart(newItem[0]))
       }
     } catch (error) {
       console.log(error);
@@ -131,14 +135,17 @@ export const updateCart = (productId, quantity = 1, inCart = false) => {
         if (lsCart) {
           for (let i = 0; i < lsCart.length; i++) {
             if (lsCart[i].productId === +productId) {
-              lsCart[i].quantity = quantity;
+              if (inCart) {
+                lsCart[i].quantity = quantity;
+              } else {
+                lsCart[i].quantity = lsCart[i].quantity + 1
+              }
             }
           }
 
           const updatedItem = lsCart.filter(
             (item) => item.productId === +productId
           );
-
           window.localStorage.setItem(CART, JSON.stringify(lsCart));
           dispatch(_updateCart(updatedItem[0]));
         }
@@ -173,7 +180,6 @@ export default function (state = [], action) {
   switch (action.type) {
     case UPDATE_CART:
       const newItems = state.map((item) => {
-        console.log("REDUCER", action.cartItem);
         if (item.productId === action.cartItem.productId)
           item.quantity = action.cartItem.quantity;
         return item;
