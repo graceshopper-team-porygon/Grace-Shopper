@@ -5,6 +5,9 @@ const bcrypt = require("bcrypt");
 
 const SALT_ROUNDS = 5;
 
+if (process.env.NODE_ENV !== 'production') require ('../../../secrets');
+
+const secretKey = process.env.JWT
 const User = db.define("user", {
   password: {
     type: Sequelize.STRING,
@@ -40,7 +43,7 @@ User.prototype.correctPassword = function (candidatePwd) {
 };
 
 User.prototype.generateToken = function () {
-  return jwt.sign({ id: this.id, username: this.username }, process.env.JWT);
+  return jwt.sign({ id: this.id, username: this.username }, secretKey);
 };
 
 /**
