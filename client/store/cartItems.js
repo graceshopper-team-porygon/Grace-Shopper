@@ -28,6 +28,7 @@ const _updateCart = (cartItem) => ({
 });
 
 const CLEAR_CART = "clear_cart";
+
 export const clearCart = () => ({
   type: CLEAR_CART,
 });
@@ -41,7 +42,7 @@ export const removeCartItem = (cartItem) => {
         const res = await axios.delete(`/api/items/${cartItem.id}`, {
           headers: { authorization: token },
         });
-        
+
       } else {
         const lsCart = JSON.parse(window.localStorage.getItem(CART));
         if (lsCart) {
