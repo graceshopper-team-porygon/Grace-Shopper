@@ -33,8 +33,11 @@ router.post("/", requireToken, async (req, res, next) => {
 
 router.put("/", requireToken, async (req, res, next) => {
   try {
-    //fingure out how to get orderId from req.body
-    const order = await Order.findByPk(req.body.orderId);
+    const order = await Order.findOne({
+      where: {
+        userId: req.user.id,
+      },
+    });
     order.update({ status: "Complete", total: req.body.total });
     res.json(order);
   } catch (error) {

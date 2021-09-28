@@ -6,13 +6,13 @@ const CLOSE_ORDER = "CLOSE_ORDER";
 
 const SET_ORDER = "SET_ORDER";
 
-const SET_TOTAL = "SET TOTAL"
+const SET_TOTAL = "SET TOTAL";
 
 //dispatch this on checkout using total in local state!
-export const setTotal=(total)=>({
+export const setTotal = (total) => ({
   type: SET_TOTAL,
-  total
-})
+  total,
+});
 
 const _setOrder = (order) => {
   return {
@@ -25,8 +25,6 @@ const _closeOrder = (order) => ({
   type: CLOSE_ORDER,
   order,
 });
-
-
 
 export const setOrder = (data) => {
   return async (dispatch) => {
@@ -62,7 +60,6 @@ export const closeOrder = (order) => {
         const res = await axios.put(
           `/api/orders`,
           {
-            orderId: order.orderId,
             total: order.total,
           },
           {
@@ -84,7 +81,7 @@ export default function (state = {}, action) {
     case CLOSE_ORDER:
       return action.order;
     case SET_TOTAL:
-      return {...state, ...action.total}
+      return { ...state, ...action.total };
     default:
       return state;
   }

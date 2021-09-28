@@ -80,10 +80,10 @@ router.delete("/:id", requireToken, async (req, res, next) => {
   try {
     const id = req.params.id;
     const cartItem = await CartItem.findByPk(id);
-    const product = await Product.findByPk(cartItem.productId);
-    product.update({ quantity: product.quantity + cartItem.quantity });
-    await cartItem.destroy();
-    res.send(cartItem);
+    if (cartItem.userId === req.user.id) {
+      await cartItem.destroy();
+      res.send(cartItem);
+    }
   } catch (error) {
     next(error);
   }
