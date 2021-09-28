@@ -62,7 +62,6 @@ export const addToCart = (product, quantity = 1) => {
     try {
       let token = window.localStorage.getItem(TOKEN);
       if (token) {
-        console.log('in token')
         const res = await axios.post(
           "/api/items",
           { product, quantity },
@@ -74,7 +73,6 @@ export const addToCart = (product, quantity = 1) => {
         //if no token, check if there's a cart on the local storage.
         //If there is, add this item to it.
       } else if (window.localStorage.getItem(CART)) {
-        console.log('else if: trying to add new item')
         const lsCart = JSON.parse(window.localStorage.getItem(CART));
         //if that productId already exists, add it.
         for (let i = 0; i < lsCart.length; i++) {
@@ -95,7 +93,6 @@ export const addToCart = (product, quantity = 1) => {
         dispatch(_addToCart(newItem[0]))
 
       } else {
-        console.log('else: adding new item')
         //if there's not a cart, create one with this item
         // (they've just landed on page for first time)
         const newItem = [
@@ -149,8 +146,6 @@ export const updateCart = (productId, quantity = 1, inCart = false) => {
           const updatedItem = lsCart.filter(
             (item) => item.productId === +productId
           );
-            console.log('updated item ', updatedItem)
-            console.log('lscart ', lsCart)
           window.localStorage.setItem(CART, JSON.stringify(lsCart));
           dispatch(_updateCart(updatedItem[0]));
         }
@@ -185,7 +180,6 @@ export default function (state = [], action) {
   switch (action.type) {
     case UPDATE_CART:
       const newItems = state.map((item) => {
-        console.log("REDUCER", action.cartItem);
         if (item.productId === action.cartItem.productId)
           item.quantity = action.cartItem.quantity;
         return item;

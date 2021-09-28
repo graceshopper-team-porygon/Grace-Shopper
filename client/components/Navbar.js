@@ -45,7 +45,6 @@ class Navbar extends React.Component {
 
   render() {
     const { isLoggedIn, isAdmin, handleClick } = this.props;
-    console.log(this.state.cartCount)
     return (
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="fixed" style={{ backgroundColor: "#458a55" }}>
