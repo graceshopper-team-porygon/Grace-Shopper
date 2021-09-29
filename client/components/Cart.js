@@ -82,7 +82,6 @@ console.log('sup dog')
     if (prevState.total !== total) {
       this.setState({ total });
     }
-    
   }
 
   checkoutClickHandler() {
