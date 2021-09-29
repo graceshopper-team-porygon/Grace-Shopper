@@ -76,7 +76,7 @@ export const addToCart = (product, quantity = 1) => {
             headers: { authorization: token },
           }
         );
-        
+
         dispatch(_addToCart(res.data));
         //if no token, check if there's a cart on the local storage.
         //If there is, add this item to it.
@@ -186,6 +186,7 @@ export const getCartItems = () => {
             authorization: token,
           },
         });
+        dispatch(_getCartItems(res.data))
       } else {
         if (window.localStorage.getItem("cart")) {
           dispatch(
