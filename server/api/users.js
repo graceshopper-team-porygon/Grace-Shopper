@@ -15,7 +15,6 @@ router.get("/", requireToken, isAdmin, async (req, res, next) => {
       // send everything to anyone who asks!
       attributes: ["id", "username", "createdAt"],
     });
-    // res.json(users)
     res.send(users);
   } catch (err) {
     next(err);

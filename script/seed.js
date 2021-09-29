@@ -4,8 +4,6 @@ const {
   db,
   models: { User, Product, CartItem, Order },
 } = require("../server/db");
-// const { db } = require("../server/db");
-// const { User, Product } = require("../server/db/models");
 
 const products = [
   {
@@ -317,5 +315,4 @@ if (module === require.main) {
   runSeed();
 }
 
-// we export the seed function for testing purposes (see `./seed.spec.js`)
 module.exports = seed;

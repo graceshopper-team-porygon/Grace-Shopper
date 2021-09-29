@@ -39,7 +39,6 @@ export const removeCartItem = (cartItem) => {
     try {
       const token = window.localStorage.getItem(TOKEN);
       if (token) {
-        //remove
         const res = await axios.delete(`/api/items/${cartItem.id}`, {
           headers: { authorization: token },
         });
@@ -65,7 +64,6 @@ export const addToCart = (product, quantity = 1) => {
       let token = window.localStorage.getItem(TOKEN);
       let cart = window.localStorage.getItem(CART)
       if (token) {
-        //if(lsCart)???
         const { cartItems } = getState();
         if (cartItems.length === 0) {
           await dispatch(setOrder());
@@ -100,7 +98,6 @@ export const addToCart = (product, quantity = 1) => {
           }
         }
         window.localStorage.setItem(CART, JSON.stringify(lsCart));
-        // dispatch(_addToCart(newItem[0]));
       } else {
         //if there's not a cart, create one with this item
         // (they've just landed on page for first time)
@@ -112,7 +109,6 @@ export const addToCart = (product, quantity = 1) => {
           },
         ];
         window.localStorage.setItem(CART, JSON.stringify(newCart));
-        // dispatch(_addToCart(newItem[0]));
       }
     } catch (error) {
       console.log(error);
@@ -165,7 +161,6 @@ export const updateCart = (productId, quantity = 1, inCart = false) => {
   };
 };
 
-//put request
 
 export const getCartItems = () => {
   return async (dispatch) => {

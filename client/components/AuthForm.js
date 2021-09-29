@@ -37,7 +37,6 @@ const AuthForm = (props) => {
             margin="normal"
             required
             fullWidth
-            // variant="outlined"
             label="Email Address"
             name="username"
             autoComplete="email"

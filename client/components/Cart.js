@@ -9,7 +9,6 @@ import {
 } from "../store/cartItems";
 import order, { closeOrder, setOrder } from "../store/order";
 import React, { useState, useEffect } from "react";
-// import * as React from "react";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -35,27 +34,7 @@ class Cart extends React.Component {
   }
 
   async componentDidMount() {
-    //this is our way to check if they were a recent guest. keep this
-    // if (window.localStorage.getItem("cart")) {
-    //   if (window.localStorage.getItem("token")) {
-    //     const lsCart = JSON.parse(window.localStorage.getItem("cart"));
-    // lsCart.map((item) => {
-    //   item.product.orderId = this.props.order.id;
-    //   item.product.quantity = item.quantity;
-    // });
-
-    // Promise.all(
-    //   lsCart.map((item) =>
-    //     this.props.addToCart(item.product, item.quantity)
-    //   )
-    // );
-    // window.localStorage.removeItem("cart");
-    //   }
-    // }
-
-
     await this.props.getCartItems();
-
     const quantities= this.props.cartItems.reduce((acc, curr)=>(
       {...acc, [curr.productId]:curr.quantity}
     ),{})
@@ -67,15 +46,6 @@ class Cart extends React.Component {
         .reduce((prev, curr) => prev + curr, 0),
         quantity: quantities
     });
-    // this.props.cartItems.forEach((item) => {
-
-    //   return this.setState({
-    //     quantity: {
-    //       ...this.state.quantity,
-    //       [item.product.id]: item.quantity,
-    //     },
-    //   })
-    // });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -108,7 +78,6 @@ class Cart extends React.Component {
     });
 
     this.props.updateCart(e.target.name, e.target.value, true);
-    //dispatch thunk to store to update price and total price
   }
   render() {
     return (

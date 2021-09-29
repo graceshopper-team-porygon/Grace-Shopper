@@ -5,18 +5,6 @@ const {
 } = require("../db");
 module.exports = router;
 
-// router.get("/", requireToken, async (req, res, next) => {
-//   try {
-//     const items = await CartItem.findAll({
-//       where: { userId: req.user.id },
-//       include: { model: Product },
-//     });
-//     res.json(items);
-//   } catch (err) {
-//     next(err);
-//   }
-// });
-
 router.get("/", requireToken, async (req, res, next) => {
   try {
     const order = await Order.findOne({
@@ -53,8 +41,6 @@ router.post("/", requireToken, async (req, res, next) => {
       curPrice: req.body.product.price,
       orderId: order.id
     });
-    // decrement from product quantity in database
-    // const product = await Product.findByPk(req.body.product.id);
     //make sure cartItems array gets an item that includes a product before getCartItems is called
     newItem = await CartItem.findOne({
       where: { id: newItem.id },
@@ -72,7 +58,6 @@ router.put("/", requireToken, async (req, res, next) => {
     const updatedItem = await CartItem.findOne({
       where: { productId: req.body.productId, userId: req.user.id },
     });
-    //  const product = await Product.findByPk(req.body.productId);
     if (req.body.inCart) updatedItem.update({ quantity: req.body.quantity });
     else
       updatedItem.update({

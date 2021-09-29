@@ -8,7 +8,6 @@ const SET_ORDER = "SET_ORDER";
 
 const SET_TOTAL = "SET TOTAL";
 
-//dispatch this on checkout using total in local state!
 export const setTotal = (total) => ({
   type: SET_TOTAL,
   total,
