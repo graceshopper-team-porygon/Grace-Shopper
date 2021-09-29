@@ -5,12 +5,10 @@ import {
   removeCartItem,
   clearCart,
   updateCart,
-  _getCartItems,
   addToCart,
 } from "../store/cartItems";
 import order, { closeOrder, setOrder } from "../store/order";
 import React, { useState, useEffect } from "react";
-// import * as React from "react";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -36,41 +34,17 @@ class Cart extends React.Component {
   }
 
   async componentDidMount() {
-    //this is our way to check if they were a recent guest. keep this
-    // if (window.localStorage.getItem("cart")) {
-    //   if (window.localStorage.getItem("token")) {
-    //     const lsCart = JSON.parse(window.localStorage.getItem("cart"));
-    // lsCart.map((item) => {
-    //   item.product.orderId = this.props.order.id;
-    //   item.product.quantity = item.quantity;
-    // });
-
-    // Promise.all(
-    //   lsCart.map((item) =>
-    //     this.props.addToCart(item.product, item.quantity)
-    //   )
-    // );
-    // window.localStorage.removeItem("cart");
-    //   }
-    // }
-
     await this.props.getCartItems();
-    console.log('hi')
+    const quantities= this.props.cartItems.reduce((acc, curr)=>(
+      {...acc, [curr.productId]:curr.quantity}
+    ),{})
+
     this.setState({
       didFetch: true,
       total: this.props.cartItems
         .map((item) => item.quantity * item.product.price)
         .reduce((prev, curr) => prev + curr, 0),
-    });
-    console.log('hello',this.props.cartItems)
-    this.props.cartItems.forEach((item) => {
-console.log('sup dog')
-      return this.setState({
-        quantity: {
-          ...this.state.quantity,
-          [item.product.id]: item.quantity,
-        },
-      })
+        quantity: quantities
     });
   }
 
@@ -104,7 +78,6 @@ console.log('sup dog')
     });
 
     this.props.updateCart(e.target.name, e.target.value, true);
-    //dispatch thunk to store to update price and total price
   }
   render() {
     return (
@@ -219,8 +192,6 @@ const mapDispatch = (dispatch) => {
     clearCart: () => dispatch(clearCart()),
     updateCart: (productId, quantity, inCart) =>
       dispatch(updateCart(productId, quantity, inCart)),
-    setCart: (cart) => dispatch(_getCartItems(cart)),
-    setOrder: () => dispatch(setOrder()),
   };
 };
 

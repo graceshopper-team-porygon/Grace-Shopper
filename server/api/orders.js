@@ -20,14 +20,6 @@ router.get("/", requireToken, async (req, res, next) => {
   }
 });
 
-// router.post("/", requireToken, async (req, res, next) => {
-//   try {
-//     let newOrder = await Order.create({ userId: req.user.id });
-//     res.send(newOrder);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
 
 router.put("/", requireToken, async (req, res, next) => {
   try {
