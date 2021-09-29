@@ -39,11 +39,13 @@ class Cart extends React.Component {
       {...acc, [curr.productId]:curr.quantity}
     ),{})
 
+    const total = this.props.cartItems
+        .map((item) => item.quantity * item.product.price)
+        .reduce((prev, curr) => prev + curr, 0)
+
     this.setState({
       didFetch: true,
-      total: this.props.cartItems
-        .map((item) => item.quantity * item.product.price)
-        .reduce((prev, curr) => prev + curr, 0),
+      total,
         quantity: quantities
     });
   }
