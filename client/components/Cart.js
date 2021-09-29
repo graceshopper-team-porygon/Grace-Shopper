@@ -54,24 +54,29 @@ class Cart extends React.Component {
     //   }
     // }
 
+
     await this.props.getCartItems();
-    console.log('hi')
+
+    const quantities= this.props.cartItems.reduce((acc, curr)=>(
+      {...acc, [curr.productId]:curr.quantity}
+    ),{})
+
     this.setState({
       didFetch: true,
       total: this.props.cartItems
         .map((item) => item.quantity * item.product.price)
         .reduce((prev, curr) => prev + curr, 0),
+        quantity: quantities
     });
-    console.log('hello',this.props.cartItems)
-    this.props.cartItems.forEach((item) => {
-console.log('sup dog')
-      return this.setState({
-        quantity: {
-          ...this.state.quantity,
-          [item.product.id]: item.quantity,
-        },
-      })
-    });
+    // this.props.cartItems.forEach((item) => {
+
+    //   return this.setState({
+    //     quantity: {
+    //       ...this.state.quantity,
+    //       [item.product.id]: item.quantity,
+    //     },
+    //   })
+    // });
   }
 
   componentDidUpdate(prevProps, prevState) {

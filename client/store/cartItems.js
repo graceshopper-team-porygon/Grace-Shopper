@@ -68,7 +68,6 @@ export const addToCart = (product, quantity = 1) => {
         //if(lsCart)???
         const { cartItems } = getState();
         if (cartItems.length === 0) {
-          console.log('addToCart length 0')
           await dispatch(setOrder());
         }
 
@@ -174,7 +173,6 @@ export const getCartItems = () => {
       const token = window.localStorage.getItem(TOKEN);
       if (token) {
         if (window.localStorage.getItem("cart")) {
-          console.log("has a cart");
           await dispatch(setOrder());
 
           const cart = JSON.parse(window.localStorage.getItem("cart"));
