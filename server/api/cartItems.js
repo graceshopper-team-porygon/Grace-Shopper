@@ -33,7 +33,6 @@ router.post("/", requireToken, async (req, res, next) => {
         status: "In Progress"
       }
     })
-    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>post quantity',req.body.quantity)
     let newItem = await CartItem.create({
       quantity: req.body.quantity,
       userId: req.user.id,

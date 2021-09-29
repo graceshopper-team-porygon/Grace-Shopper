@@ -169,7 +169,7 @@ const products = [
       "These comfy casual tie waist pants are the perfect choice for Work, Office, Date, Vacation, Holiday, Party, Outdoors, Casual out, Daily wear, Shopping and any other occasions in Spring, Summer, Fall and Winter.",
   },
   {
-    category:'pant',
+    category: 'pant',
     name: "Balloon Pants",
     quantity: 10,
     price: 99900,
