@@ -30,49 +30,48 @@ class Cart extends React.Component {
       didFetch: false,
       quantity: {},
       total: 0,
-      updated: false
+      updated: false,
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
   async componentDidMount() {
-    if (window.localStorage.getItem("cart")) {
-      await this.props.setCart(JSON.parse(window.localStorage.getItem("cart")));
-    } else {
-      await this.props.getCartItems();
-    }
+    //this is our way to check if they were a recent guest. keep this
+    // if (window.localStorage.getItem("cart")) {
+    //   if (window.localStorage.getItem("token")) {
+    //     const lsCart = JSON.parse(window.localStorage.getItem("cart"));
+    // lsCart.map((item) => {
+    //   item.product.orderId = this.props.order.id;
+    //   item.product.quantity = item.quantity;
+    // });
 
-    await this.props.setOrder();
-    if (window.localStorage.getItem("cart")) {
-      if (window.localStorage.getItem("token")) {
-        const lsCart = JSON.parse(window.localStorage.getItem("cart"));
-        lsCart.map((item) => {
-          item.product.orderId = this.props.order.id;
-          item.product.quantity = item.quantity;
-        });
-        Promise.all(
-          lsCart.map((item) =>
-            this.props.addToCart(item.product, item.product.quantity)
-          )
-        );
-        window.localStorage.removeItem("cart");
-      }
-    }
+    // Promise.all(
+    //   lsCart.map((item) =>
+    //     this.props.addToCart(item.product, item.quantity)
+    //   )
+    // );
+    // window.localStorage.removeItem("cart");
+    //   }
+    // }
+
     await this.props.getCartItems();
+    console.log('hi')
     this.setState({
       didFetch: true,
       total: this.props.cartItems
         .map((item) => item.quantity * item.product.price)
         .reduce((prev, curr) => prev + curr, 0),
     });
-    this.props.cartItems.forEach((item) =>
-      this.setState({
+    console.log('hello',this.props.cartItems)
+    this.props.cartItems.forEach((item) => {
+console.log('sup dog')
+      return this.setState({
         quantity: {
           ...this.state.quantity,
           [item.product.id]: item.quantity,
         },
       })
-    );
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -162,9 +161,7 @@ class Cart extends React.Component {
                             );
                           })}
                       </Select>
-                      <Button
-                        onClick={() => this.props.removeCartItem(item)}
-                      >
+                      <Button onClick={() => this.props.removeCartItem(item)}>
                         <Delete />
                       </Button>
                     </TableCell>

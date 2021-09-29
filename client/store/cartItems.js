@@ -1,4 +1,5 @@
 import axios from "axios";
+import { setOrder } from "./order";
 
 const TOKEN = "token";
 const CART = "cart";
@@ -42,12 +43,13 @@ export const removeCartItem = (cartItem) => {
         const res = await axios.delete(`/api/items/${cartItem.id}`, {
           headers: { authorization: token },
         });
-
       } else {
         const lsCart = JSON.parse(window.localStorage.getItem(CART));
         if (lsCart) {
-          const newLsCart = lsCart.filter((item) => item.productId !== cartItem.product.id);
-          window.localStorage.setItem(CART, JSON.stringify(newLsCart))
+          const newLsCart = lsCart.filter(
+            (item) => item.productId !== cartItem.product.id
+          );
+          window.localStorage.setItem(CART, JSON.stringify(newLsCart));
         }
       }
       dispatch(_removeCartItem(cartItem));
@@ -58,10 +60,18 @@ export const removeCartItem = (cartItem) => {
 };
 
 export const addToCart = (product, quantity = 1) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
       let token = window.localStorage.getItem(TOKEN);
+      let cart = window.localStorage.getItem(CART)
       if (token) {
+        //if(lsCart)???
+        const { cartItems } = getState();
+        if (cartItems.length === 0) {
+          console.log('addToCart length 0')
+          await dispatch(setOrder());
+        }
+
         const res = await axios.post(
           "/api/items",
           { product, quantity },
@@ -69,11 +79,12 @@ export const addToCart = (product, quantity = 1) => {
             headers: { authorization: token },
           }
         );
+        
         dispatch(_addToCart(res.data));
         //if no token, check if there's a cart on the local storage.
         //If there is, add this item to it.
-      } else if (window.localStorage.getItem(CART)) {
-        const lsCart = JSON.parse(window.localStorage.getItem(CART));
+      } else if (cart) {
+        const lsCart = JSON.parse(cart);
         //if that productId already exists, add it.
         for (let i = 0; i < lsCart.length; i++) {
           if (lsCart[i].productId === product.id) {
@@ -90,20 +101,19 @@ export const addToCart = (product, quantity = 1) => {
           }
         }
         window.localStorage.setItem(CART, JSON.stringify(lsCart));
-        dispatch(_addToCart(newItem[0]))
-
+        // dispatch(_addToCart(newItem[0]));
       } else {
         //if there's not a cart, create one with this item
         // (they've just landed on page for first time)
-        const newItem = [
+        const newCart = [
           {
             productId: product.id,
             quantity: 1,
             product,
           },
         ];
-        window.localStorage.setItem(CART, JSON.stringify(newItem));
-        dispatch(_addToCart(newItem[0]))
+        window.localStorage.setItem(CART, JSON.stringify(newCart));
+        // dispatch(_addToCart(newItem[0]));
       }
     } catch (error) {
       console.log(error);
@@ -138,7 +148,7 @@ export const updateCart = (productId, quantity = 1, inCart = false) => {
               if (inCart) {
                 lsCart[i].quantity = quantity;
               } else {
-                lsCart[i].quantity = lsCart[i].quantity + 1
+                lsCart[i].quantity = lsCart[i].quantity + 1;
               }
             }
           }
@@ -163,12 +173,33 @@ export const getCartItems = () => {
     try {
       const token = window.localStorage.getItem(TOKEN);
       if (token) {
+        if (window.localStorage.getItem("cart")) {
+          console.log("has a cart");
+          await dispatch(setOrder());
+
+          const cart = JSON.parse(window.localStorage.getItem("cart"));
+          dispatch(clearCart())
+          Promise.all(
+            cart.map((item) => dispatch(addToCart(item.product, item.quantity)))
+          );
+          window.localStorage.removeItem("cart");
+        }
+
         const res = await axios.get(`/api/items/`, {
           headers: {
             authorization: token,
           },
         });
-        return dispatch(_getCartItems(res.data));
+
+        //
+
+         dispatch(_getCartItems(res.data));
+      } else {
+        if (window.localStorage.getItem("cart")) {
+          dispatch(
+            _getCartItems(JSON.parse(window.localStorage.getItem("cart")))
+          );
+        }
       }
     } catch (error) {
       console.log(error);

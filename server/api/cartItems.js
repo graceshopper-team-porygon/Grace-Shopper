@@ -39,12 +39,19 @@ router.get("/", requireToken, async (req, res, next) => {
 
 router.post("/", requireToken, async (req, res, next) => {
   try {
+    let order = await Order.findOne({
+      where: {
+        userId: req.user.id,
+        status: "In Progress"
+      }
+    })
+    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>post quantity',req.body.quantity)
     let newItem = await CartItem.create({
       quantity: req.body.quantity,
       userId: req.user.id,
       productId: req.body.product.id,
       curPrice: req.body.product.price,
-      orderId: req.body.product.orderId,
+      orderId: order.id
     });
     // decrement from product quantity in database
     // const product = await Product.findByPk(req.body.product.id);
@@ -54,6 +61,7 @@ router.post("/", requireToken, async (req, res, next) => {
       include: Product,
     });
     res.json(newItem);
+
   } catch (error) {
     next(error);
   }
@@ -80,10 +88,10 @@ router.delete("/:id", requireToken, async (req, res, next) => {
   try {
     const id = req.params.id;
     const cartItem = await CartItem.findByPk(id);
-    const product = await Product.findByPk(cartItem.productId);
-    product.update({ quantity: product.quantity + cartItem.quantity });
-    await cartItem.destroy();
-    res.send(cartItem);
+    if (cartItem.userId === req.user.id) {
+      await cartItem.destroy();
+      res.send(cartItem);
+    }
   } catch (error) {
     next(error);
   }

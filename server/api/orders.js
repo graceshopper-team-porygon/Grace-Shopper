@@ -7,34 +7,35 @@ module.exports = router;
 
 router.get("/", requireToken, async (req, res, next) => {
   try {
-    let existOrder = await Order.findOne({
+    let existOrder = await Order.findOrCreate({
       where: {
         userId: req.user.id,
         status: "In Progress",
       },
     });
-    if (existOrder) {
-      res.send(existOrder);
-    } else {
-      res.send("no open orders");
-    }
-  } catch (error) {
-    next(error);
-  }
-});
-router.post("/", requireToken, async (req, res, next) => {
-  try {
-    let newOrder = await Order.create({ userId: req.user.id });
-    res.send(newOrder);
+    //sends an array w mystery boolean
+    res.send(existOrder[0]);
   } catch (error) {
     next(error);
   }
 });
 
+// router.post("/", requireToken, async (req, res, next) => {
+//   try {
+//     let newOrder = await Order.create({ userId: req.user.id });
+//     res.send(newOrder);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
 router.put("/", requireToken, async (req, res, next) => {
   try {
-    //fingure out how to get orderId from req.body
-    const order = await Order.findByPk(req.body.orderId);
+    const order = await Order.findOne({
+      where: {
+        userId: req.user.id,
+      },
+    });
     order.update({ status: "Complete", total: req.body.total });
     res.json(order);
   } catch (error) {
