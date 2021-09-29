@@ -152,7 +152,7 @@ const mapState = (state) => {
   return {
     product: state.product,
     cartItems: state.cartItems,
-    isAdmin: !!state.users.length,
+    isAdmin: !!state.auth.isAdmin,
     order: state.order,
   };
 };
