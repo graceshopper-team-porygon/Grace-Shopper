@@ -5,7 +5,6 @@ import {
   removeCartItem,
   clearCart,
   updateCart,
-  _getCartItems,
   addToCart,
 } from "../store/cartItems";
 import order, { closeOrder, setOrder } from "../store/order";
@@ -224,8 +223,6 @@ const mapDispatch = (dispatch) => {
     clearCart: () => dispatch(clearCart()),
     updateCart: (productId, quantity, inCart) =>
       dispatch(updateCart(productId, quantity, inCart)),
-    setCart: (cart) => dispatch(_getCartItems(cart)),
-    setOrder: () => dispatch(setOrder()),
   };
 };
 

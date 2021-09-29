@@ -176,9 +176,12 @@ export const getCartItems = () => {
           await dispatch(setOrder());
 
           const cart = JSON.parse(window.localStorage.getItem("cart"));
+          dispatch(
+            _getCartItems(cart)
+          );
           dispatch(clearCart())
-          Promise.all(
-            cart.map((item) => dispatch(addToCart(item.product, item.quantity)))
+          await Promise.all(
+            cart.map(async(item) =>  await dispatch(addToCart(item.product, item.quantity)))
           );
           window.localStorage.removeItem("cart");
         }
@@ -188,10 +191,6 @@ export const getCartItems = () => {
             authorization: token,
           },
         });
-
-        //
-
-         dispatch(_getCartItems(res.data));
       } else {
         if (window.localStorage.getItem("cart")) {
           dispatch(

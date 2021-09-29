@@ -5,7 +5,6 @@ import { fetchAllUsers } from "../store/users";
 import {me} from '../store/auth'
 import { Link } from "react-router-dom";
 import { addToCart, getCartItems, updateCart } from "../store/cartItems";
-import { setOrder } from "../store/order";
 import {
   Card,
   Grid,
@@ -46,10 +45,8 @@ this.state = ({category: 'all'})
 
   componentDidMount() {
     this.props.getProducts('all');
-    // this.props.setOrder();
     this.props.getCartItems();
     this.props.me()
-    // this.props.fetchAllUsers();
   }
 categoryChange(e){
   this.setState({category: e.target.value})
