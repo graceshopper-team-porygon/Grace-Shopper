@@ -63,9 +63,12 @@ export const addToCart = (product, quantity = 1) => {
   return async (dispatch, getState) => {
     try {
       let token = window.localStorage.getItem(TOKEN);
+      let cart = window.localStorage.getItem(CART)
       if (token) {
+        //if(lsCart)???
         const { cartItems } = getState();
         if (cartItems.length === 0) {
+          console.log('addToCart length 0')
           await dispatch(setOrder());
         }
 
@@ -76,11 +79,12 @@ export const addToCart = (product, quantity = 1) => {
             headers: { authorization: token },
           }
         );
+        
         dispatch(_addToCart(res.data));
         //if no token, check if there's a cart on the local storage.
         //If there is, add this item to it.
-      } else if (window.localStorage.getItem(CART)) {
-        const lsCart = JSON.parse(window.localStorage.getItem(CART));
+      } else if (cart) {
+        const lsCart = JSON.parse(cart);
         //if that productId already exists, add it.
         for (let i = 0; i < lsCart.length; i++) {
           if (lsCart[i].productId === product.id) {
@@ -169,11 +173,12 @@ export const getCartItems = () => {
     try {
       const token = window.localStorage.getItem(TOKEN);
       if (token) {
-        console.log("has token");
         if (window.localStorage.getItem("cart")) {
           console.log("has a cart");
           await dispatch(setOrder());
+
           const cart = JSON.parse(window.localStorage.getItem("cart"));
+          dispatch(clearCart())
           Promise.all(
             cart.map((item) => dispatch(addToCart(item.product, item.quantity)))
           );
@@ -188,7 +193,7 @@ export const getCartItems = () => {
 
         //
 
-        return dispatch(_getCartItems(res.data));
+         dispatch(_getCartItems(res.data));
       } else {
         if (window.localStorage.getItem("cart")) {
           dispatch(

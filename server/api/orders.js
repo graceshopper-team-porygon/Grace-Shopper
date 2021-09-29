@@ -13,6 +13,7 @@ router.get("/", requireToken, async (req, res, next) => {
         status: "In Progress",
       },
     });
+    //sends an array w mystery boolean
     res.send(existOrder[0]);
   } catch (error) {
     next(error);

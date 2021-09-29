@@ -45,7 +45,7 @@ router.post("/", requireToken, async (req, res, next) => {
         status: "In Progress"
       }
     })
-    console.log(order)
+    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>post quantity',req.body.quantity)
     let newItem = await CartItem.create({
       quantity: req.body.quantity,
       userId: req.user.id,
@@ -53,7 +53,6 @@ router.post("/", requireToken, async (req, res, next) => {
       curPrice: req.body.product.price,
       orderId: order.id
     });
-    console.log('before product', newItem)
     // decrement from product quantity in database
     // const product = await Product.findByPk(req.body.product.id);
     //make sure cartItems array gets an item that includes a product before getCartItems is called
@@ -61,7 +60,6 @@ router.post("/", requireToken, async (req, res, next) => {
       where: { id: newItem.id },
       include: Product,
     });
-    console.log('after product', newItem)
     res.json(newItem);
 
   } catch (error) {

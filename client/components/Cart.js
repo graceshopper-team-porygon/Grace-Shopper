@@ -55,21 +55,23 @@ class Cart extends React.Component {
     // }
 
     await this.props.getCartItems();
-
+    console.log('hi')
     this.setState({
       didFetch: true,
       total: this.props.cartItems
         .map((item) => item.quantity * item.product.price)
         .reduce((prev, curr) => prev + curr, 0),
     });
-    this.props.cartItems.forEach((item) =>
-      this.setState({
+    console.log('hello',this.props.cartItems)
+    this.props.cartItems.forEach((item) => {
+console.log('sup dog')
+      return this.setState({
         quantity: {
           ...this.state.quantity,
           [item.product.id]: item.quantity,
         },
       })
-    );
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -80,6 +82,7 @@ class Cart extends React.Component {
     if (prevState.total !== total) {
       this.setState({ total });
     }
+    
   }
 
   checkoutClickHandler() {
