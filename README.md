@@ -3,9 +3,9 @@
 An e-commerce site that sells plants and pants.
 
 <div align="center">
-  <img src="/public/landing.png" width="700">
-  <img src="/public/singleView.png" width="700">
-  <img src="/public/cart.png" width="700">
+  <img src="/public/landing.png" width="800">
+  <img src="/public/singleView.png" width="800">
+  <img src="/public/cart.png" width="800">
 </div>
 
 ## Technologies
@@ -19,8 +19,8 @@ An e-commerce site that sells plants and pants.
 
 ## How to Run Locally
 
-1. Fork and clone this repo.
+1. Fork and clone this repo
 2. Create db named grace-shopper
-3. Install the dependencies with "npm install".
+3. Install the dependencies with "npm install"
 4. Start the build process and the application with "npm run start:dev"
-5. Navigate to [localhost:8080](http://localhost:8080) to see the site in the browser.
+5. Navigate to [localhost:8080](http://localhost:8080) to see the site in the browser
